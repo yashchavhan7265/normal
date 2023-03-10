@@ -1,3 +1,5 @@
 adam.barnard@jellyfish.com/J3llTra1n1ng123!
 
 Call to undefined method Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection\Interceptor::getCollectionClone() in /var/www/html/app/code/Mageplaza/LayeredNavigation/Model/Layer/Filter/Price.php:179
+https://firebearstudio.com/blog/firebear-improved-import-export-for-magento-2-extension-change-log.html Username : training@jellyfish.com
+		  Password : Tra1n1ng
