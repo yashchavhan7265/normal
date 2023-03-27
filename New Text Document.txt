@@ -3,3 +3,26 @@ adam.barnard@jellyfish.com/J3llTra1n1ng123!
 Call to undefined method Magento\CatalogSearch\Model\ResourceModel\Fulltext\Collection\Interceptor::getCollectionClone() in /var/www/html/app/code/Mageplaza/LayeredNavigation/Model/Layer/Filter/Price.php:179
 https://firebearstudio.com/blog/firebear-improved-import-export-for-magento-2-extension-change-log.html Username : training@jellyfish.com
 		  Password : Tra1n1ng
+		  
+		  
+		  
+		  
+		  
+		  
+		  SELECT * FROM
+(
+    SELECT entity_id, PATH
+    FROM catalog_category_entity WHERE PATH LIKE '%/147/%'
+) AS catalog_entity INNER JOIN
+(
+    -- category name
+    SELECT entity_id, VALUE AS category_name
+    FROM catalog_category_entity_varchar
+    WHERE store_id = 5 AND attribute_id = 45
+) AS catalog_entity_name USING(entity_id) INNER JOIN 
+(
+    -- category status
+    SELECT entity_id, VALUE AS status
+    FROM catalog_category_entity_int
+    WHERE store_id = 5 AND attribute_id = 46 AND VALUE=1
+) AS catalog_entity_status USING(entity_id)
