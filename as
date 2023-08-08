@@ -1,1 +1,13 @@
-{"infinity_installation_id":"60","infinity_visitor_id":null,"order_id":"5926","customer_details":{"firstname":"Yash","lastname":"Chavhan","email":"yashch@test.com","phone":"","company":"Cybage","jobtitle":null},"opportunity_product":[{"name":"Professional Cloud Architect","attendees":1,"attendees_details":[{"first_name":"Yash","last_name":"Chavhan","email":"yashch@test.com","company":"Cybage","job_title":null}],"type":"","product_code":"","prodprice":3264,"course_date":""},{"name":"Google Cloud Fundamentals: Core Infrastructure","attendees":0,"type":"","product_code":"SS-GCPCI","prodprice":595,"course_date":"2023-11-06"},{"name":"Architecting with Google Compute Engine","attendees":0,"type":"","product_code":"SS-AGCE","prodprice":1599,"course_date":"2023-09-05"},{"name":"Getting Started with Google Kubernetes Engine","attendees":0,"type":"","product_code":"SS-GKE","prodprice":595,"course_date":"2023-09-11"},{"name":"Architecting with Google Cloud: Design & Process","attendees":0,"type":"","product_code":"SGCPARCDAP","prodprice":1095,"course_date":"2023-09-26"}],"order_total":{"currency_code":"GBP","subtotal":3264,"VATPercentage":0,"discount":0,"total":3916.8},"billing_address":{"street":"Block 15\nsdfsf","city":"Azusa","state":"Carmarthenshire","postal_code":"22222","country":"GB"},"RecordType":"012j00000019THy","CAMPAIGNID":"Jellyfish Training","LeadSource":"Training","Type":"New Parent Account","booking_reference":"5000005158"}
+<section class="hero hero--short hero--black">
+		<div class="hero__bg">
+			<div class="hero__bg-graphic-1"></div>
+			<div class="hero__bg-graphic-2"></div>
+			<svg class="hero__bg-graphic-3" width="355" height="354" viewBox="0 0 355 354" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M338.121 217.518C329.679 250.906 321.132 277.148 311.006 297.232C300.891 317.295 289.257 331.1 274.689 339.758C260.12 348.417 242.402 352.057 219.88 351.39C197.335 350.723 170.104 345.743 136.616 337.276C103.129 328.809 76.8035 320.246 56.6509 310.118C36.5188 300 22.6597 288.375 13.9578 273.832C5.2561 259.29 1.58154 241.614 2.21824 219.155C2.85558 196.672 7.80905 169.521 16.2511 136.133C24.6932 102.746 33.2404 76.503 43.3661 56.4192C53.4812 36.3564 65.1157 22.5515 79.6836 13.8932C94.252 5.23464 111.971 1.59414 134.493 2.26106C157.038 2.92864 184.269 7.90798 217.756 16.3754C251.244 24.8427 277.569 33.4051 297.722 43.5336C317.854 53.6518 331.713 65.2768 340.415 79.8194C349.116 94.3613 352.791 112.037 352.154 134.497C351.517 156.98 346.563 184.131 338.121 217.518Z"></path></svg>
+			<div class="hero__bg-graphic-4"></div>
+		</div>
+
+		<div class="hero__content">
+			<h1 class="hero__content-title hero__content-title--small"><span class="search__count">124</span>  results found for 'google'</h1>
+		</div>
+	</section>
