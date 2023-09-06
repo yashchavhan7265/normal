@@ -1,2 +1,7 @@
 https://console.cloud.google.com/storage/browser/cybage_shared;tab=objects?prefix=&forceOnObjectsSortingFiltering=false
 cybagejellyfishteam@gmail.com/Jellyf1sh@2021
+UPDATE core_config_data SET VALUE = REPLACE(VALUE, 'https://www.jellyfish.com', 'http://localhost') WHERE VALUE LIKE '%https://www.jellyfish.com%';
+UPDATE core_config_data SET VALUE = 'jfdev@evolvingsols.com' WHERE (path not like '%taxjar%' AND path not like '%sender_email%') AND (VALUE LIKE '%@jellyfish.com%' OR VALUE LIKE '%@jellyfish.net%' OR VALUE LIKE '%@jellyfish.co.uk%' OR VALUE LIKE '%@jellyfish.co.za%' OR VALUE like '%@redandyellow.%');
+UPDATE core_config_data SET VALUE = 'localhost' WHERE path = 'jellyfish/jellyfish_georedirect/main_url';
+UPDATE core_config_data SET VALUE = 'localhost/training' WHERE path = 'jellyfish/jellyfish_georedirect/redirect_url';
+UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_payments_basic/stripe_mode', 'payment/payfast/server');
