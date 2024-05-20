@@ -9,6 +9,6 @@ chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento set
 yash.chavan/oiYZKERck3zyvz3  
 
 <button><a href="#contact"><?php echo __('Book this course'); ?></a></button>
-
+https://jellyfish-training-magento.k8s.stage.jellyfish.net/jfcms/api/courses?filters[slug][$eq]=mastering-the-world-of-ctv&locale=en-gb&populate=deep
 
 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
