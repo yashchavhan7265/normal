@@ -8,7 +8,7 @@ UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_paymen
 chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
 yash.chavan/oiYZKERck3zyvz3  
 
-
+<button><a href="#contact"><?php echo __('Book this course'); ?></a></button>
 
 
 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
