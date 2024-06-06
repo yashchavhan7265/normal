@@ -12,3 +12,22 @@ yash.chavan/oiYZKERck3zyvz3
 https://jellyfish-training-magento.k8s.stage.jellyfish.net/jfcms/api/courses?filters[slug][$eq]=mastering-the-world-of-ctv&locale=en-gb&populate=deep
 
 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
+
+
+
+
+ <div class="training__courses__listing__card__img">
+                <picture>
+                    <source media="(min-width: 1025px)"
+                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
+                        alt="spotlight_desktop">
+                    <source media="(min-width: 767px)"
+                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
+                        alt="spotlight_tablet">
+                    <source media="(max-width: 767px)"
+                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
+                        alt="spotlight_mobile">
+                    <img src="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
+                        class="category__img" alt="Facebook-live">
+                </picture>
+            </div>
