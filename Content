@@ -1,0 +1,56 @@
+UPDATE core_config_data SET VALUE = REPLACE(VALUE, 'https://www.jellyfish.com', 'http://localhost') WHERE VALUE LIKE '%https://www.jellyfish.com%';
+
+UPDATE core_config_data SET VALUE = 'jfdev@evolvingsols.com' WHERE (path not like '%taxjar%' AND path not like '%sender_email%') AND (VALUE LIKE '%@jellyfish.com%' OR VALUE LIKE '%@jellyfish.net%' OR VALUE LIKE '%@jellyfish.co.uk%' OR VALUE LIKE '%@jellyfish.co.za%' OR VALUE like '%@redandyellow.%');
+
+UPDATE core_config_data SET VALUE = 'localhost' WHERE path = 'jellyfish/jellyfish_georedirect/main_url';
+
+UPDATE core_config_data SET VALUE = 'localhost/training' WHERE path = 'jellyfish/jellyfish_georedirect/redirect_url';
+
+UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_payments_basic/stripe_mode', 'payment/payfast/server');
+
+UPDATE core_config_data SET VALUE='172.20.0.8' WHERE PATH='catalog/search/elasticsearch7_server_hostname';
+
+
+
+SELECT * FROM eav_attribute WHERE attribute_code IN ('url_key_english','is_active_thankyou_tile') AND entity_type_id=3;
+
+update eav_attribute set is_required=0 where attribute_id IN(176,288);
+
+
+
+SELECT * FROM eav_attribute WHERE attribute_code LIKE "%feefo%" AND entity_type_id=4;
+
+UPDATE catalog_eav_attribute SET is_filterable = 0 WHERE attribute_id=254;
+
+SELECT * from catalog_eav_attribute WHERE attribute_id=254;
+
+
+
+UPDATE `admin_user` SET `password` = CONCAT(SHA2('xxxxxxxxyash@123', 256), ':xxxxxxxx:1') WHERE `user_id` = 31;
+
+
+
+create table url_rewrite_bkup_yash as select * from url_rewrite;
+
+SELECT COUNT(*) FROM url_rewrite;
+
+SELECT COUNT(*) FROM url_rewrite_bkup_yash;
+
+
+
+create table cms_page_bkup_yash as select * from cms_page;
+
+SELECT COUNT(*) FROM cms_page;
+
+SELECT COUNT(*) FROM cms_page_bkup_yash;
+
+
+
+
+
+create table cms_block_bkup as select * from cms_block;
+
+SELECT COUNT(*) FROM cms_block;
+
+SELECT COUNT(*) FROM cms_block_bkup;
+
