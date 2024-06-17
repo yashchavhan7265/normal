@@ -1,0 +1,191 @@
+<?php 
+/*
+ * @var Jellyfish\CoursePart\Block\Courses $block
+*/
+$courses = $block->getCalendarList();
+$generalHelper = $this->helper('Jellyfish\General\Helper\Data');
+$isSpainStore = $generalHelper->isEsStore();
+$isFranceStore = $generalHelper->isFrStore();
+$isEsSpainStore = $generalHelper->isEsSpainStore();
+$isGermanyStore = $generalHelper->isDeStore();
+$store_id = $generalHelper->getStoreInfo();
+$priceVAT = !$isGermanyStore ? strtoupper($generalHelper->getTaxVatLabel($store_id)) : $generalHelper->getTaxVatLabel($store_id);
+$co = 0;
+?>
+
+<div id="collapsibleAccordion3" class="collapsibleContainerCalendar">
+    <?php if(count($courses) > 0) { ?>
+        <?php foreach($courses as $sectionTitle => $section) { 
+            $gtmArr = [];
+            $coursesStr = count($section) > 1 ? ' courses' : ' course';
+            
+            ?>
+            <div class="collapsibleTab">
+                <div class="course-calendar__accordion--main" data-role="trigger">
+                    <span class="course-calendar__accordion--year"><?php echo __($sectionTitle); ?></span> 
+                    <span class="course-calendar__accordion--course-no"><?php echo count($section). __($coursesStr) ?></span>
+                </div>
+            </div>
+            <div class="listing__group" data-role="content">
+                <?php foreach ($section as $row) {
+                    $priceArr = $row['price']; ?>
+                    <div class="course-calendar__accordion-content listing__row">
+                        <div class="course-calendar-details--title">
+                        <span class="course-calendar__accordion-details--title">
+                            <a class="course-calender__accordion-details--link" href="<?php echo $this->getUrl().$row['url'] ?>"><?php echo $row['course_name'] ?></a>
+                        </span>
+                        </div>
+                        <div class="course-calendar-details">
+                        <!--date start-->
+                        <div class="course-calendar__accordion-items">
+                            <div class="course-calendar__accordion-date">
+                                <span class="course-calendar__accordion-date--day--mobile"><?php echo $row['course_day_short']; ?></span>
+                                <span class="course-calendar__accordion-date--day"><?php echo $row['course_day']; ?></span>
+                                <span class="course-calendar__accordion-date--month"><?php echo $row['course_date']; ?></span>
+                            </div>
+                        </div>
+                        <!--date end-->
+
+                        <!--title begin-->
+                        <div class="course-calendar__accordion-items">
+                            <div class="course-calendar__accordion-details">
+                                <p>
+                                    <?php if(isset($row['course_location']) && $row['course_location'] != '') { ?>
+                                        <span class="course-calendar__accordion-details--location"><?php echo $row['course_location'] ?> <span class="course-calendar__accordion-details--dot">.</span> <?php echo $row['course_duration'] ?></span> 
+                                    <?php } ?>
+                                    <span class="course-calendar__accordion-details--place">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
+                                        <path d="M9.75 0C12.3359 0 14.8158 1.02723 16.6443 2.85571C18.4728 4.68419 19.5 7.16414 19.5 9.75C19.5 13.87 16.605 18.36 10.89 23.268C10.5722 23.541 10.1671 23.6909 9.74813 23.6905C9.3292 23.6902 8.9243 23.5395 8.607 23.266L8.229 22.938C2.767 18.158 0 13.778 0 9.75C0 7.16414 1.02723 4.68419 2.85571 2.85571C4.68419 1.02723 7.16414 0 9.75 0ZM9.75 6C8.75544 6 7.80161 6.39509 7.09835 7.09835C6.39509 7.80161 6 8.75544 6 9.75C6 10.7446 6.39509 11.6984 7.09835 12.4017C7.80161 13.1049 8.75544 13.5 9.75 13.5C10.7446 13.5 11.6984 13.1049 12.4017 12.4017C13.1049 11.6984 13.5 10.7446 13.5 9.75C13.5 8.75544 13.1049 7.80161 12.4017 7.09835C11.6984 6.39509 10.7446 6 9.75 6Z" fill="black"/>
+                                    </svg><span class="course-calendar__accordion-details--location_name">The shard london</span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <!--title end-->
+                        <!--Price start-->
+                        <div class="course-calendar__accordion-items">
+                            <div class="course-calendar__accordion-items-price">
+                            <?php if($isSpainStore || $isFranceStore || $isGermanyStore) { ?>
+                                <span class="course-calendar__accordion-items-price--amt"><?php echo $priceArr['price']; ?></span><span class="course-calendar__accordion-items-price--currency"><?php echo $priceArr['currency'] ?></span>
+                            <?php } else { ?>
+                                <span class="course-calendar__accordion-items-price--currency"><?php echo $priceArr['currency'] ?></span><span class="course-calendar__accordion-items-price--amt"><?php echo $priceArr['price']; ?></span>
+                            <?php } ?>
+                                <br>
+                                <span class="course-calendar__accordion-items-price--tax"><?php echo __('EX')." $priceVAT"; ?></span>
+                            </div>
+                        </div>
+                        <!--Price end-->
+                        <!--Button start-->
+                        <div class="course-calendar__accordion-items">
+                            <button class="course-calendar__accordion-btn" value="<?php echo $row['product_id'];?>"><?php /*escapeNotVerified*/ echo __('ADD TO BASKET'); ?></button>
+                        </div>
+                        <!--Button end-->
+                        </div>                       
+                        <?php
+                        /* GTM Implementation */
+                        $gtmImpressions = [];
+                        $addToBasketTrack = [];
+                        $gtmImpressions['brand'] = 'Jellyfish';
+                        $gtmImpressions['category'] = $row['category_name'];
+                        $gtmImpressions['currency'] = $generalHelper->getCurrentStore()->getCurrentCurrency()->getCode();
+                        $gtmImpressions['dimension16'] = isset($row['course_level']) ? $row['course_level'] : '';
+                        $gtmImpressions['dimension17'] = isset($row['raw_course_date']) ? date('Y-m-d', strtotime($row['raw_course_date'])) : '';
+                        $gtmImpressions['dimension18'] = isset($row['course_location']) ? $row['course_location'] : '';
+                        $gtmImpressions['dimension20'] = isset($row['raw_course_date']) ? date('F', strtotime($row['raw_course_date'])) : '';
+                        $gtmImpressions['dimension21'] = $row['course_duration'] ? strtolower($row['course_duration']) . ' course' : '1 day course';
+                        $gtmImpressions['dimension22'] = 'Classroom Course';
+                        $gtmImpressions['list'] = 'Calendar';
+                        $gtmImpressions['name'] = $row['course_name'];
+                        $gtmImpressions['position'] = $co;
+                        $gtmImpressions['price'] = isset($row['raw_price']) ? number_format($row['raw_price'],2, '.', '') : 0.00;
+                        $gtmArr[] = $gtmImpressions; 
+                        
+                        $addToBasketTrack['brand'] = 'Jellyfish';
+                        $addToBasketTrack['category'] = $row['category_name'];
+                        $addToBasketTrack['currency'] = $generalHelper->getCurrentStore()->getCurrentCurrency()->getCode();
+                        $addToBasketTrack['dimension16'] = isset($row['course_level']) ? $row['course_level'] : '';
+                        $addToBasketTrack['dimension17'] = isset($row['raw_course_date']) ? date('Y-m-d', strtotime($row['raw_course_date'])) : '';
+                        $addToBasketTrack['dimension18'] = isset($row['course_location']) ? $row['course_location'] : '';
+                        $addToBasketTrack['dimension20'] = isset($row['raw_course_date']) ? date('F', strtotime($row['raw_course_date'])) : '';
+                        $addToBasketTrack['dimension21'] = $row['course_duration'] ? strtolower($row['course_duration']) . ' course' : '1 day course';
+                        $addToBasketTrack['dimension22'] = 'Classroom Course';
+                        $addToBasketTrack['name'] = $row['course_name'];
+                        $addToBasketTrack['price'] = isset($row['raw_price']) ? number_format($row['raw_price'],2, '.', '') : 0.00;
+                        $addToBasketTrack['quantity'] = 1;
+                        $addToBasketTrack['variant'] = isset($row['course_level']) ? $row['course_level'] : '';
+                        
+                        $gtmProductClick = [];
+                        $gtmProductClick['brand'] = 'Jellyfish';
+                        $gtmProductClick['category'] = $row['category_name'];
+                        $gtmProductClick['currency'] = $generalHelper->getCurrentStore()->getCurrentCurrency()->getCode();
+                        $gtmProductClick['dimension16'] = isset($row['course_level']) ? $row['course_level'] : '';
+                        $gtmProductClick['dimension17'] = isset($row['raw_course_date']) ? date('Y-m-d', strtotime($row['raw_course_date'])) : '';
+                        $gtmProductClick['dimension18'] = isset($row['course_location']) ? $row['course_location'] : '';
+                        $gtmProductClick['dimension20'] = isset($row['raw_course_date']) ? date('F', strtotime($row['raw_course_date'])) : '';
+                        $gtmProductClick['dimension21'] = $row['course_duration'] ? strtolower($row['course_duration']) . ' course' : '1 day course';
+                        $gtmProductClick['dimension22'] = 'Classroom Course';
+                        $gtmProductClick['name'] = $row['course_name'];
+                        $gtmProductClick['position'] = $co++;
+                        $gtmProductClick['price'] = isset($row['raw_price']) ? number_format($row['raw_price'],2, '.', '') : 0.00;
+                        ?>
+                        <span class='hidden product-click' data-set='<?php echo json_encode(array('event' => 'productClick','ecommerce' => array('currencyCode' => $generalHelper->getCurrentStore()->getCurrentCurrency()->getCode(),'click' => array('actionField' => array('list' => 'Calendar'),'products' => array($gtmProductClick))))); ?>'></span>
+                        <span class='hidden addtobasket-click' data-set='<?php echo json_encode(array('event' => 'addToCart','ecommerce' => array('currencyCode' => $generalHelper->getCurrentStore()->getCurrentCurrency()->getCode(),'add' => array('products' => array($addToBasketTrack))))); ?>'></span>
+                    </div>
+                <?php } ?>
+                    <span class='hidden accordion-expand' data-set='<?php echo json_encode($gtmArr); ?>'></span>
+                    
+                    <?php echo $block->getPrivteCourseMessage(); ?>                   
+            </div>
+        <?php } ?>
+    <?php } else { ?>
+        <div class="text-center"><?php echo $block->getNoResultsMessage(); ?></div>
+    <?php } ?>
+</div>
+
+<script type="text/javascript">
+    require(['jquery', 'Magento_Customer/js/customer-data'], function ($, customerData)  {
+        jQuery(document).ready(function ()  {
+            
+            jQuery(".course-calendar__accordion-btn").on('click', function () {
+                var pId = jQuery(this).attr('value');
+                var data = $(this).parents('.course-calendar__accordion-content').find('span.addtobasket-click').attr('data-set');
+                window.dataLayer.push($.parseJSON(data));
+                $('.header').removeClass('header--sticky-out');
+                $('.header').addClass('header--sticky');
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo $block->getUrl('categoryextend/product/addtocart'); ?>",
+                    data: "product_id=" + pId,
+                    showLoader: true,
+                    success: function (response) {
+                        $(".messages").show();
+                        setTimeout(
+                                function () {
+                                    $(".messages").hide('blind', {}, 500)
+                                },
+                                5000
+                                );
+                            var sections = ['cart'];
+                            customerData.invalidate(sections);
+                            customerData.reload(sections, true);
+                            $('#headerBasket').addClass("header-basket--open");
+                    },
+                    error: function () {
+                        return false;
+                    }
+                });
+               
+            });
+            $('.course-calender__accordion-details--link').click(function(e){ 
+                e.preventDefault();
+                var data = $(this).parents('.course-calendar__accordion-content').find('span.product-click').attr('data-set');
+                window.dataLayer.push($.parseJSON(data));
+                window.location = $(this).attr('href');
+            });
+            $('.add_to_cart button').click(function(e){
+                var data = $(this).parents('.course-calendar__accordion-content').find('span.addtobasket-click').attr('data-set');
+                window.dataLayer.push($.parseJSON(data));
+            });
+        });
+    });
+    </script>
