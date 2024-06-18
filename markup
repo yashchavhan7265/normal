@@ -1,1 +1,44 @@
-<div class="container"> <section class="hero hero--search hero--black"> <div class="hero__bg"> <div class="hero__bg-graphic-1"></div> <div class="hero__bg-graphic-2"></div> <svg class="hero__bg-graphic-3" width="355" height="354" viewBox="0 0 355 354" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M338.121 217.518C329.679 250.906 321.132 277.148 311.006 297.232C300.891 317.295 289.257 331.1 274.689 339.758C260.12 348.417 242.402 352.057 219.88 351.39C197.335 350.723 170.104 345.743 136.616 337.276C103.129 328.809 76.8035 320.246 56.6509 310.118C36.5188 300 22.6597 288.375 13.9578 273.832C5.2561 259.29 1.58154 241.614 2.21824 219.155C2.85558 196.672 7.80905 169.521 16.2511 136.133C24.6932 102.746 33.2404 76.503 43.3661 56.4192C53.4812 36.3564 65.1157 22.5515 79.6836 13.8932C94.252 5.23464 111.971 1.59414 134.493 2.26106C157.038 2.92864 184.269 7.90798 217.756 16.3754C251.244 24.8427 277.569 33.4051 297.722 43.5336C317.854 53.6518 331.713 65.2768 340.415 79.8194C349.116 94.3613 352.791 112.037 352.154 134.497C351.517 156.98 346.563 184.131 338.121 217.518Z"></path> </svg> <div class="hero__bg-graphic-4"></div> </div> <div class="hero__content"> <h1 class="hero__content-title hero__content-title--small">Course Calendar</h1> <div class="hero__content-intro"><div data-content-type="html" data-appearance="default" data-element="main" data-decoded="true"><p class="courses__copy1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dictum ligula purus. Proin fringilla, elit quis lobortis.</p></div></div> <div class="hero__search">   </div> </div> </section> </div>
+ <?php if (count($filters) > 0) {?>
+            <div id="layered-filter-block-container" class="layered-filter-block-container filter">
+                <div id="layered-filter-block" data-collapsible="true">
+                    <div class="filter">
+                        <div class="filter__selector">
+                            <span class="filter__selector-label">Filter</span>
+                        </div>
+                    </div>
+                    <!--<div id="ln_overlay" class="ln_overlay">-->
+                    <div id="ln_overlay" class="ln_overlay" style="display: none;">
+                        <div class="loader">
+                            <object class="loader__img" type="image/svg+xml" data="https://jellyfish-training-magento.k8s.stage.jellyfish.net/en-gb/training/pub/static/version1717161588/frontend/Jellyfish/Training/en_GB/images/loader-sm.svg"></object>
+                        </div>
+                    </div>
+                    <div class="block-title filter-title filter__title" data-count="" role="tablist">
+                        <strong data-role="title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">Shop By</strong>
+                    </div>
+                    <div class="block-content filter-content mageplaza-layer-disabled">
+                        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"></strong>
+                        <div class="filter-options" id="narrow-by-list" data-role="content">
+                            <?php 
+                            $co = 0;
+                            foreach($filters as $attribute => $filter) {?>
+                                <section data-role="ln_collapsible<?php echo $co;?>" class="filter-options-item filter__section" attribute="<?php echo $attribute; ?>">
+                                    <div data-role="ln_title" class="filter-options-title filter__title" tabindex="0"><?php echo __($filter['lable']); ?></div>
+                                    <div data-role="ln_content" class="filter-options-content">
+                                        <div class="items ln-items-cat ">
+                                            <?php foreach($filter['options'] as $key => $label) { ?>
+                                                <label class="item filter__label">
+                                                    <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat" value="<?php echo $key; ?>">
+                                                    <span class="filter__checkmark" data-filter-title="<?php echo __($filter['lable']); ?>" data-filter-value="<?php echo $label; ?>"></span>
+                                                    <a href="javascript:void;" rel="nofollow" class="filter__label-text"><?php echo $label; ?></a>
+                                                </label>
+                                            <?php } ?>
+                                        </div>
+                                        <!-- end of items ln-items -->
+                                    </div>
+                                </section>
+                            <?php $co++; }?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <?php }?>  
