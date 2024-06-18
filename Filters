@@ -1,0 +1,192 @@
+  <div id="layered-filter-block-container" class="layered-filter-block-container filter">
+                <div id="layered-filter-block" data-collapsible="true">
+                    <div class="filter">
+                        <div class="filter__selector">
+                            <span class="filter__selector-label">Filter</span>
+                        </div>
+                    </div>
+                    <!--<div id="ln_overlay" class="ln_overlay">-->
+                    <div id="ln_overlay" class="ln_overlay" style="display: none;">
+                        <div class="loader">
+                            <object class="loader__img" type="image/svg+xml" data="https://jellyfish-training-magento.k8s.stage.jellyfish.net/en-gb/training/pub/static/version1717161588/frontend/Jellyfish/Training/en_GB/images/loader-sm.svg"></object>
+                        </div>
+                    </div>
+                    <div class="block-title filter-title filter__title" data-count="" role="tablist">
+                        <strong
+                            data-role="title"
+                            role="tab"
+                            aria-selected="false"
+                            aria-expanded="false"
+                            tabindex="0"
+                        >Shop By</strong>
+                    </div>
+                    <div class="block-content filter-content mageplaza-layer-disabled">
+                        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"></strong>
+                        <div class="filter-options" id="narrow-by-list" data-role="content">
+                            <section data-role="ln_collapsible1" class="filter-options-item filter__section" attribute="cat">
+                                <div data-role="ln_title" class="filter-options-title filter__title" tabindex="0"> FILTER BY MONTH</div>
+                                <div data-role="ln_content" class="filter-options-content">
+                                    <div class="items ln-items-cat ">
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> January</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input
+                                                type="checkbox"
+                                                checked="checked"
+                                                class="layer-input-filter filter__input"
+                                                name="filter_cat"
+                                            >
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> February</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> March</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> April</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> May</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> June</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> July</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> August</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> September &amp; Programming</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> October</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> November</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> December</a>
+                                        </label>
+                                        
+                                    </div>
+                                    <!-- end of items ln-items -->
+                                </div>
+                            </section>
+                            <section data-role="ln_collapsible2" class="filter-options-item filter__section" attribute="cat">
+                                <div data-role="ln_title" class="filter-options-title filter__title" tabindex="1"> CATEGORIES</div>
+                                <div data-role="ln_content" class="filter-options-content">
+                                    <div class="items ln-items-cat ">
+                                        <label class="item filter__label">
+                                            <input type="checkbox" checked="checked" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Google Cloud</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input
+                                                type="checkbox"
+                                                class="layer-input-filter filter__input"
+                                                name="filter_cat"
+                                            >
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Digital Marketing</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Google Marketing Platform</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Analytics & Optimisation</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> PPC & Paid Media</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Social Media Marketing</a>
+                                        </label>
+                                        
+                                    </div>
+                                    <!-- end of items ln-items -->
+                                </div>
+                            </section>
+                            <section data-role="ln_collapsible3" class="filter-options-item filter__section" attribute="cat">
+                                <div data-role="ln_title" class="filter-options-title filter__title" tabindex="2"> FORMAT</div>
+                                <div data-role="ln_content" class="filter-options-content">
+                                    <div class="items ln-items-cat ">
+                                        <label class="item filter__label">
+                                            <input type="checkbox" checked="checked" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Classroom</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input
+                                                type="checkbox"
+                                                class="layer-input-filter filter__input"
+                                                name="filter_cat"
+                                            >
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Virtual</a>
+                                        </label>
+                                        
+                                    </div>
+                                    <!-- end of items ln-items -->
+                                </div>
+                            </section>
+                            <section data-role="ln_collapsible3" class="filter-options-item filter__section" attribute="cat">
+                                <div data-role="ln_title" class="filter-options-title filter__title" tabindex="2"> LOCATION</div>
+                                <div data-role="ln_content" class="filter-options-content">
+                                    <div class="items ln-items-cat ">
+                                        <label class="item filter__label">
+                                            <input type="checkbox" checked="checked" class="layer-input-filter filter__input" name="filter_cat">
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text">The Shard, London</a>
+                                        </label>
+                                        <label class="item filter__label">
+                                            <input
+                                                type="checkbox"
+                                                class="layer-input-filter filter__input"
+                                                name="filter_cat"
+                                            >
+                                            <span class="filter__checkmark"></span>
+                                            <a href="" rel="nofollow" class="filter__label-text"> Manchester</a>
+                                        </label>
+                                        
+                                    </div>
+                                    <!-- end of items ln-items -->
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
