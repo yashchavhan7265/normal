@@ -1,34 +1,144 @@
-$(document).ready(function() {
+<?php 
+/*
+ * @var Jellyfish\Webinars\Block\Category $block
+*/
+$filters = $block->getCalendarFilters();
+$generalHelper = $this->helper('Jellyfish\General\Helper\Data');
+//echo "<pre>";print_r($filters);exit;
+?>
+    <?php if (count($filters) > 0) {?>
+            <div id="layered-filter-block-container" class="layered-filter-block-container filter">
+                <div id="layered-filter-block" data-collapsible="true">
+                    <div class="filter">
+                        <div class="filter__selector">
+                            <span class="filter__selector-label">Filter</span>
+                        </div>
+                    </div>
+                    <!--<div id="ln_overlay" class="ln_overlay">-->
+                    <div id="ln_overlay" class="ln_overlay" style="display: none;">
+                        <div class="loader">
+                            <object class="loader__img" type="image/svg+xml" data="https://jellyfish-training-magento.k8s.stage.jellyfish.net/en-gb/training/pub/static/version1717161588/frontend/Jellyfish/Training/en_GB/images/loader-sm.svg"></object>
+                        </div>
+                    </div>
+                    <div class="block-title filter-title filter__title" data-count="" role="tablist">
+                        <strong data-role="title" role="tab" aria-selected="false" aria-expanded="false" tabindex="0">Shop By</strong>
+                    </div>
+                    <div class="block-content filter-content mageplaza-layer-disabled">
+                        <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"></strong>
+                        <div class="filter-options" id="narrow-by-list" data-role="content">
+                            <?php 
+                            $co = 0;
+                            foreach($filters as $attribute => $filter) {?>
+                                <section data-role="ln_collapsible<?php echo $co;?>" class="filter-options-item filter__section" attribute="<?php echo $attribute; ?>">
+                                    <div data-role="ln_title" class="filter-options-title filter__title" tabindex="0"><?php echo __($filter['lable']); ?></div>
+                                    <div data-role="ln_content" class="filter-options-content">
+                                        <div class="items ln-items-cat ">
+                                            <?php foreach($filter['options'] as $key => $label) { ?>
+                                                <label class="item filter__label">
+                                                    <input type="checkbox" class="layer-input-filter filter__input" name="filter_cat" value="<?php echo $key; ?>">
+                                                    <span class="filter__checkmark" data-filter-title="<?php echo __($filter['lable']); ?>" data-filter-value="<?php echo $label; ?>"></span>
+                                                    <a href="javascript:void(0);" rel="nofollow" class="filter__label-text"><?php echo $label; ?></a>
+                                                </label>
+                                            <?php } ?>
+                                        </div>
+                                        <!-- end of items ln-items -->
+                                    </div>
+                                </section>
+                            <?php $co++; }?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    <?php }?>  
+
+   <?php /*
+    <div id="layered-filter-block-container"class="layered-filter-block-container filter">
+
+        <div class="block filter filter__modal" id="layered-filter-block">
+            <div class="filter__overlay"></div>
+            <div class="filter__box">
+                <div class="filter__header">
+                    <strong data-role="title"><?php echo __('Filter') ?></strong>
+                </div>
+                <div class="block-content filter__container">
+                    <div class="filter-options" id="narrow-by-list">
+                        <?php 
+                        $co = 0;
+                        foreach($filters as $attribute => $filter) { ?>
+                            <section class="filter__section <?php echo $co < 2 ? 'filter__section--active' : '' ?>" attribute="<?php echo $attribute; ?>">
+                                <div class="filter__title">
+                                    <?php echo __($filter['lable']); ?> 
+                                </div>
+                                <div class="filter__data"> 
+                                    <?php foreach($filter['options'] as $key => $label) { ?>
+                                        <label class="filter__label">
+                                            <input type="checkbox" class="filter__input"  name="filter_cat" value="<?php echo $key; ?>" />
+                                            <span class="filter__checkmark" data-filter-title="<?php echo __($filter['lable']); ?>" data-filter-value="<?php echo $label; ?>"></span>
+                                            <a class="filter__link" href="javascript:void;" data-filter-title="<?php echo __($filter['lable']); ?>" data-filter-value="<?php echo $label; ?>"  rel="nofollow"><?php echo $label; ?></a>
+                                        </label>
+                                    <?php } ?>
+                                </div>
+                            </section>
+                            <?php $co++;
+                        } ?>
+                    </div>
+                </div>
+            </div>
+            <div class="filter__buttons">
+                <button class="filter__buttons--apply"><?php echo $block->getApplyButtonTitle(); ?></button>
+                <button class="filter__buttons--clear"><?php echo $block->getClearButtonTitle(); ?></button>
+            </div>
+        </div>
+    </div>
+    */?>
+    
+<input  type="hidden" id="filter_month" />
+<input  type="hidden" id="filter_cat" />
+<input  type="hidden" id="filter_format" />
+<input  type="hidden" id="filter_location" />
+<!-- <script type="text/javascript">
+    require(['jquery'], function($) {
+        jQuery(document).ready(function() {console.log("Hi Yash");
     // Function to get checked values of each filter type
-    function getCheckedFilters() {
-        // Initialize an empty object to hold the filter values
-        var checkedFilters = {};
- 
-        // Loop through each filter section
-        $('.filter-options-item').each(function() {
-            var attribute = $(this).attr('attribute'); // Get the filter attribute
-            var checkedValues = [];
- 
-            // Find checked checkboxes within this filter section
-            $(this).find('input[type="checkbox"]:checked').each(function() {
-                checkedValues.push($(this).val()); // Add the value to the checkedValues array
-            });
- 
-            // If there are any checked values, add them to the checkedFilters object
-            if (checkedValues.length > 0) {
-                checkedFilters[attribute] = checkedValues;
+            function getCheckedFilters() {
+                // Initialize an empty object to hold the filter values
+                var checkedFilters = {};
+        
+                // Loop through each filter section
+                jQuery('.filter-options-item').each(function() {
+                    var attribute = jQuery(this).attr('attribute'); // Get the filter attribute
+                    var checkedValues = [];
+        
+                    // Find checked checkboxes within this filter section
+                    jQuery(this).find('input[type="checkbox"]:checked').each(function() {
+                        checkedValues.push(jQuery(this).val()); // Add the value to the checkedValues array
+                    });
+        
+                    // If there are any checked values, add them to the checkedFilters object
+                    if (checkedValues.length > 0) {
+                        checkedFilters[attribute] = checkedValues;
+                    }
+                });
+        
+                // Return the object with all checked filter values
+                return checkedFilters;
             }
+    
+        // Event listener for changes to any filter input
+        jQuery('.filter-options-item input[type="checkbox"]').on('change', function() {
+            var checkedFilters = getCheckedFilters();
+            console.log(checkedFilters); // Output the checked filters to the console
+            // You can perform additional actions with the checkedFilters object here
         });
- 
-        // Return the object with all checked filter values
-        return checkedFilters;
-    }
- 
-    // Event listener for changes to any filter input
-    $('.filter-options-item input[type="checkbox"]').on('change', function() {
-        var checkedFilters = getCheckedFilters();
-        console.log(checkedFilters); // Output the checked filters to the console
-        // You can perform additional actions with the checkedFilters object here
     });
-});
-has context menu
+
+        
+    });
+</script> -->
+
+<script type="text/javascript">
+     require(['jquery'], function($) {
+        $(document).ready(function() {console.log("Hi Yash1");
+        });
+     });
+</script>
