@@ -1,0 +1,18 @@
+$courseArray = $this->registry->registry('course_list');
+        $collection = $this->getCalendarProductCollection();
+        $total = $collection->getSize();
+        $page = ! empty( $_GET['page'] ) ? (int) $_GET['page'] : 1;
+       // $total = count($courseArray); //total items in array
+        $limit = 20; //per page    
+        $totalPages = ceil( $total/ $limit ); //calculate total pages
+        $page = max($page, 1); //get 1 page when $_GET['page'] <= 0
+        $page = min($page, $totalPages); //get last page when $_GET['page'] > $totalPages
+        $offset = ($page - 1) * $limit;
+        if( $offset < 0 ) $offset = 0;
+        //echo $totalPages;
+        $courseArraySlice = array_slice($courseArray, $offset, $limit );
+        //echo "<pre>";print_r($courseArraySlice);die;
+        $courseArrayResult['data'] = $courseArraySlice;
+        $courseArrayResult['page'] = $page;
+        //echo "<pre>";print_r($courseArrayResult);die;
+        return $courseArrayResult; 
