@@ -24,33 +24,38 @@ $courseArray = $this->registry->registry('course_list');
 <?php
 $courseArray = $this->registry->registry('course_list'); // Assuming this is your original array
 
+// Flatten the $courseArray to make pagination easier
+$flatCourses = [];
+foreach ($courseArray as $month => $courses) {
+    foreach ($courses as $course) {
+        $flatCourses[] = [
+            'month' => $month,
+            'course' => $course
+        ];
+    }
+}
+
 // Pagination parameters
 $limit = 5; // Number of records per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL parameter, default to 1
 
-// Initialize variables to store paginated result
-$paginatedArray = [];
-$totalPages = [];
+$totalCourses = count($flatCourses);
+$totalPages = ceil($totalCourses / $limit);
+$page = max($page, 1); // Ensure page number is not less than 1
+$page = min($page, $totalPages); // Ensure page number does not exceed total pages
+$offset = ($page - 1) * $limit;
 
-// Iterate through each month in $courseArray
-foreach ($courseArray as $month => $courses) {
-    // Calculate pagination for courses in current month
-    $totalCourses = count($courses);
-    $totalPages[$month] = ceil($totalCourses / $limit);
-    $page = max($page, 1); // Ensure page number is not less than 1
-    $page = min($page, $totalPages[$month]); // Ensure page number does not exceed total pages
-    $offset = ($page - 1) * $limit;
-
-    // Slice the courses array for the current month
-    $coursesSlice = array_slice($courses, $offset, $limit);
-
-    // Build paginated result array
-    if (!empty($coursesSlice)) {
-        $paginatedArray[$month] = $coursesSlice;
-    }
-}
+// Slice the flatCourses array based on pagination parameters
+$paginatedCourses = array_slice($flatCourses, $offset, $limit);
 
 // Prepare result with paginated data and current page information
+$paginatedArray = [];
+foreach ($paginatedCourses as $item) {
+    $month = $item['month'];
+    $course = $item['course'];
+    $paginatedArray[$month][] = $course;
+}
+
 $courseArrayResult['data'] = $paginatedArray;
 $courseArrayResult['page'] = $page;
 $courseArrayResult['totalPages'] = $totalPages;
@@ -77,16 +82,12 @@ foreach ($courseArrayResult['data'] as $month => $courses) {
 // Pagination links (if needed)
 echo "<div>";
 echo "<p>Page: ";
-foreach ($courseArrayResult['totalPages'] as $month => $totalPages) {
-    echo "<strong>$month:</strong> ";
-    for ($i = 1; $i <= $totalPages; $i++) {
-        if ($i == $courseArrayResult['page']) {
-            echo "<strong>$i</strong> ";
-        } else {
-            echo "<a href='?page=$i'>$i</a> ";
-        }
+for ($i = 1; $i <= $courseArrayResult['totalPages']; $i++) {
+    if ($i == $courseArrayResult['page']) {
+        echo "<strong>$i</strong> ";
+    } else {
+        echo "<a href='?page=$i'>$i</a> ";
     }
-    echo "<br>";
 }
 echo "</p>";
 echo "</div>";
