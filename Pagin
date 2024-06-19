@@ -30,14 +30,15 @@ $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL 
 
 // Initialize variables to store paginated result
 $paginatedArray = [];
+$totalPages = [];
 
 // Iterate through each month in $courseArray
 foreach ($courseArray as $month => $courses) {
     // Calculate pagination for courses in current month
     $totalCourses = count($courses);
-    $totalPages = ceil($totalCourses / $limit);
+    $totalPages[$month] = ceil($totalCourses / $limit);
     $page = max($page, 1); // Ensure page number is not less than 1
-    $page = min($page, $totalPages); // Ensure page number does not exceed total pages
+    $page = min($page, $totalPages[$month]); // Ensure page number does not exceed total pages
     $offset = ($page - 1) * $limit;
 
     // Slice the courses array for the current month
@@ -76,12 +77,16 @@ foreach ($courseArrayResult['data'] as $month => $courses) {
 // Pagination links (if needed)
 echo "<div>";
 echo "<p>Page: ";
-for ($i = 1; $i <= $courseArrayResult['totalPages']; $i++) {
-    if ($i == $courseArrayResult['page']) {
-        echo "<strong>$i</strong> ";
-    } else {
-        echo "<a href='?page=$i'>$i</a> ";
+foreach ($courseArrayResult['totalPages'] as $month => $totalPages) {
+    echo "<strong>$month:</strong> ";
+    for ($i = 1; $i <= $totalPages; $i++) {
+        if ($i == $courseArrayResult['page']) {
+            echo "<strong>$i</strong> ";
+        } else {
+            echo "<a href='?page=$i'>$i</a> ";
+        }
     }
+    echo "<br>";
 }
 echo "</p>";
 echo "</div>";
@@ -89,4 +94,3 @@ echo "</div>";
 // Return the paginated result array
 return $courseArrayResult;
 ?>
-
