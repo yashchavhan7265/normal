@@ -16,3 +16,77 @@ $courseArray = $this->registry->registry('course_list');
         $courseArrayResult['page'] = $page;
         //echo "<pre>";print_r($courseArrayResult);die;
         return $courseArrayResult; 
+
+
+
+
+
+<?php
+$courseArray = $this->registry->registry('course_list'); // Assuming this is your original array
+
+// Pagination parameters
+$limit = 5; // Number of records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL parameter, default to 1
+
+// Initialize variables to store paginated result
+$paginatedArray = [];
+
+// Iterate through each month in $courseArray
+foreach ($courseArray as $month => $courses) {
+    // Calculate pagination for courses in current month
+    $totalCourses = count($courses);
+    $totalPages = ceil($totalCourses / $limit);
+    $page = max($page, 1); // Ensure page number is not less than 1
+    $page = min($page, $totalPages); // Ensure page number does not exceed total pages
+    $offset = ($page - 1) * $limit;
+
+    // Slice the courses array for the current month
+    $coursesSlice = array_slice($courses, $offset, $limit);
+
+    // Build paginated result array
+    if (!empty($coursesSlice)) {
+        $paginatedArray[$month] = $coursesSlice;
+    }
+}
+
+// Prepare result with paginated data and current page information
+$courseArrayResult['data'] = $paginatedArray;
+$courseArrayResult['page'] = $page;
+$courseArrayResult['totalPages'] = $totalPages;
+
+// Example of how to use the paginated result:
+// Now $courseArrayResult['data'] contains the paginated courses grouped by month
+
+// Example of how to display paginated data:
+foreach ($courseArrayResult['data'] as $month => $courses) {
+    echo "<h2>$month</h2>"; // Display month as header
+
+    foreach ($courses as $course) {
+        echo "<div>";
+        echo "<h3>{$course['course_name']}</h3>";
+        echo "<p>Date: {$course['course_date']} ({$course['course_day_short']})</p>";
+        echo "<p>Category: {$course['category_name']}</p>";
+        echo "<p>Location: {$course['course_location']}</p>";
+        echo "<p>Duration: {$course['course_duration']}</p>";
+        echo "<p>Price: {$course['price']['currency']}{$course['price']['price']}</p>";
+        echo "</div>";
+    }
+}
+
+// Pagination links (if needed)
+echo "<div>";
+echo "<p>Page: ";
+for ($i = 1; $i <= $courseArrayResult['totalPages']; $i++) {
+    if ($i == $courseArrayResult['page']) {
+        echo "<strong>$i</strong> ";
+    } else {
+        echo "<a href='?page=$i'>$i</a> ";
+    }
+}
+echo "</p>";
+echo "</div>";
+
+// Return the paginated result array
+return $courseArrayResult;
+?>
+
