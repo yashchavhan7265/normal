@@ -3,70 +3,123 @@ public function getCalendarList($isGCPCalendar = false)
     $storeId = $this->_storeManager->getStore()->getId();
     $sessionKey = 'calendar_data_' . $storeId . ($isGCPCalendar ? '_gcp' : '');
  
-    // Check if data is in customer session
+    // Retrieve initial data or load from session
     if ($this->customerSession->getData($sessionKey)) {
-        $calendarArr = $this->customerSession->getData($sessionKey);
+        $productIds = $this->customerSession->getData($sessionKey);
     } else {
-        if ($isGCPCalendar) {
-            $store = $this->_storeManager->getStore();
-            $rootCategoryId = $store->getRootCategoryId();
-            $gcpCatIdArr = $this->_categoryCollectionFactory->create()
-                ->addAttributeToFilter('name', 'Google Cloud')
-                ->addPathFilter("1/$rootCategoryId/")
-                ->addAttributeToFilter('is_active', 1)
-                ->setStore($store)
-                ->getAllIds();
-            $collection = $this->getCalendarProductCollection(false, $gcpCatIdArr[0]);
-        } else {
-            $collection = $this->getCalendarProductCollection();
-        }
- 
-        $calendarArr = $this->prepareCalendarData($collection, $storeId);
- 
-        // Save data to customer session
-        $this->customerSession->setData($sessionKey, $calendarArr);
+        // Fetch initial data and store in session
+        $productIds = $this->fetchProductIds($isGCPCalendar);
+        $this->customerSession->setData($sessionKey, $productIds);
     }
  
-    $this->registry->register('course_list', $calendarArr, true);
-    return $calendarArr;
+    // Apply filters if it's an AJAX request
+    $filters = $this->_request->isAjax() ? $this->_request->getParams() : [];
+    $filteredProductData = $this->applyFiltersToData($productIds, $filters);
+ 
+    // Register data for rendering
+    $this->registry->register('course_list', $filteredProductData, true);
+ 
+    // Return filtered data
+    return $filteredProductData;
 }
  
-private function prepareCalendarData($collection, $storeId)
+private function fetchProductIds($isGCPCalendar)
 {
-    $calendarArr = [];
-    foreach ($collection as $prod) {
-        $product = $this->_productRepository->getById($prod->getId());
-        $courseDate = $product->getCourseDate();
-        $courseDateTimestamp = strtotime($courseDate);
- 
-        $categoryName = $this->getCategoryName($product, $storeId);
- 
-        $locationAttr = $collection->getResource()->getAttribute('course_location');
-        $courseLocation = $locationAttr->usesSource() ?
-            $locationAttr->getSource()->getOptionText($product->getCourseLocation()) : '';
-        $courseFormat = $product->getCourseLocation() == 22 ? 'Virtual' : 'Classroom';
- 
-        $courseDuration = strtoupper($this->_courseHelper->getCalendarPageCourseDuration($product));
-        $priceArr = $this->_generalHelper->getFormatedPrice($product->getPrice(), 0, false, true);
- 
-        $arrKey = date('F Y', $courseDateTimestamp);
-        $calendarArr[$arrKey][] = [
-            'raw_course_date' => $courseDate,
-            'raw_price' => $product->getPrice(),
-            'course_date' => date('M d', $courseDateTimestamp),
-            'course_day' => date('l', $courseDateTimestamp),
-            'course_day_short' => date('D', $courseDateTimestamp),
-            'category_name' => $categoryName,
-            'course_name' => $product->getName(),
-            'course_location' => strtoupper($courseLocation),
-            'course_duration' => $courseDuration,
-            'price' => $priceArr,
-            'product_id' => $product->getId(),
-            'url' => $this->_generalHelper->getProductUrlRewrite($product),
-            'course_format' => $courseFormat
-        ];
+    if ($isGCPCalendar) {
+        $store = $this->_storeManager->getStore();
+        $rootCategoryId = $store->getRootCategoryId();
+        $gcpCatIdArr = $this->_categoryCollectionFactory->create()
+            ->addAttributeToFilter('name', 'Google Cloud')
+            ->addPathFilter("1/$rootCategoryId/")
+            ->addAttributeToFilter('is_active', 1)
+            ->setStore($store)
+            ->getAllIds();
+        $collection = $this->getCalendarProductCollection(false, $gcpCatIdArr[0]);
+    } else {
+        $collection = $this->getCalendarProductCollection();
     }
-    return $calendarArr;
+ 
+    $productIds = [];
+    foreach ($collection as $product) {
+        $productIds[] = $product->getId();
+    }
+    return $productIds;
+}
+ 
+private function applyFiltersToData($productIds, $filters)
+{
+    $filteredData = [];
+    foreach ($productIds as $productId) {
+        $product = $this->_productRepository->getById($productId);
+        if ($this->applyFilterConditions($product, $filters)) {
+            $filteredData[] = $this->prepareProductData($product);
+        }
+    }
+    return $filteredData;
+}
+ 
+private function applyFilterConditions($product, $filters)
+{
+    // Apply your filtering conditions here
+    if (isset($filters['month']) && !empty($filters['month'])) {
+        $productMonth = date('Ym', strtotime($product->getCourseDate()));
+        if (!in_array($productMonth, explode(',', $filters['month']))) {
+            return false;
+        }
+    }
+ 
+    if (isset($filters['category']) && !empty($filters['category'])) {
+        $productCategories = $product->getCategoryIds();
+        if (!array_intersect($productCategories, explode(',', $filters['category']))) {
+            return false;
+        }
+    }
+ 
+    if (isset($filters['format']) && !empty($filters['format'])) {
+        $isVirtual = $product->getCourseLocation() == 22;
+        if (($filters['format'] == 'virtual' && !$isVirtual) || ($filters['format'] == 'classroom' && $isVirtual)) {
+            return false;
+        }
+    }
+ 
+    if (isset($filters['location']) && !empty($filters['location'])) {
+        if (!in_array($product->getCourseLocation(), explode(',', $filters['location']))) {
+            return false;
+        }
+    }
+ 
+    return true;
+}
+ 
+private function prepareProductData($product)
+{
+    $courseDate = $product->getCourseDate();
+    $courseDateTimestamp = strtotime($courseDate);
+ 
+    $categoryName = $this->getCategoryName($product, $this->_storeManager->getStore()->getId());
+ 
+    $locationAttr = $product->getResource()->getAttribute('course_location');
+    $courseLocation = $locationAttr->usesSource() ? $locationAttr->getSource()->getOptionText($product->getCourseLocation()) : '';
+    $courseFormat = $product->getCourseLocation() == 22 ? 'Virtual' : 'Classroom';
+ 
+    $courseDuration = strtoupper($this->_courseHelper->getCalendarPageCourseDuration($product));
+    $priceArr = $this->_generalHelper->getFormatedPrice($product->getPrice(), 0, false, true);
+ 
+    return [
+        'raw_course_date' => $courseDate,
+        'raw_price' => $product->getPrice(),
+        'course_date' => date('M d', $courseDateTimestamp),
+        'course_day' => date('l', $courseDateTimestamp),
+        'course_day_short' => date('D', $courseDateTimestamp),
+        'category_name' => $categoryName,
+        'course_name' => $product->getName(),
+        'course_location' => strtoupper($courseLocation),
+        'course_duration' => $courseDuration,
+        'price' => $priceArr,
+        'product_id' => $product->getId(),
+        'url' => $this->_generalHelper->getProductUrlRewrite($product),
+        'course_format' => $courseFormat
+    ];
 }
  
 private function getCategoryName($product, $storeId)
@@ -81,73 +134,4 @@ private function getCategoryName($product, $storeId)
         }
     }
     return '';
-}
-
-
-
-public function getCalendarProductCollection($forFilters = false, $parentCategoryId = null)
-{
-    $expDate = $this->_generalHelper->getCourseExpiryDate();
-    $attributeSets = $this->getCourseAttributeSets();
- 
-    $collection = $this->_productCollection->create();
-    $collection->addAttributeToFilter('status', ['in' => $this->_productStatus->getVisibleStatusIds()])
-               ->setVisibility($this->_productVisibility->getVisibleInSiteIds())
-               ->addStoreFilter($this->_storeManager->getStore())
-               ->addAttributeToFilter("attribute_set_id", ['in' => $attributeSets])
-               ->addAttributeToFilter("course_date", ['gt' => $expDate])
-               ->getSelect()->reset(\Zend_Db_Select::COLUMNS)
-               ->columns(['entity_id'])
-               ->order(['course_date ASC', 'name ASC']);
- 
-    if (!$forFilters) {
-        $filters = $this->_request->getParams();
-        $this->applyFiltersToCollection($collection, $filters, $parentCategoryId);
-    }
- 
-    return $collection;
-}
- 
-private function getCourseAttributeSets()
-{
-    return [
-        $this->_courseHelper->getAttributeSetId("Classroom Course"),
-        $this->_courseHelper->getAttributeSetId("R&Y Online Course"),
-        $this->_courseHelper->getAttributeSetId("Jellyfish Online Course")
-    ];
-}
- 
-private function applyFiltersToCollection($collection, $filters, $parentCategoryId)
-{
-    if (!empty($filters['month'])) {
-        $collection->getSelect()->where('EXTRACT(YEAR_MONTH FROM course_date) IN (?)', explode(',', $filters['month']));
-    }
-    if (!empty($filters['category']) || $parentCategoryId) {
-        $categoryIds = !empty($filters['category']) ? explode(',', $filters['category']) : [$parentCategoryId];
-        $catFilterArr = $this->processCategories($categoryIds);
-        $collection->addCategoriesFilter(['in' => $catFilterArr]);
-    }
-    if (!empty($filters['format'])) {
-        $this->applyFormatFilter($collection, $filters['format']);
-    }
-    if (!empty($filters['location'])) {
-        $collection->addAttributeToFilter("course_location", ['in' => explode(',', $filters['location'])]);
-    }
-}
- 
-private function processCategories($categoryIds)
-{
-    $catFilterArr = [];
-    foreach ($categoryIds as $catId) {
-        $this->processCategory($catId, $catFilterArr);
-    }
-    return $catFilterArr;
-}
- 
-private function applyFormatFilter($collection, $formatFilter)
-{
-    $filterValues = explode(',', $formatFilter);
-    if (count($filterValues) < 2) {
-        $collection->addAttributeToFilter("course_location", ['eq' => $filterValues[0] == 'virtual' ? 22 : ['neq' => 22]]);
-    }
 }
