@@ -1,344 +1,139 @@
-Count:6
-Array
-(
-    [July 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-07-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Jul 01
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => Analytics & Optimisation
-                    [course_name] => Adobe Analytics
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20628
-                    [url] => courses/adobe-analytics
-                )
-
-            [1] => Array
-                (
-                    [raw_course_date] => 2024-07-01 00:00:00
-                    [raw_price] => 595.000000
-                    [course_date] => Jul 01
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => Cloud Developer Track
-                    [course_name] => Getting Started with Google Kubernetes Engine
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 595
-                        )
-
-                    [product_id] => 20631
-                    [url] => courses/getting-started-with-google-kubernetes-engine
-                )
-
-            [2] => Array
-                (
-                    [raw_course_date] => 2024-07-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Jul 01
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => PPC & Paid Media
-                    [course_name] => Google Ads (AdWords): Search
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20627
-                    [url] => courses/google-ads-adwords-search
-                )
-        )
-
-    [August 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-08-01 00:00:00
-                    [raw_price] => 599.000000
-                    [course_date] => Aug 01
-                    [course_day] => Thursday
-                    [course_day_short] => Thu
-                    [category_name] => Display & Video 360
-                    [course_name] => Brand Safety in Display & Video 360
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 599
-                        )
-
-                    [product_id] => 20664
-                    [url] => courses/brand-safety-in-display-and-video-360
-                )
-
-            [1] => Array
-                (
-                    [raw_course_date] => 2024-08-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Aug 01
-                    [course_day] => Thursday
-                    [course_day_short] => Thu
-                    [category_name] => Social Media Marketing
-                    [course_name] => Introduction to Social Media
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20665
-                    [url] => courses/introduction-to-social-media
-                )
-
-            [2] => Array
-                (
-                    [raw_course_date] => 2024-08-02 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Aug 02
-                    [course_day] => Friday
-                    [course_day_short] => Fri
-                    [category_name] => Social Media Marketing
-                    [course_name] => Social Media Strategy
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20666
-                    [url] => courses/social-media-strategy
-                )
-
-            
-
-        )
-
-    [September 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-09-02 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Sep 02
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => Analytics & Optimisation
-                    [course_name] => Adobe Analytics
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20686
-                    [url] => courses/adobe-analytics
-                )
-
-            [1] => Array
-                (
-                    [raw_course_date] => 2024-09-02 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Sep 02
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => PPC & Paid Media
-                    [course_name] => Google Ads (AdWords): Search
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20685
-                    [url] => courses/google-ads-adwords-search
-                )
-
-
-        )
-
-    [October 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-10-01 00:00:00
-                    [raw_price] => 399.000000
-                    [course_date] => Oct 01
-                    [course_day] => Tuesday
-                    [course_day_short] => Tue
-                    [category_name] => Creative
-                    [course_name] => Adobe Photoshop CC
-                    [course_location] => THE SHARD, LONDON
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 399
-                        )
-
-                    [product_id] => 21540
-                    [url] => courses/adobe-photoshop-cc
-                )
-
-            [1] => Array
-                (
-                    [raw_course_date] => 2024-10-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Oct 01
-                    [course_day] => Tuesday
-                    [course_day_short] => Tue
-                    [category_name] => PPC & Paid Media
-                    [course_name] => Google Ads (AdWords): Search
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20708
-                    [url] => courses/google-ads-adwords-search
-                )
-
-            [2] => Array
-                (
-                    [raw_course_date] => 2024-10-01 00:00:00
-                    [raw_price] => 599.000000
-                    [course_date] => Oct 01
-                    [course_day] => Tuesday
-                    [course_day_short] => Tue
-                    [category_name] => GMP Fundamentals
-                    [course_name] => Google Marketing Platform Principles
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 599
-                        )
-
-                    [product_id] => 20710
-                    [url] => courses/google-marketing-platform-principles
-                )
-
-            [3] => Array
-                (
-                    [raw_course_date] => 2024-10-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Oct 01
-                    [course_day] => Tuesday
-                    [course_day_short] => Tue
-                    [category_name] => Analytics & Optimisation
-                    [course_name] => Introduction to Google Analytics 4 Reporting
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20709
-                    [url] => courses/introduction-to-google-analytics-4-reporting
-                )
-        )
-
-    [November 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-11-01 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Nov 01
-                    [course_day] => Friday
-                    [course_day_short] => Fri
-                    [category_name] => Analytics & Optimisation
-                    [course_name] => Introduction to Google Analytics 4 Reporting
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20741
-                    [url] => courses/introduction-to-google-analytics-4-reporting
-                )
-
-            [1] => Array
-                (
-                    [raw_course_date] => 2024-11-04 00:00:00
-                    [raw_price] => 499.000000
-                    [course_date] => Nov 04
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => Analytics & Optimisation
-                    [course_name] => Adobe Analytics
-                    [course_location] => VIRTUAL CLASSROOM
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 499
-                        )
-
-                    [product_id] => 20743
-                    [url] => courses/adobe-analytics
-                )
-
-           
-
-        )
-
-    [December 2024] => Array
-        (
-            [0] => Array
-                (
-                    [raw_course_date] => 2024-12-02 00:00:00
-                    [raw_price] => 399.000000
-                    [course_date] => Dec 02
-                    [course_day] => Monday
-                    [course_day_short] => Mon
-                    [category_name] => Creative
-                    [course_name] => Adobe Illustrator CC
-                    [course_location] => THE SHARD, LONDON
-                    [course_duration] => 1 DAY
-                    [price] => Array
-                        (
-                            [currency] => £
-                            [price] => 399
-                        )
-
-                    [product_id] => 21565
-                    [url] => courses/adobe-illustrator-cc
-                )
-        )
-)
+public function getCalendarList($isGCPCalendar = false)
+{
+    $store = $this->_storeManager->getStore();
+    $storeId = $store->getId();
+    $calendarArr = [];
+ 
+    if ($isGCPCalendar) {
+        $rootCategoryId = $store->getRootCategoryId();
+        $gcpCatIdArr = $this->_categoryCollectionFactory->create()
+            ->addAttributeToFilter('name', 'Google Cloud')
+            ->addPathFilter("1/$rootCategoryId/")
+            ->addAttributeToFilter('is_active', 1)
+            ->setStore($store)
+            ->getAllIds();
+        if (!empty($gcpCatIdArr)) {
+            $collection = $this->getCalendarProductCollection(false, $gcpCatIdArr[0]);
+        }
+    } else {
+        $collection = $this->getCalendarProductCollection();
+    }
+ 
+    if ($collection->getSize() > 0) {
+        $productIds = $collection->getAllIds();
+        $products = $this->_productRepository->getByIds($productIds);
+ 
+        $categoryCache = [];
+        foreach ($products as $product) {
+            $courseDate = $product->getCourseDate();
+            $courseDateTimestamp = strtotime($courseDate);
+            $arrKey = date('F Y', $courseDateTimestamp);
+ 
+            $categories = $product->getCategoryIds();
+            $categoryName = $this->getFirstActiveCategoryName($categories, $storeId, $categoryCache);
+ 
+            $courseLocation = $this->getCourseLocationText($collection, $product);
+            $courseFormat = ((int) $product->getCourseLocation() == 22) ? 'Virtual' : 'Classroom';
+            $courseDuration = strtoupper($this->_courseHelper->getCalendarPageCourseDuration($product));
+            $priceArr = $this->_generalHelper->getFormatedPrice($product->getPrice(), 0, false, true);
+ 
+            $calendarArr[$arrKey][] = [
+                'raw_course_date' => $courseDate,
+                'raw_price' => $product->getPrice(),
+                'course_date' => date('M d', $courseDateTimestamp),
+                'course_day' => date('l', $courseDateTimestamp),
+                'course_day_short' => date('D', $courseDateTimestamp),
+                'category_name' => $categoryName,
+                'course_name' => $product->getName(),
+                'course_location' => strtoupper($courseLocation),
+                'course_duration' => $courseDuration,
+                'price' => $priceArr,
+                'product_id' => $product->getId(),
+                'url' => $this->_generalHelper->getProductUrlRewrite($product),
+                'course_format' => $courseFormat
+            ];
+        }
+    }
+ 
+    $this->registry->register('course_list', $calendarArr, true);
+    return $calendarArr;
+}
+ 
+private function getFirstActiveCategoryName(array $categoryIds, int $storeId, array &$cache): string
+{
+    foreach ($categoryIds as $catId) {
+        if (isset($cache[$catId])) {
+            return $cache[$catId];
+        }
+        $category = $this->_categoryRepository->get($catId, $storeId);
+        if ($category->getIsActive()) {
+            $cache[$catId] = $category->getName();
+            return $cache[$catId];
+        }
+    }
+    return '';
+}
+ 
+private function getCourseLocationText($collection, $product): string
+{
+    $locationAttr = $collection->getResource()->getAttribute('course_location');
+    if ($locationAttr->usesSource()) {
+        return $locationAttr->getSource()->getOptionText($product->getCourseLocation());
+    }
+    return '';
+}
+ 
+public function getCalendarProductCollection($forFilters = false, $parentCategoryId = null)
+{
+    $expDate = $this->_generalHelper->getCourseExpiryDate();
+    $attributeSets = [
+        $this->_courseHelper->getAttributeSetId("Classroom Course"),
+        $this->_courseHelper->getAttributeSetId("R&Y Online Course"),
+        $this->_courseHelper->getAttributeSetId("Jellyfish Online Course")
+    ];
+ 
+    $collection = $this->_productCollection->create();
+    $collection->getSelect()
+        ->reset(\Zend_Db_Select::COLUMNS)
+        ->columns('entity_id')
+        ->order(['course_date ASC', 'name ASC']);
+ 
+    $collection->addAttributeToFilter('status', ['in' => $this->_productStatus->getVisibleStatusIds()])
+               ->setVisibility($this->_productVisibility->getVisibleInSiteIds())
+               ->addStoreFilter($this->_storeManager->getStore())
+               ->addAttributeToFilter("attribute_set_id", ['in' => $attributeSets])
+               ->addAttributeToFilter("name", ['neq' => 'NULL'])
+               ->addAttributeToFilter("course_date", ['gt' => $expDate]);
+ 
+    if (!$forFilters) {
+        $filters = $this->_request->getParams();
+        if (!empty($filters['month'])) {
+            $collection->getSelect()->where('EXTRACT(YEAR_MONTH FROM course_date) IN (?)', explode(',', $filters['month']));
+        }
+        if (!empty($filters['category']) || $parentCategoryId !== null) {
+            $categoryIds = !empty($filters['category']) ? explode(',', $filters['category']) : [$parentCategoryId];
+            $catFilterArr = [];
+            foreach ($categoryIds as $catId) {
+                $this->processCategory($catId, $catFilterArr);
+            }
+            $collection->addCategoriesFilter(['in' => $catFilterArr]);
+        }
+        if (!empty($filters['format'])) {
+            $formatFilter = $filters['format'];
+            $filterValues = explode(',', $formatFilter);
+ 
+            if (count($filterValues) < 2) {
+                if ($filterValues[0] == 'virtual') {
+                    $collection->addAttributeToFilter("course_location", ['eq' => 22]);
+                } else {
+                    $collection->addAttributeToFilter("course_location", ['neq' => 22]);
+                }
+            }
+        }
+        if (!empty($filters['location'])) {
+            $collection->addAttributeToFilter("course_location", ['in' => explode(',', $filters['location'])]);
+        }
+    }
+ 
+    return $collection;
+}
