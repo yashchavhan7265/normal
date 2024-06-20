@@ -1,97 +1,19 @@
-$courseArray = $this->registry->registry('course_list');
-        $collection = $this->getCalendarProductCollection();
-        $total = $collection->getSize();
-        $page = ! empty( $_GET['page'] ) ? (int) $_GET['page'] : 1;
-       // $total = count($courseArray); //total items in array
-        $limit = 20; //per page    
-        $totalPages = ceil( $total/ $limit ); //calculate total pages
-        $page = max($page, 1); //get 1 page when $_GET['page'] <= 0
-        $page = min($page, $totalPages); //get last page when $_GET['page'] > $totalPages
-        $offset = ($page - 1) * $limit;
-        if( $offset < 0 ) $offset = 0;
-        //echo $totalPages;
-        $courseArraySlice = array_slice($courseArray, $offset, $limit );
-        //echo "<pre>";print_r($courseArraySlice);die;
-        $courseArrayResult['data'] = $courseArraySlice;
-        $courseArrayResult['page'] = $page;
-        //echo "<pre>";print_r($courseArrayResult);die;
-        return $courseArrayResult; 
-
-
-
-
-
-<?php
-$courseArray = $this->registry->registry('course_list'); // Assuming this is your original array
-
-// Flatten the $courseArray to make pagination easier
-$flatCourses = [];
-foreach ($courseArray as $month => $courses) {
-    foreach ($courses as $course) {
-        $flatCourses[] = [
-            'month' => $month,
-            'course' => $course
-        ];
-    }
+function checkPageCondition(array $request): bool {
+    return !empty($request['page']) && count(array_filter($request, function($key) {
+        return $key !== 'page';
+    }, ARRAY_FILTER_USE_KEY)) === 0;
 }
 
-// Pagination parameters
-$limit = 5; // Number of records per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page from URL parameter, default to 1
+// Example usage
+$request = [
+    'page' => 'home',
+    'user' => '',
+    'session' => '',
+    // Add other keys as necessary
+];
 
-$totalCourses = count($flatCourses);
-$totalPages = ceil($totalCourses / $limit);
-$page = max($page, 1); // Ensure page number is not less than 1
-$page = min($page, $totalPages); // Ensure page number does not exceed total pages
-$offset = ($page - 1) * $limit;
-
-// Slice the flatCourses array based on pagination parameters
-$paginatedCourses = array_slice($flatCourses, $offset, $limit);
-
-// Prepare result with paginated data and current page information
-$paginatedArray = [];
-foreach ($paginatedCourses as $item) {
-    $month = $item['month'];
-    $course = $item['course'];
-    $paginatedArray[$month][] = $course;
+if (checkPageCondition($request)) {
+    echo "Condition met: 'page' has a value and others are blank.";
+} else {
+    echo "Condition not met.";
 }
-
-$courseArrayResult['data'] = $paginatedArray;
-$courseArrayResult['page'] = $page;
-$courseArrayResult['totalPages'] = $totalPages;
-
-// Example of how to use the paginated result:
-// Now $courseArrayResult['data'] contains the paginated courses grouped by month
-
-// Example of how to display paginated data:
-foreach ($courseArrayResult['data'] as $month => $courses) {
-    echo "<h2>$month</h2>"; // Display month as header
-
-    foreach ($courses as $course) {
-        echo "<div>";
-        echo "<h3>{$course['course_name']}</h3>";
-        echo "<p>Date: {$course['course_date']} ({$course['course_day_short']})</p>";
-        echo "<p>Category: {$course['category_name']}</p>";
-        echo "<p>Location: {$course['course_location']}</p>";
-        echo "<p>Duration: {$course['course_duration']}</p>";
-        echo "<p>Price: {$course['price']['currency']}{$course['price']['price']}</p>";
-        echo "</div>";
-    }
-}
-
-// Pagination links (if needed)
-echo "<div>";
-echo "<p>Page: ";
-for ($i = 1; $i <= $courseArrayResult['totalPages']; $i++) {
-    if ($i == $courseArrayResult['page']) {
-        echo "<strong>$i</strong> ";
-    } else {
-        echo "<a href='?page=$i'>$i</a> ";
-    }
-}
-echo "</p>";
-echo "</div>";
-
-// Return the paginated result array
-return $courseArrayResult;
-?>
