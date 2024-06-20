@@ -1,7 +1,12 @@
 function checkPageCondition(array $request): bool {
-    return !empty($request['page']) && count(array_filter($request, function($key) {
-        return $key !== 'page';
-    }, ARRAY_FILTER_USE_KEY)) === 0;
+    // Check if 'page' is set and not empty
+    if (!isset($request['page']) || empty($request['page'])) {
+        return false;
+    }
+
+    // Remove 'page' key and check if all other values are empty
+    unset($request['page']);
+    return count(array_filter($request)) === 0;
 }
 
 // Example usage
