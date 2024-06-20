@@ -1,3 +1,10 @@
+public function getCalendarList($isGCPCalendar = false)
+{
+    $storeId = $this->_storeManager->getStore()->getId();
+    $collection = $this->getCalendarProductCollection($isGCPCalendar);
+ 
+    $calendarArr = [];
+    if ($collection->getSize() > 0) {
         foreach ($collection as $product) {
             $calendarArr = $this->processProductForCalendar($product, $storeId, $calendarArr);
         }
