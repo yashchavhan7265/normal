@@ -1,24 +1,447 @@
-function checkPageCondition(array $request): bool {
-    // Check if 'page' is set and not empty
-    if (!isset($request['page']) || empty($request['page'])) {
-        return false;
-    }
+Array
+(
+    [July 2024] => Array
+        (
+            [0] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => Analytics & Optimisation
+                    [course_name] => Adobe Analytics
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
 
-    // Remove 'page' key and check if all other values are empty
-    unset($request['page']);
-    return count(array_filter($request)) === 0;
-}
+                    [product_id] => 20628
+                    [url] => courses/adobe-analytics
+                    [course_format] => Virtual
+                )
 
-// Example usage
-$request = [
-    'page' => 'home',
-    'user' => '',
-    'session' => '',
-    // Add other keys as necessary
-];
+            [1] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 595.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => Cloud Developer Track
+                    [course_name] => Getting Started with Google Kubernetes Engine
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 595
+                        )
 
-if (checkPageCondition($request)) {
-    echo "Condition met: 'page' has a value and others are blank.";
-} else {
-    echo "Condition not met.";
-}
+                    [product_id] => 20631
+                    [url] => courses/getting-started-with-google-kubernetes-engine
+                    [course_format] => Virtual
+                )
+
+            [2] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => PPC & Paid Media
+                    [course_name] => Google Ads (AdWords): Search
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 20627
+                    [url] => courses/google-ads-adwords-search
+                    [course_format] => Virtual
+                )
+
+            [3] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => GMP Fundamentals
+                    [course_name] => Google Marketing Platform Principles
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 20629
+                    [url] => courses/google-marketing-platform-principles
+                    [course_format] => Virtual
+                )
+
+            [4] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => Web Development & Programming
+                    [course_name] => HTML & CSS
+                    [course_location] => THE SHARD, LONDON
+                    [course_duration] => 2 DAYS COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 21501
+                    [url] => courses/html-and-css
+                    [course_format] => Classroom
+                )
+
+            [5] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => Analytics & Optimisation
+                    [course_name] => Introduction to Google Analytics 4 Reporting
+                    [course_location] => MANCHESTER
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 22282
+                    [url] => courses/introduction-to-google-analytics-4-reporting
+                    [course_format] => Classroom
+                )
+
+            [6] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => SEO
+                    [course_name] => Introduction to SEO
+                    [course_location] => THE SHARD, LONDON
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 21500
+                    [url] => courses/introduction-to-seo
+                    [course_format] => Classroom
+                )
+
+            [7] => Array
+                (
+                    [raw_course_date] => 2024-07-01 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 01
+                    [course_day] => Monday
+                    [course_day_short] => Mon
+                    [category_name] => Social Media Marketing
+                    [course_name] => LinkedIn Marketing
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 20630
+                    [url] => courses/linkedin-marketing
+                    [course_format] => Virtual
+                )
+
+            [8] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => Social Media Marketing
+                    [course_name] => Introduction to Social Media
+                    [course_location] => THE SHARD, LONDON
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 21503
+                    [url] => courses/introduction-to-social-media
+                    [course_format] => Classroom
+                )
+
+            [9] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => Analytics & Optimisation
+                    [course_name] => Looker Studio (formerly Data Studio)
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 20633
+                    [url] => courses/looker-studio-formerly-data-studio
+                    [course_format] => Virtual
+                )
+
+            [10] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => Search Ads 360
+                    [course_name] => Search Ads 360: Fundamentals
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 20635
+                    [url] => courses/search-ads-360-fundamentals
+                    [course_format] => Virtual
+                )
+
+            [11] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 1599.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => Cloud Security Track
+                    [course_name] => Security in Google Cloud
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 3 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 1,599
+                        )
+
+                    [product_id] => 20636
+                    [url] => courses/security-in-google-cloud
+                    [course_format] => Virtual
+                )
+
+            [12] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => SEO
+                    [course_name] => Technical SEO
+                    [course_location] => THE SHARD, LONDON
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 21502
+                    [url] => courses/technical-seo
+                    [course_format] => Classroom
+                )
+
+            [13] => Array
+                (
+                    [raw_course_date] => 2024-07-02 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 02
+                    [course_day] => Tuesday
+                    [course_day_short] => Tue
+                    [category_name] => GMP Fundamentals
+                    [course_name] => Technology implementation in CM360, DV360 and SA360
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 20634
+                    [url] => courses/technology-implementation-in-cm360-dv360-and-sa360
+                    [course_format] => Virtual
+                )
+
+            [14] => Array
+                (
+                    [raw_course_date] => 2024-07-03 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 03
+                    [course_day] => Wednesday
+                    [course_day_short] => Wed
+                    [category_name] => SEO
+                    [course_name] => Content Strategy & Copywriting for SEO
+                    [course_location] => THE SHARD, LONDON
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 22062
+                    [url] => courses/content-strategy-and-copywriting-for-seo
+                    [course_format] => Classroom
+                )
+
+            [15] => Array
+                (
+                    [raw_course_date] => 2024-07-03 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 03
+                    [course_day] => Wednesday
+                    [course_day_short] => Wed
+                    [category_name] => Display & Video 360
+                    [course_name] => Display & Video 360 Fundamentals
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 20640
+                    [url] => courses/display-and-video-360-fundamentals
+                    [course_format] => Virtual
+                )
+
+            [16] => Array
+                (
+                    [raw_course_date] => 2024-07-03 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 03
+                    [course_day] => Wednesday
+                    [course_day_short] => Wed
+                    [category_name] => PPC & Paid Media
+                    [course_name] => Google Ads (AdWords): Search
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 20632
+                    [url] => courses/google-ads-adwords-search
+                    [course_format] => Virtual
+                )
+
+            [17] => Array
+                (
+                    [raw_course_date] => 2024-07-03 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 03
+                    [course_day] => Wednesday
+                    [course_day_short] => Wed
+                    [category_name] => PPC & Paid Media
+                    [course_name] => Google Ads: Display (GDN)
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 20638
+                    [url] => courses/google-ads-display-gdn
+                    [course_format] => Virtual
+                )
+
+            [18] => Array
+                (
+                    [raw_course_date] => 2024-07-03 00:00:00
+                    [raw_price] => 499.0000
+                    [course_date] => Jul 03
+                    [course_day] => Wednesday
+                    [course_day_short] => Wed
+                    [category_name] => Analytics & Optimisation
+                    [course_name] => Google Analytics 4: Implementation & Configuration
+                    [course_location] => MANCHESTER
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 499
+                        )
+
+                    [product_id] => 22898
+                    [url] => courses/google-analytics-4-implementation-and-configuration
+                    [course_format] => Classroom
+                )
+
+            [19] => Array
+                (
+                    [raw_course_date] => 2024-07-04 00:00:00
+                    [raw_price] => 599.0000
+                    [course_date] => Jul 04
+                    [course_day] => Thursday
+                    [course_day_short] => Thu
+                    [category_name] => Display & Video 360
+                    [course_name] => Data, Audience and Activation Strategy in Display & Video 360
+                    [course_location] => VIRTUAL CLASSROOM
+                    [course_duration] => 1 DAY COURSE
+                    [price] => Array
+                        (
+                            [currency] => £
+                            [price] => 599
+                        )
+
+                    [product_id] => 20642
+                    [url] => courses/data-audience-and-activation-strategy-in-display-and-video-360
+                    [course_format] => Virtual
+                )
+
+        )
+
+)
