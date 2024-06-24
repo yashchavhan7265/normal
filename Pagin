@@ -1,3 +1,9 @@
+wget http://ct-share:81/Certs/Proxy-Certificate-Public.crt
+sudo mkdir /usr/share/ca-certificates/extra
+cp Proxy-Certificate-Public.crt /usr/share/ca-certificates/extra/
+sudo dpkg-reconfigure ca-certificates
+
+
 sudo apt update
 sudo apt install wget gpg apt-transport-https
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
