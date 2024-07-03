@@ -1,2 +1,94 @@
-docker login -u cybage_jfrog -p AKCp5bC1xw19YmEM88kPj2YBuYjx5YUzhFStUEWUGc96WFDmb7zCaA3inBT3jMHQSykSP19DZ 
-jellyfish-docker.jfrog.io
+Array
+(
+    [0] => Array
+        (
+            [entity_id] => 97
+            [title] => Architecting with Google Kubernetes Engine
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/GCP-Thumbnail-Core_Desktop_2_.png
+            [card_date] => 01 Jan, 2025
+            [card_timezone] =>  | 9am-5pm PST
+            [card_link] => #
+            [duration] => 3
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [1] => Array
+        (
+            [entity_id] => 106
+            [title] => Architecting with Google Kubernetes Engine
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/GCP-Thumbnail-Core_Desktop_2__1.png
+            [card_date] => 01 Jan, 2025
+            [card_timezone] =>  | 9am-5pm CET
+            [card_link] => #
+            [duration] => 3
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [2] => Array
+        (
+            [entity_id] => 139
+            [title] => Architecting with Google Kubernetes Engine
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/GCP-Thumbnail-Core_Desktop_2__1_2.png
+            [card_date] => 02 Jan, 2025
+            [card_timezone] =>  | 9am-5pm PST
+            [card_link] => #
+            [duration] => 3
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [3] => Array
+        (
+            [entity_id] => 101
+            [title] => Hybrid Cloud Developer Track
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/GCP-Thumbnail-DataEngineeringGCP_Desktop_1__1__1_.png
+            [card_date] => 04 Jan, 2025
+            [card_timezone] =>  | 9am-5pm GMT
+            [card_link] => #
+            [duration] => 4
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [4] => Array
+        (
+            [entity_id] => 135
+            [title] => Hybrid Cloud Developer Track
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/DOHA_4_3.png
+            [card_date] => 04 Jan, 2025
+            [card_timezone] =>  | 9-5pm AST
+            [card_link] => #
+            [duration] => 4
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [5] => Array
+        (
+            [entity_id] => 133
+            [title] => DevOps/SRE Engineer Track
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/DOHA_4_2.png
+            [card_date] => 08 Jan, 2025
+            [card_timezone] =>  | 10-5pm AST
+            [card_link] => #
+            [duration] => 4
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+    [6] => Array
+        (
+            [entity_id] => 105
+            [title] => Machine Learning on Google Cloud Platform
+            [card_image] => http://localhost/en-us/training/pub/media/gwebinars/webinar/GCP-Thumbnail-Core_Desktop_1__1__1.png
+            [card_date] => 10 Jan, 2025
+            [card_timezone] =>  | 9am-5pm PDT
+            [card_link] => #
+            [duration] => 5
+            [duration_unit] => d
+            [event_location] => 
+        )
+
+)
