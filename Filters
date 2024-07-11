@@ -1,24 +1,64 @@
-public function getTrackWebinars($trackId)
-    {
-        $webinarArr = [];
-        $trackWebinarsNames = $this->_helper->getUniqueWebinarNames($trackId);
-        $trackCollection = $this->_helper->getTrackCollection($trackId);
-        $co = 0;
-        if($trackWebinarsNames->getSize() > 0) {
-            foreach($trackWebinarsNames->getData() as $trackWebinarsName) {
-                $trackCollection->addFieldToFilter('title', ['eq' => $trackWebinarsName]);
-                if($trackCollection->getSize() > 0) {
-                    foreach($trackCollection->getData() as $track) {
-                       
-                        $webinarArr['tracks'][$co][$track['entity_id']]['timezone'][$track['card_timezone']] = $track['card_timezone'];
-                        $webinarArr['tracks'][$co][$track['entity_id']][$track['card_timezone']]['date'] = $track['card_date'];
-                    }
-                    $webinarArr['tracks'][$co][$track['title']] = $track['title'];
-                }
+<?php foreach ($webinarList['timezones'] as $optionId => $data) { ?>
+				<?php if(isset($data['timezone'])) { ?>
+					<div class="personal-plan__modal__trow option-wrapper option-container-<?php echo $optionId; ?>">
+						<div class="personal-plan__modal__trow--data">
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__tdata--head"><?php echo $data['option_title']; ?></div>
+								<div class="personal-plan__modal__tdata--desc"><?php echo isset($data['option_course_duration']) ? $data['option_course_duration'] : '1 Day Classroom course'; ?></div>
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone') ?></div>
+								<div class="personal-plan__modal__tdata--drop">								
+									<select class="dropdown timezone" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>">									
+                                        <option value='-1'>Select a Timezone</option>
+                                        <?php  foreach($data['timezone'] as $location_id => $locationData) { ?>
+												<option value="<?php echo $location_id ?>"><?php echo $locationData['title'];?></option>
+										<?php } ?>
+									</select>									
+									<span class="d-none date-options" style='display:none;'><?php echo json_encode($data['timezone']); ?></span>										
+								</div>
+								
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
+								<div class="personal-plan__modal__tdata--drop">
+									<select class="dropdown date" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>" data-position="<?php echo $position++; ?>">
+											<option value='-1'><?php echo __('Select an option'); ?></option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="personal-plan__modal__trow--error"></div>
+                        <input type="hidden" class="option-set option-no-<?php echo $optionId; ?>" id="track-select" value='0' />
+					</div>
+				<?php } ?>	
+			<?php } ?>
 
-                $co++;
-            }
 
-        }
-        echo "<pre>";print_r($webinarArr);die; 
-    }
+
+
+jQuery(".date").on("change", function () {
+                                var selector =jQuery(this).parents(".option-wrapper");
+                                //console.log(selector);
+                                var option = jQuery(this).find("option:selected");
+                               // console.log(option);
+                                var rawDate = jQuery(option).attr("data-raw-date");
+                                jQuery(this).attr("data-raw-date", rawDate);
+                                var date = jQuery(this).find(".date");
+                                var item = jQuery(this).find(".option-set");
+                                // console.log(item);
+                                // console.log(date);
+
+                                if(jQuery(date).val() == -1 ||  jQuery(date).val() == "") {
+                                    console.log("value Set to 0");
+                                    console.log(jQuery(this).find(".option-set").val());
+
+                                } else {
+                                    console.log("value Set to 1");
+
+                                    console.log(jQuery(this).find("#track-select").val());
+                                }
+                                // if (isValidData(selector)) {
+                                //     gnerateBundleOptionStr();
+                                // }
+                            });
