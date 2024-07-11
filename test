@@ -8,26 +8,8 @@ UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_paymen
 chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
 yash.chavan/oiYZKERck3zyvz3  
 
-<button><a href="#contact"><?php echo __('Book this course'); ?></a></button>
-https://jellyfish-training-magento.k8s.stage.jellyfish.net/jfcms/api/courses?filters[slug][$eq]=mastering-the-world-of-ctv&locale=en-gb&populate=deep
-
-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
-
-
-
-
- <div class="training__courses__listing__card__img">
-                <picture>
-                    <source media="(min-width: 1025px)"
-                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
-                        alt="spotlight_desktop">
-                    <source media="(min-width: 767px)"
-                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
-                        alt="spotlight_tablet">
-                    <source media="(max-width: 767px)"
-                        srcset="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
-                        alt="spotlight_mobile">
-                    <img src="https://uat.jellyfish.com/en-gb/training/pub/media//catalog/product/file/GA_1.1.webp"
-                        class="category__img" alt="Facebook-live">
-                </picture>
-            </div>
+<svg xmlns="
+http://www.w3.org/2000/svg"
+width="356" height="98" viewBox="0 0 356 98" fill="none">
+<path d="M17.5797 -122.69C26.4929 -155.955 35.4103 -182.074 45.819 -202.012C56.2167 -221.93 68.0453 -235.569 82.7341 -244.021C97.4235 -252.472 115.192 -255.862 137.702 -254.877C160.235 -253.89 187.393 -248.527 220.758 -239.587C254.122 -230.647 280.324 -221.713 300.331 -211.3C320.318 -200.899 334.012 -189.079 342.507 -174.415C351.002 -159.751 354.427 -142.025 353.472 -119.577C352.517 -97.1052 347.18 -70.0267 338.267 -36.7619C329.354 -3.49706 320.436 22.622 310.028 42.5607C299.63 62.4785 287.801 76.1175 273.113 84.569C258.423 93.0207 240.655 96.4103 218.144 95.425C195.611 94.4388 168.453 89.0749 135.089 80.1349C101.724 71.1949 75.5229 62.2612 55.5155 51.8488C35.5285 41.4469 21.8351 29.6271 13.3396 14.963C4.84447 0.299462 1.42019 -17.4266 2.37435 -39.8748C3.32951 -62.3465 8.66638 -89.425 17.5797 -122.69Z" stroke="#FF5B00" stroke-width="4"/>
+</svg>
