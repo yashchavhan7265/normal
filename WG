@@ -1,66 +1,129 @@
-<div class="detail-section">
-    <div class="input-fields clearfix">
-        <fieldset class="form-wrapper">
-            <legend class="panel-heading">
-                <span class="panel-title fieldset-legend">What is your name and contact email?</span>
-            </legend>
-            <div class="panel-body">
-                <div class="field-type-text">
-                    <input name="firstname" id="firstname"
-                        title="<?php /* @escapeNotVerified */ echo __('First name') ?>"
-                        class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
-                        data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
-                    <label class="label" for="firstname"><span>
-                            <?php /* @escapeNotVerified */ echo __('First name') ?>
-                        </span></label>
-                </div>
+<span class="d-none lookup" style='display:none;'><?php echo json_encode($webinarList['lookup']); ?></span>
+<input type="hidden" id="bundle-str" value='' />
+<input type="hidden" id="bundle-date-str" value='' />
+<div class="personal-plan__modal__content">
+	<div class="personal-plan__modal__title"><?php /* escapeNotVerified*/ echo  $trackDetails['w_cat_title']; ?></div>
+	<div class="personal-plan__modal__sub"><?php echo __('Google Cloud Learning path'); ?></div>
+	<div class="personal-plan__modal__desc"><?php /* esscapeNotVerified */ echo __('When would you like to start the virtual classes in this path?');  ?></div>
+	<div class="personal-plan__modal__grid">
+		
+		<div class="personal-plan__modal__trow">
+			<div class="personal-plan__modal__trow--data">
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Course'); ?></div>
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone'); ?></div>
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
+			</div>
+		</div> 
+		<?php if(count($webinarList['timezones']) > 0) { 
+			$position = 0;
+			?>
+			<?php foreach ($webinarList['timezones'] as $optionId => $data) { ?>
+				<?php if(isset($data['timezone'])) { ?>
+					<div class="personal-plan__modal__trow option-wrapper option-container-<?php echo $optionId; ?>">
+						<div class="personal-plan__modal__trow--data">
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__tdata--head"><?php echo $data['option_title']; ?></div>
+								<div class="personal-plan__modal__tdata--desc"><?php echo isset($data['option_course_duration']) ? $data['option_course_duration'] : '1 Day Classroom course'; ?></div>
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone') ?></div>
+								<div class="personal-plan__modal__tdata--drop">								
+									<select class="dropdown timezone" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>">									
+                                        <option value='-1'>Select a Timezone</option>
+                                        <?php  foreach($data['timezone'] as $location_id => $locationData) { ?>
+												<option value="<?php echo $location_id ?>"><?php echo $locationData['title'];?></option>
+										<?php } ?>
+									</select>									
+									<span class="d-none date-options" style='display:none;'><?php echo json_encode($data['timezone']); ?></span>										
+								</div>
+								
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
+								<div class="personal-plan__modal__tdata--drop">
+									<select class="dropdown date" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>" data-position="<?php echo $position++; ?>">
+											<option value='-1'><?php echo __('Select an option'); ?></option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="personal-plan__modal__trow--error"></div>
+					</div>
+				<?php } ?>	
+			<?php } ?>
+		<?php } ?>
+        <div class="detail-section">
+            <div class="input-fields clearfix">
+                <fieldset class="form-wrapper">
+                    <legend class="panel-heading">
+                        <span class="panel-title fieldset-legend">What is your name and contact email?</span>
+                    </legend>
+                    <div class="panel-body">
+                        <div class="field-type-text">
+                            <input name="firstname" id="firstname"
+                                title="<?php /* @escapeNotVerified */ echo __('First name') ?>"
+                                class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
+                                data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
+                            <label class="label" for="firstname"><span>
+                                    <?php /* @escapeNotVerified */ echo __('First name') ?>
+                                </span></label>
+                        </div>
 
-                <div class="field-type-text">
-                    <input name="lastname" id="lastname" title="<?php /* @escapeNotVerified */ echo __('Last name') ?>"
-                        class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
-                        data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
-                    <label class="label" for="lastname"><span>
-                            <?php /* @escapeNotVerified */ echo __('Last name') ?>
-                        </span></label>
-                </div>
+                        <div class="field-type-text">
+                            <input name="lastname" id="lastname" title="<?php /* @escapeNotVerified */ echo __('Last name') ?>"
+                                class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
+                                data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
+                            <label class="label" for="lastname"><span>
+                                    <?php /* @escapeNotVerified */ echo __('Last name') ?>
+                                </span></label>
+                        </div>
 
-                <div class="field-type-text">
-                    <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>"
-                        class="input-text" type="text" value="" data-validate="{required:true, 'validate-email':true}"
-                        required />
-                    <label class="label" for="email"><span>
-                            <?php /* @escapeNotVerified */ echo __('Email') ?>
-                        </span></label>
-                </div>
+                        <div class="field-type-text">
+                            <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>"
+                                class="input-text" type="text" value="" data-validate="{required:true, 'validate-email':true}"
+                                required />
+                            <label class="label" for="email"><span>
+                                    <?php /* @escapeNotVerified */ echo __('Email') ?>
+                                </span></label>
+                        </div>
 
-                <div class="field-type-text">
-                    <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified  echo __('Phone number') ?>"
-                    class="input-text validate-length maximum-length-20" maxlength="20" value="" type="text" data-validate="{required:true, 'validate-common-phone' : true}" required/>
-                    <label class="label" for="telephone"><span>
-                        <?php /* @escapeNotVerified echo __('Phone number') ?>
-                    </span></label>
-                </div>  
+                        <div class="field-type-text">
+                            <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone number') ?>"
+                            class="input-text validate-length maximum-length-20" maxlength="20" value="" type="text" data-validate="{required:true, 'validate-common-phone' : true}" required/>
+                            <label class="label" for="telephone"><span>
+                                <?php /* @escapeNotVerified */ echo __('Phone number') ?>
+                            </span></label>
+                        </div>  
 
-                <div class="field-type-text">
-                    <input name="company" id="company"
-                        title="<?php /* @escapeNotVerified */ echo __('Company (optional)') ?>"
-                        class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
-                        data-validate="{'validate-alphanum-with-company' : true}" />
-                    <label class="label" for="company"><span>
-                            <?php /* @escapeNotVerified */ echo __('Company (optional)') ?>
-                        </span></label>
-                </div>
+                        <div class="field-type-text">
+                            <input name="company" id="company"
+                                title="<?php /* @escapeNotVerified */ echo __('Company (optional)') ?>"
+                                class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
+                                data-validate="{'validate-alphanum-with-company' : true}" />
+                            <label class="label" for="company"><span>
+                                    <?php /* @escapeNotVerified */ echo __('Company (optional)') ?>
+                                </span></label>
+                        </div>
 
-                <div class="field-type-text">
-                    <input name="job_title" id="job_title"
-                        title="<?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>"
-                        class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
-                        data-validate="{'validate-alphanum-with-dash' : true}" />
-                    <label class="label" for="job_title"><span>
-                            <?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>
-                        </span></label>
-                </div>
+                        <div class="field-type-text">
+                            <input name="job_title" id="job_title"
+                                title="<?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>"
+                                class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
+                                data-validate="{'validate-alphanum-with-dash' : true}" />
+                            <label class="label" for="job_title"><span>
+                                    <?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>
+                                </span></label>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
-        </fieldset>
-    </div>
+        </div>
+	</div>
+
+	<div class="personal-plan__modal__btn">
+	    <a class="personal-plan__modal__btn--cancel" href="javascript:void(0);"><?php /*escapeNotVerified*/ echo __('Cancel'); ?></a>
+	    <a href="javascript:void(0);" data-pid="23"  data-url="<?php echo "test"; ?>" class="detail__button bundle-submit"><?php /*escapeNotVerified*/ echo __('Continue and add to basket'); ?></a>
+	</div>
 </div>
+<?php endif; ?>
+
