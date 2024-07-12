@@ -29,28 +29,5 @@ SELECT * from catalog_eav_attribute WHERE attribute_id=254;
 UPDATE `admin_user` SET `password` = CONCAT(SHA2('xxxxxxxxyash@123', 256), ':xxxxxxxx:1') WHERE `user_id` = 31;
 
 
-
-create table url_rewrite_bkup_yash as select * from url_rewrite;
-
-SELECT COUNT(*) FROM url_rewrite;
-
-SELECT COUNT(*) FROM url_rewrite_bkup_yash;
-
-
-
-create table cms_page_bkup_yash as select * from cms_page;
-
-SELECT COUNT(*) FROM cms_page;
-
-SELECT COUNT(*) FROM cms_page_bkup_yash;
-
-
-
-
-
-create table cms_block_bkup as select * from cms_block;
-
-SELECT COUNT(*) FROM cms_block;
-
-SELECT COUNT(*) FROM cms_block_bkup;
-
+https://jellyfish-training-magento.k8s.stage.jellyfish.net/admin_jf
+yash.chavan/Gastimacrus5l2i
