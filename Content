@@ -30,4 +30,4 @@ UPDATE `admin_user` SET `password` = CONCAT(SHA2('xxxxxxxxyash@123', 256), ':xxx
 
 
 https://jellyfish-training-magento.k8s.stage.jellyfish.net/admin_jf
-yash.chavan/Gastimacrus5l2i
+yash.chavan/oiYZKERck3zyvz3
