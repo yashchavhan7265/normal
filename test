@@ -115,3 +115,28 @@ yash.chavan/oiYZKERck3zyvz3
 Wed Jan 01 - Fri Jan 03, 2025
 
  
+function lookup(option_id, location_id, date) {
+    var data = jQuery(".lookup").html();
+    data = JSON.parse(data);
+
+    // Convert the object into an array
+    var dataArray = Object.values(data);
+
+    console.log("Data Array:", dataArray);
+
+    var retVal = jQuery.grep(dataArray, function (row) {
+        console.log("Comparing row:", row);
+        console.log("row.option_id:", row.option_id, "option_id:", option_id);
+        console.log("row.card_timezone:", row.card_timezone, "location_id:", location_id);
+        console.log("row.card_date:", row.card_date, "date:", date);
+
+        return (
+            row.option_id == option_id &&
+            row.card_timezone == location_id &&
+            row.card_date == date
+        );
+    });
+
+    console.log("Filtered Results:", retVal);
+    return retVal;
+}
