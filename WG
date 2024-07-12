@@ -1,50 +1,66 @@
-// WB Webinar
+<div class="detail-section">
+    <div class="input-fields clearfix">
+        <fieldset class="form-wrapper">
+            <legend class="panel-heading">
+                <span class="panel-title fieldset-legend">What is your name and contact email?</span>
+            </legend>
+            <div class="panel-body">
+                <div class="field-type-text">
+                    <input name="firstname" id="firstname"
+                        title="<?php /* @escapeNotVerified */ echo __('First name') ?>"
+                        class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
+                        data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
+                    <label class="label" for="firstname"><span>
+                            <?php /* @escapeNotVerified */ echo __('First name') ?>
+                        </span></label>
+                </div>
 
-//Descv
+                <div class="field-type-text">
+                    <input name="lastname" id="lastname" title="<?php /* @escapeNotVerified */ echo __('Last name') ?>"
+                        class="input-text validate-length maximum-length-30" maxlength="30" type="text" value=""
+                        data-validate="{required:true, 'validate-alphanum-with-dash' : true}" required />
+                    <label class="label" for="lastname"><span>
+                            <?php /* @escapeNotVerified */ echo __('Last name') ?>
+                        </span></label>
+                </div>
 
-<p class=\"deutsche-bank-webinar-listing__text\">Learn how to deploy, manage and scale containerized applications on Kubernetes, powered by Google Cloud.<br><br><b>Who should attend:</b></p><ul><li>Cloud architects, administrators, and those working in SysOps/DevOps.</li><li> Individuals using Google Cloud to create new solutions or to integrate existing systems, application environments, and infrastructure with the Google Cloud.</li><li>All of the above should be located in the <b>PST time zone</b>.</li></ul>
+                <div class="field-type-text">
+                    <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>"
+                        class="input-text" type="text" value="" data-validate="{required:true, 'validate-email':true}"
+                        required />
+                    <label class="label" for="email"><span>
+                            <?php /* @escapeNotVerified */ echo __('Email') ?>
+                        </span></label>
+                </div>
 
+                <div class="field-type-text">
+                    <input name="telephone" id="telephone" title="<?php /* @escapeNotVerified  echo __('Phone number') ?>"
+                    class="input-text validate-length maximum-length-20" maxlength="20" value="" type="text" data-validate="{required:true, 'validate-common-phone' : true}" required/>
+                    <label class="label" for="telephone"><span>
+                        <?php /* @escapeNotVerified echo __('Phone number') ?>
+                    </span></label>
+                </div>  
 
-/// Detailed 
+                <div class="field-type-text">
+                    <input name="company" id="company"
+                        title="<?php /* @escapeNotVerified */ echo __('Company (optional)') ?>"
+                        class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
+                        data-validate="{'validate-alphanum-with-company' : true}" />
+                    <label class="label" for="company"><span>
+                            <?php /* @escapeNotVerified */ echo __('Company (optional)') ?>
+                        </span></label>
+                </div>
 
-
-<p>Through a combination of presentations, demos, and hands-on labs, you’ll explore and deploy solution elements, including infrastructure components such as networks, systems, and application services.</p>
-<div class="tab__section">
-    <h3 class="tab__title">Who should attend:</h3>
-    <p class="detail__copy1">
-        This course is suitable for Cloud architects, administrators, and those working in SysOps / DevOps. It’s also
-        ideal for individuals using Google Cloud to create new solutions or to integrate existing systems, application
-        environments, and infrastructure.
-    </p>
-</div>
-
-<div class="tab__section">
-    <h3 class="tab__title">What you'll learn:</h3>
-    <div class="detail__copy1">
-        <p><b>By the end of this course, you will be able to:</b></p>
-        <ul class="detail__list">
-            <li>Explain how software containers work, as well as the architecture of Kubernetes and Google Cloud</li>
-            <li>Understand how Pod networking works in Kubernetes Engine</li>
-            <li>Create and manage Kubernetes Engine clusters using the Google Cloud Console and gcloud / kubectl
-                commands</li>
-            <li>Launch, roll back and expose jobs in Kubernetes</li>
-            <li>Manage access control using Kubernetes RBAC and Google Cloud IAM</li>
-            <li>Manage Pod security policies and network policies</li>
-            <li>Use Secrets and ConfigMaps to isolate security credentials and configuration artifacts</li>
-            <li>Understand Google Cloud choices for managed storage services</li>
-            <li>Monitor applications running in Kubernetes Engine</li>
-        </ul>
+                <div class="field-type-text">
+                    <input name="job_title" id="job_title"
+                        title="<?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>"
+                        class="input-text validate-length maximum-length-40" maxlength="40" type="text" value=""
+                        data-validate="{'validate-alphanum-with-dash' : true}" />
+                    <label class="label" for="job_title"><span>
+                            <?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>
+                        </span></label>
+                </div>
+            </div>
+        </fieldset>
     </div>
-</div>
-
-<div class="tab__section">
-    <h3 class="tab__title">Prerequisites</h3>
-    <p class="detail__copy1">
-        <b>To get the most of out of this course, you should have:</b>
-    </p>
-    <ul class="detail__list">
-        <li>Completed the <a href="{{store_url=''}}courses/google-cloud-fundamentals-core-infrastructure">Google Cloud
-                Fundamentals: Core Infrastructure course</a> or have equivalent experience</li>
-        <li>Basic proficiency with command-line tools and Linux operating system environments</li>
-    </ul>
 </div>
