@@ -143,3 +143,24 @@
     </script>
 </body>
 </html>
+
+Uncaught TypeError: Cannot read properties of undefined (reading 'element')
+
+valid: function() {
+            var valid, validator, errorList;
+
+            if ( $( this[ 0 ] ).is( "form" ) ) {
+                valid = this.validate().form();
+            } else {
+                errorList = [];
+                valid = true;
+                validator = $( this[ 0 ].form ).validate();
+                this.each( function() {
+                    valid = validator.element( this ) && valid;
+                    if ( !valid ) {
+                        errorList = errorList.concat( validator.errorList );
+                    }
+                } );
+                validator.errorList = errorList;
+            }
+            return valid;
