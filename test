@@ -28,4 +28,90 @@ yash.chavan/oiYZKERck3zyvz3
                     });
                     return retVal;
                 }
+
+
+
+
+
+{
+    "0": {
+        "card_date": "Wed Jan 01 - Fri Jan 03, 2025",
+        "card_timezone": "9am-5pm PST",
+        "selection_id": 100,
+        "option_id": 1000,
+        "webinar_name": "Architecting with Google Kubernetes Engine",
+        "webinar_id": "97",
+        "duration": "3"
+    },
+    "1": {
+        "card_date": "Wed Jan 01 - Fri Jan 03, 2025",
+        "card_timezone": "9am-5pm CET",
+        "selection_id": 101,
+        "option_id": 1000,
+        "webinar_name": "Architecting with Google Kubernetes Engine",
+        "webinar_id": "106",
+        "duration": "3"
+    },
+    "2": {
+        "card_date": "Thu Jan 02 - Mon Jan 06, 2025",
+        "card_timezone": "9am-5pm PST",
+        "selection_id": 102,
+        "option_id": 1000,
+        "webinar_name": "Architecting with Google Kubernetes Engine",
+        "webinar_id": "139",
+        "duration": "3"
+    },
+    "4": {
+        "card_date": "Sat Jan 04 - Wed Jan 08, 2025",
+        "card_timezone": "9am-5pm GMT",
+        "selection_id": 103,
+        "option_id": 1001,
+        "webinar_name": "Hybrid Cloud Developer Track",
+        "webinar_id": "101",
+        "duration": "4"
+    },
+    "5": {
+        "card_date": "Sat Jan 04 - Wed Jan 08, 2025",
+        "card_timezone": "9-5pm AST",
+        "selection_id": 104,
+        "option_id": 1001,
+        "webinar_name": "Hybrid Cloud Developer Track",
+        "webinar_id": "135",
+        "duration": "4"
+    },
+    "7": {
+        "card_date": "Fri Jan 10 - Thu Jan 16, 2025",
+        "card_timezone": "9am-5pm PDT",
+        "selection_id": 105,
+        "option_id": 1002,
+        "webinar_name": "Machine Learning on Google Cloud Platform",
+        "webinar_id": "105",
+        "duration": "5"
+    },
+    "9": {
+        "card_date": "Wed Jan 08 - Mon Jan 13, 2025",
+        "card_timezone": "10-5pm AST",
+        "selection_id": 106,
+        "option_id": 1003,
+        "webinar_name": "DevOps/SRE Engineer Track",
+        "webinar_id": "133",
+        "duration": "4"
+    },
+    "11": {
+        "card_date": "Tue Jul 30, 2024",
+        "card_timezone": "9AM-5PM IST",
+        "selection_id": 107,
+        "option_id": 1004,
+        "webinar_name": "WB Test Webinar 1",
+        "webinar_id": "141",
+        "duration": "1"
+    }
+}
+
+
+
+1000
+9am-5pm PST
+Wed Jan 01 - Fri Jan 03, 2025
+
  
