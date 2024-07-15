@@ -1,71 +1,87 @@
-<script type="text/javascript">
-    require(["jquery", "jquery/validate"], function($) {
-        $(document).ready(function() {
-            $("#user-details-form").validate({
-                errorClass: "form-error-message",
-                rules: {
-                    firstname: {
-                        required: true,
-                        minlength: 2
-                    },
-                    lastname: {
-                        required: true,
-                        minlength: 2
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    location: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-                messages: {
-                    firstname: {
-                        required: "First name is required",
-                        minlength: "Your first name must be at least 2 characters long"
-                    },
-                    lastname: {
-                        required: "Last name is required",
-                        minlength: "Your last name must be at least 2 characters long"
-                    },
-                    email: {
-                        required: "Email is required",
-                        email: "Please enter a valid email address"
-                    },
-                    location: {
-                        required: "Location is required",
-                        minlength: "Your location must be at least 10 characters long"
-                    }
-                }
-            });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Validation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.3/jquery.validate.min.js"></script>
+</head>
+<body>
+    <div id="myContainer">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        
+        <button id="submitBtn">Submit</button>
+    </div>
 
-            $("#wb-bundle-submit").on("click", function() {
-                if ($("#user-details-form").valid()) {
-                    $.ajax({
-                        url: '<?php echo $this->getUrl("your/controller/action"); ?>',
-                        type: 'POST',
-                        data: {
-                            firstname: $('#firstname').val(),
-                            lastname: $('#lastname').val(),
-                            email: $('#email').val(),
-                            location: $('#location').val()
-                            // Add any other data you want to send to the server
-                        },
-                        success: function(response) {
-                            // Handle successful response
-                            alert('Success: ' + response.message);
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle error
-                            alert('Error: ' + xhr.responseText);
-                        }
-                    });
-                } else {
-                    console.log("Form is invalid");
+    <script>
+    $(document).ready(function() {
+        // Define the array of allowed domains with mixed case
+        var allowedDomains = ["WBD.COM", "CNN.COM"]; // You can set this to an empty array []
+
+        // Convert allowed domains to lowercase for case-insensitive comparison
+        var allowedDomainsLower = allowedDomains.map(function(domain) {
+            return domain.toLowerCase();
+        });
+
+        // Custom method for validating email domain
+        $.validator.addMethod("domain", function(value, element) {
+            if (allowedDomainsLower.length === 0) {
+                return true; // Allow all domains if the allowedDomains array is empty
+            }
+            var domain = value.split('@')[1].toLowerCase();
+            return this.optional(element) || allowedDomainsLower.includes(domain);
+        }, "Please enter an email address with an approved domain.");
+
+        // Initialize validation
+        $("#myContainer").validate({
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 4
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    domain: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
                 }
-            });
+            },
+            messages: {
+                username: {
+                    required: "Please enter your username",
+                    minlength: "Your username must be at least 4 characters long"
+                },
+                email: {
+                    required: "Please enter your email",
+                    email: "Please enter a valid email address",
+                    domain: "Please enter an email address with an approved domain"
+                },
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 6 characters long"
+                }
+            }
+        });
+
+        // Button click event
+        $("#submitBtn").on("click", function() {
+            if ($("#myContainer").valid()) {
+                // Perform your custom actions here
+                alert("All inputs are valid!");
+            }
         });
     });
-</script>
+    </script>
+</body>
+</html>
