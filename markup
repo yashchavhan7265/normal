@@ -1,171 +1,86 @@
 <script type="text/javascript">
-    require(['jquery', 'jquery/validate'], function($) {
+    require(["jquery", "jquery/validate"], function($) {
         $(document).ready(function() {
-            $.validator.addMethod('validate_alphanum_with_dash', function (value, element) {
-                return this.optional(element) || /^[a-zA-Z -]+$/.test(value);
-            }, "<?php echo $generalHelper->getNameValidationMessage(); ?>");
-
-            var domain_values = <?php echo $allowedDomainsList; ?>;
-            var allowedDomains = domain_values.map(function(domain) {
-                return domain.toLowerCase();
-            });
-
-            $.validator.addMethod("valid_domain", function(value, element) {
-                if (allowedDomains.length === 0) {
-                    return true;
-                }
-                var domain = value.split('@')[1].toLowerCase();
-                return this.optional(element) || allowedDomains.includes(domain);
-            }, "Please enter an email address with an approved domain.");
-
-            $("#user-details-form").validate({
-                errorElement: "div", // Use <div> instead of <label> for error messages
-                errorPlacement: function(error, element) {
-                    error.appendTo(element.closest('.field-type-text').find('.form-error-message'));
-                },
+            // Initialize validation without automatic triggers
+            var validator = $("#user-details-form").validate({
+                errorClass: "form-error-message",
                 rules: {
                     firstname: {
                         required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
+                        minlength: 2
                     },
                     lastname: {
                         required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
+                        minlength: 2
                     },
                     email: {
                         required: true,
-                        email: true,
-                        valid_domain: true
+                        email: true
                     },
                     location: {
                         required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
+                        minlength: 10
                     }
+                    // Add rules for other fields as needed
                 },
                 messages: {
                     firstname: {
-                        required: "First name is required field.",
-                        minlength: "Your first name must be at least 2 characters long.",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                        required: "First name is required",
+                        minlength: "Your first name must be at least 2 characters long"
                     },
                     lastname: {
-                        required: "Last name is required field.",
-                        minlength: "Your last name must be at least 2 characters long.",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                        required: "Last name is required",
+                        minlength: "Your last name must be at least 2 characters long"
                     },
                     email: {
-                        required: "Email is required field.",
-                        email: "Please enter a valid email address (Ex: johndoe@domain.com).",
-                        valid_domain : "Please enter an email address with an appropriate domain."
+                        required: "Email is required",
+                        email: "Please enter a valid email address"
                     },
                     location: {
-                        required: "Location is required field",
-                        minlength: "Your location must be at least 2 characters long.",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                        required: "Location is required",
+                        minlength: "Your location must be at least 10 characters long"
                     }
+                    // Add messages for other fields as needed
                 },
-                onfocusout: false,
-                onkeyup: false,
-                onclick: false
+                errorPlacement: function(error, element) {
+                    var errorElement = $(element).next('.form-error-message');
+                    errorElement.html(error);
+                },
+                success: function(label) {
+                    label.closest('.field-type-text').find('.form-error-message').empty();
+                },
+                onfocusout: false, // Disable validation on focusout
+                onkeyup: false, // Disable validation on keyup
+                onclick: false // Disable validation on click
             });
 
-            function isValidData(selector) {
-                var valid1 = true;
-                $(selector).each(function () {
-                    var msg = "";
-                    var date = $(this).find(".date");
-                    var timezone = $(this).find(".timezone");
-                    var date_value = $(date).val();
-                    var timezone_value = $(timezone).val();
-
-                    if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
-                        msg = "Please select timezone and date to proceed further.";
-                        valid1 = false;
-                        $(timezone).addClass("sel-error");
-                        $(date).addClass("sel-error");
-                    } else if (date_value == "" || date_value == -1) {
-                        msg = "Please select the date";
-                        valid1 = false;
-                        $(date).addClass("sel-error");
-                    } else if (timezone_value == -1 || timezone_value == "") {
-                        msg = "Please select the timezone";
-                        valid1 = false;
-                        $(timezone).addClass("sel-error");
-                    } else {
-                        msg = "";
-                        valid1 = true;
-                        $(timezone).removeClass("sel-error");
-                        $(date).removeClass("sel-error");
-                        $(this).find(".personal-plan__modal__trow--error").html(msg);
-                    }
-                    $(selector).removeClass("plp-error");
-                    if (msg != "") {
-                        $(this).find(".personal-plan__modal__trow--error").html(msg);
-                        $(selector).addClass("plp-error");
-                    }
-                });
-                return valid1;
-            }
-
-            $("#wb-bundle-submit").on("click", function() {
-                if (isValidData($(".personal-plan__modal__content .option-wrapper")) && $("#user-details-form").valid()) {
+            $("#wb-bundle-submit").on("click", function(e) {
+                e.preventDefault(); // Prevent the default action
+                if ($("#user-details-form").valid()) {
+                    // Submit the form via AJAX
                     $.ajax({
-                        url: '<?php echo $this->getUrl("wbtracks/track/save"); ?>',
+                        url: '<?php echo $this->getUrl("your/controller/action"); ?>',
                         type: 'POST',
                         data: {
-                            first_name: $('#firstname').val(),
-                            last_name: $('#lastname').val(),
+                            firstname: $('#firstname').val(),
+                            lastname: $('#lastname').val(),
                             email: $('#email').val(),
-                            location: $('#location').val(),
-                            job_title: $('#job_title').val(), 
-                            webinar_details: $("#bundle-str").val()
+                            location: $('#location').val()
+                            // Add any other data you want to send to the server
                         },
                         success: function(response) {
-                            if (response["status"] == "success") {
-                                $(".personal-plan__modal").removeClass("show-personal-modal");
-                                $(".thankYou-container").css("display","block")
-                            } else {
-                                alert(response["message"]);
-                            }
+                            // Handle successful response
+                            alert('Success: ' + response.message);
                         },
+                        error: function(xhr, status, error) {
+                            // Handle error
+                            alert('Error: ' + xhr.responseText);
+                        }
                     });
-                } 
-            });
-
-            $(".personal-plan__modal__content .detail-section input").each(function () {
-                blur_input_next(this);
-            });
-
-            $(".personal-plan__modal__content .detail-section .field-type-text").each(function () {
-                const inpField = $(this).find(".input-text");
-                if ($(inpField).val().length) {
-                    inpField.nextAll("label").addClass("focussed");
+                } else {
+                    console.log("Form is invalid");
                 }
             });
-
-            $(".personal-plan__modal__content .detail-section input").on("focus", function () {
-                if (!$(this).hasClass("error")) {
-                    $(this).nextAll("label").addClass("focussed");
-                }
-            });
-
-            $(".personal-plan__modal__content .detail-section input").on("blur", function () {
-                blur_input_next(this);
-            });
-
-            function blur_input_next(y) {
-                if (!$(y).hasClass("error")) {
-                    if ($(y).val().length === 0 || $(y).val().length == null) {
-                        $(y).nextAll("label").removeClass("focussed");
-                    } else {
-                        $(y).nextAll("label").addClass("focussed");
-                    }
-                }
-            }
-
         });
     });
 </script>
