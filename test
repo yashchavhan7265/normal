@@ -8,278 +8,135 @@ UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_paymen
 chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
 yash.chavan/oiYZKERck3zyvz3  
 
-<?php
-/**
- * Form popup templage
- * @var $block Jellyfish\GWebinars\Block\Tracks
- */ 
-$trackId = $block->getData('track_id');
-$trackDetails = $block->getTrackDetails($trackId);
-$trackDetails = $trackDetails[0];
-$webinarList = $block->getTrackwebinars($trackId);
-$generalHelper = $this->helper('Jellyfish\General\Helper\Data'); 
 
-?>
-<!--Personal learning modal-->
 
-<span class="close-button"><span>Close</span><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></span>
-<?php if($webinarList['error'] == true) :
-		echo "Error";
-else:
-?>
-<span class="d-none lookup" style='display:none;'><?php echo json_encode($webinarList['lookup']); ?></span>
-<input type="hidden" id="bundle-str" value='' />
-<input type="hidden" id="bundle-date-str" value='' />
-<div class="personal-plan__modal__content">
-	<div class="personal-plan__modal__title"><?php /* escapeNotVerified*/ echo  $trackDetails['w_cat_title']; ?></div>
-	<div class="personal-plan__modal__sub"><?php echo __('Google Cloud Learning path'); ?></div>
-	<div class="personal-plan__modal__desc"><?php /* esscapeNotVerified */ echo __('When would you like to start the virtual classes in this path?');  ?></div>
-	<div class="personal-plan__modal__grid">
-		
-		<div class="personal-plan__modal__trow">
-			<div class="personal-plan__modal__trow--data">
-				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Course'); ?></div>
-				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone'); ?></div>
-				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
-			</div>
-		</div> 
-		<?php if(count($webinarList['timezones']) > 0) { 
-			$position = 0;
-			?>
-			<?php foreach ($webinarList['timezones'] as $optionId => $data) { ?>
-				<?php if(isset($data['timezone'])) { ?>
-					<div class="personal-plan__modal__trow option-wrapper option-container-<?php echo $optionId; ?>">
-						<div class="personal-plan__modal__trow--data">
-							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
-								<div class="personal-plan__modal__tdata--head"><?php echo $data['option_title']; ?></div>
-								<div class="personal-plan__modal__tdata--desc"><?php echo isset($data['option_course_duration']) ? $data['option_course_duration'] : '1 Day Classroom course'; ?></div>
-							</div>
-							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
-								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone') ?></div>
-								<div class="personal-plan__modal__tdata--drop">								
-									<select class="dropdown timezone" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>">									
-                                        <option value='-1'>Select a Timezone</option>
-                                        <?php  foreach($data['timezone'] as $location_id => $locationData) { ?>
-												<option value="<?php echo $location_id ?>"><?php echo $locationData['title'];?></option>
-										<?php } ?>
-									</select>									
-									<span class="d-none date-options" style='display:none;'><?php echo json_encode($data['timezone']); ?></span>										
-								</div>
-								
-							</div>
-							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
-								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
-								<div class="personal-plan__modal__tdata--drop">
-									<select class="dropdown date" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>" data-position="<?php echo $position++; ?>">
-											<option value='-1'><?php echo __('Select an option'); ?></option>
-									</select>
-								</div>
-							</div>
-						</div>
-						<div class="personal-plan__modal__trow--error"></div>
-					</div>
-				<?php } ?>	
-			<?php } ?>
-		<?php } ?>
-        <div class="detail-section">
-            <div class="input-fields clearfix">
-                <fieldset class="form-wrapper">
-                    <legend class="panel-heading">
-                        <span class="panel-title fieldset-legend">What is your name and contact email?</span>
-                    </legend>
-                    <form id="user-details-form">
-                        <div class="panel-body" >
-                            <div class="field-type-text">
-                            <input name="firstname" id="firstname" title="<?php /* @escapeNotVerified */ echo __('First name') ?>" class="input-text" type="text"/>
-                                <label class="label" for="firstname"><span><?php /* @escapeNotVerified */ echo __('First name') ?></span></label>
-                                <div class="error-message"></div>
-                            </div>
 
-                            <div class="field-type-text">
-                                <input name="lastname" id="lastname" title="<?php /* @escapeNotVerified */ echo __('Last name') ?>" type="text" />
-                                <label class="label" for="lastname">
-                                    <span>
-                                        <?php /* @escapeNotVerified */ echo __('Last name') ?>
-                                    </span>
-                                </label>
-                                <div class="form-error-message"></div>
-                            </div>
+Array
+(
+    [webinars] => Array
+        (
+            [0] => Array
+                (
+                    [title] => Hybrid Cloud Developer Track
+                    [location] => Virtual Classroom
+                    [date] => Sat Jan 04 - Wed Jan 08, 2025
+                )
 
-                            <div class="field-type-text">
-                                <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" type="text" />
-                                <label class="label" for="email">
-                                    <span>
-                                        <?php /* @escapeNotVerified */ echo __('Email') ?>
-                                    </span>
-                                </label>
-                                <div class="form-error-message"></div>
-                            </div>
+            [1] => Array
+                (
+                    [title] => Machine Learning on Google Cloud Platform
+                    [location] => Virtual Classroom
+                    [date] => Fri Jan 10 - Thu Jan 16, 2025
+                )
 
-                            <div class="field-type-text">
-                                <input name="location" id="location" title="<?php /* @escapeNotVerified */ echo __('Location') ?>" class="input-text" type="text"/>
-                                <label class="label" for="location">
-                                    <span>
-                                        <?php /* @escapeNotVerified */ echo __('Location') ?>
-                                    </span>
-                                </label>
-                                <div class="form-error-message"></div>
-                            </div>  
+            [2] => Array
+                (
+                    [title] => Architecting with Google Kubernetes Engine
+                    [location] => Virtual Classroom
+                    [date] => Wed Jan 01 - Fri Jan 03, 2025
+                )
 
-                            <div class="field-type-text">
-                                <input name="job_title" id="job_title" title="<?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>" class="input-text" type="text"/>
-                                <label class="label" for="job_title">
-                                    <span>
-                                        <?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>
-                                    </span>
-                                </label>
-                                <div class="form-error-message"></div>
-                            </div>
-                        </div>
-                    </form>
-                </fieldset>
-            </div>
-        </div>
-	</div>
+            [3] => Array
+                (
+                    [title] => DevOps/SRE Engineer Track
+                    [location] => Virtual Classroom
+                    [date] => Wed Jan 08 - Mon Jan 13, 2025
+                )
 
-	<div class="personal-plan__modal__btn">
-	    <a class="personal-plan__modal__btn--cancel" href="javascript:void(0);"><?php /*escapeNotVerified*/ echo __('Cancel'); ?></a>
-	    <a href="javascript:void(0);" data-pid="23"  data-url="<?php echo "test"; ?>" class="detail__button wb-bundle-submit" id="wb-bundle-submit"><?php /*escapeNotVerified*/ echo __('Continue and add to basket'); ?></a>
-	</div>
-</div>
-<?php endif; ?>
+            [4] => Array
+                (
+                    [title] => WB Test Webinar 1
+                    [location] => Virtual Classroom
+                    [date] => Tue Jul 30, 2024
+                )
 
-<script type="text/javascript">
-    require(['jquery','jquery/validate'], function($) {
-        $(document).ready(function() {
-            $.validator.addMethod('validate_alphanum_with_dash', function (value, element) {
-                if(/^[a-zA-Z -]+$/.test(value)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }, "<?php echo $generalHelper->getNameValidationMessage(); ?>");
+        )
 
-            var allowedDomains = ["WBD.COM", "wbd.com","CNN.COM"];
+    [first_name] => adda
+    [full_name] => adda daad
+    [email] => aaadd@cybage.com
+    [unregister_url] => http://localhost/en-us/training/wbtracks/unregister/confirmation/mep/dHJJZC8xMw==/men/YXV0aElkL2FhYWRkQGN5YmFnZS5jb20=/
+    [track_name] => Professional Cloud Developer
+)
 
-            $.validator.addMethod("valid_domain", function(value, element) {
-                var domain = value.split('@')[1];
-                return this.optional(element) || allowedDomains.includes(domain);
-            }, "Please enter an email address with an approved domain.");
 
-            $("#user-details-form").validate({
-                errorClass: "form-error-message",
-                rules: {
-                    firstname: {
-                        required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
-                    },
-                    lastname: {
-                        required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
-                    },
-                    email: {
-                        required: true,
-                        email: true,
-                        valid_domain: true
-                    },
-                    location: {
-                        required: true,
-                        minlength: 2,
-                        validate_alphanum_with_dash: true
-                    }
-                },
-                messages: {
-                    firstname: {
-                        required: "First name is required field",
-                        minlength: "Your first name must be at least 2 characters long",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
-                    },
-                    lastname: {
-                        required: "Last name is required field",
-                        minlength: "Your last name must be at least 2 characters long",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
-                    },
-                    email: {
-                        required: "Email is required field",
-                        email: "Please enter a valid email address",
-                        valid_domain : "Please enter an email address with an approved domain"
-                    },
-                    location: {
-                        required: "Location is required field",
-                        minlength: "Your location must be at least 2 characters long",
-                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
-                    }
-                },
-                onfocusout: false,
-                onkeyup: false,
-                onclick: false
-            });
+ <tbody style="padding: 0px 20px; display: flex; flex-direction: column;">
+                                                {{var webinars|webinarList}}
+                                                {{depend webinarList}}
+                                                {{foreach webinar in webinarList}}
+                                                <tr>
+                                                    <td class="hs_padded"
+                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+                                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-subtitle"
+                                                                style="color:inherit;font-size:inherit;line-height:inherit">
+                                                                <p
+                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 24px;font-style: normal;font-weight: 500;line-height: 30px;letter-spacing: -0.48px;margin-bottom: 24px;">
+                                                                    {{var webinar.title}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr style="display: flex; justify-content: space-between;">
+                                                    <td class="hs_padded"
+                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+                                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location"
+                                                                style="color:inherit;font-size:inherit;line-height:inherit">
+                                                                <p
+                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;">
+                                                                    Location</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hs_padded"
+                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+                                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date"
+                                                                style="color:inherit;font-size:inherit;line-height:inherit">
+                                                                <p
+                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;margin-bottom: 14px;margin-right: 210px;">
+                                                                    Date</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr
+                                                    style="display: flex; justify-content: space-between; margin-bottom:40px">
+                                                    <td class="hs_padded"
+                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+                                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location-title"
+                                                                style="color:inherit;font-size:inherit;line-height:inherit">
+                                                                <p
+                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;">
+                                                                    {{var webinar.location}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="hs_padded"
+                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+                                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date-title"
+                                                                style="color:inherit;font-size:inherit;line-height:inherit">
+                                                                <p
+                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;margin-right: 100px;">
+                                                                    {{var webinar.date}}</p>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
 
-            function isValidData(selector) {
-                var valid1 = true;
-                $(selector).each(function () {
-                    var msg = "";
-                    var date = $(this).find(".date");
-                    var timezone = $(this).find(".timezone");
-                    var date_value = $(date).val();
-                    var timezone_value = $(timezone).val();
-                   
-                    if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
-                        msg = "Please select timezone and date to proceed further.";
-                        valid1 = false;
-                        $(timezone).addClass("sel-error");
-                        $(date).addClass("sel-error");
-                    } else if (date_value == "" || date_value == -1) {
-                        msg = "Please select the date";
-                        valid1 = false;
-                        $(date).addClass("sel-error");
-                    } else if (timezone_value == -1 || timezone_value == "") {
-                        msg = "Please select the timezone";
-                        valid1 = false;
-                        $(timezone).addClass("sel-error");
-                    } else {
-                        msg = "";
-                        valid1 = true;
-                        $(timezone).removeClass("sel-error");
-                        $(date).removeClass("sel-error");
-                        jQuery(this).find(".personal-plan__modal__trow--error").html(msg);
-                    }
-                    $(selector).removeClass("plp-error");
-                    if (msg != "") {
-                        $(this).find(".personal-plan__modal__trow--error").html(msg);
-                        $(selector).addClass("plp-error");
-                    }
-                });
-                return valid1;
-            }
+                                                {{/foreach}}
+                                                {{/depend}}
 
-            $("#wb-bundle-submit").on("click", function() {
-                if ( isValidData($(".personal-plan__modal__content .option-wrapper")) && $("#user-details-form").valid()) {
-                    $.ajax({
-                        url: '<?php echo $this->getUrl("your/controller/action"); ?>',
-                        type: 'POST',
-                        data: {
-                            firstname: $('#firstname').val(),
-                            lastname: $('#lastname').val(),
-                            email: $('#email').val(),
-                            location: $('#location').val()
-                            // Add any other data you want to send to the server
-                        },
-                        success: function(response) {
-                            // Handle successful response
-                            alert('Success: ' + response.message);
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle error
-                            alert('Error: ' + xhr.responseText);
-                        }
-                    });
-                } else {
-                    console.log("Form is invalid");
-                }
-            });
-        });
-    });
-</script>
