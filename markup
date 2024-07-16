@@ -1,86 +1,305 @@
+
+<?php
+/*
+ * @var Jellyfish\GWebinars\Block\Track $block
+*/
+
+$track = $block->getTrackDetails();
+$track = $track[0];
+$trackId = $track['id'];
+$childWebinars = [];
+$generalHelper = $this->helper('Jellyfish\General\Helper\Data');
+if(isset($track['upcoming_webinars']) && count($track['upcoming_webinars']) > 0 ) {
+    $childWebinars = $track['upcoming_webinars'];
+    $courseTagline = $generalHelper->getSystemConfigValue('jellyfish/wb_portal/tracks_black_box_tagline');
+    if ($courseTagline != '') {
+        $courseTagline = sprintf($courseTagline, count($childWebinars), $track['w_cat_title'], count($childWebinars));
+    }
+}
+$ctaLabel = $track['browse_all_lable'] != '' ? $track['browse_all_lable']: 'See Cloud Courses';
+$thankyouMarkup = $generalHelper->getSystemConfigValue("jellyfish/wb_portal/wb_subscription_success_message");
+if ($thankyouMarkup != '') {
+    $thankyouMarkup = sprintf($thankyouMarkup, $track['w_cat_title']);
+}
+?>
+<div class="product-info-main cms-pages cms-cloud-certification-page">
+    <div class="container">
+		<section class="hero hero--2up hero--black">
+			<div class="hero__bg">
+                <svg class="hero__bg-graphic-1" xmlns="http://www.w3.org/2000/svg" width="356" height="98" viewBox="0 0 356 98" fill="none">
+                    <path d="M17.5797 -122.69C26.4929 -155.955 35.4103 -182.074 45.819 -202.012C56.2167 -221.93 68.0453 -235.569 82.7341 -244.021C97.4235 -252.472 115.192 -255.862 137.702 -254.877C160.235 -253.89 187.393 -248.527 220.758 -239.587C254.122 -230.647 280.324 -221.713 300.331 -211.3C320.318 -200.899 334.012 -189.079 342.507 -174.415C351.002 -159.751 354.427 -142.025 353.472 -119.577C352.517 -97.1052 347.18 -70.0267 338.267 -36.7619C329.354 -3.49706 320.436 22.622 310.028 42.5607C299.63 62.4785 287.801 76.1175 273.113 84.569C258.423 93.0207 240.655 96.4103 218.144 95.425C195.611 94.4388 168.453 89.0749 135.089 80.1349C101.724 71.1949 75.5229 62.2612 55.5155 51.8488C35.5285 41.4469 21.8351 29.6271 13.3396 14.963C4.84447 0.299462 1.42019 -17.4266 2.37435 -39.8748C3.32951 -62.3465 8.66638 -89.425 17.5797 -122.69Z" stroke="#FF5B00" stroke-width="4"/>
+                </svg>
+				<div class="hero__bg-graphic-2"></div>
+				<div class="hero__bg-graphic-3"></div>
+				<div class="hero__bg-graphic-4"></div>
+			</div>
+			<div class="hero__content">
+				<div class="hero__content-text">
+					<h1 class="hero__content-title"><?php /* @escapeNotVerified */ echo $track['w_cat_title']; ?></h1>
+					<p class="hero__content-intro"><?php /* @escapeNotVerified */ echo $track['w_cat_description']; ?></p>
+					<a href="#see-study-course" class="hero__content-cta hero__content-cta--arrow"><?php /* @escapeNotVerified */  echo $ctaLabel  ?></a>
+				</div>
+				<div class="hero__content-media">
+					<img src="<?php echo $track['w_cat_partner_logo']; ?>" alt="Hero">
+				</div>
+			</div>
+		</section>
+	</div>
+    <div>
+        <div class="private-courses cloud-certification-page">
+            <?php if ($track['w_cat_detailed_description'] !='') {
+                echo $generalHelper->getHTMLContent($track['w_cat_detailed_description']); 
+            }?>     
+            <div class="bundle-options-container">
+                <div class="product-add-form">
+                    <div class="jf-bundle-options-wrapper">
+                        <div class="product-options-wrapper" id="product-options-wrapper">
+                            <div class="fieldset" tabindex="0">
+                                <section class="study-courses-section" id="see-study-course">
+                                    <div class="container">
+                                        <div class="study-courses-section-wrapper">
+                                            <!-- Bundel detail left(Short Decription) start -->
+                                            <div class="study-courses-left-section">
+                                                <?php if ($track['w_cat_overview'] !='') {
+                                                    echo $generalHelper->getHTMLContent($track['w_cat_overview']);
+                                                }?>   
+                                            </div>
+                                            <?php if(count($childWebinars) > 0) {?>
+                                                <div class="study-courses-right-section">
+                                                    <div class="description">
+                                                        <?php echo $generalHelper->getHTMLContent($courseTagline); ?>
+                                                    </div>
+                                                    <div class="top__section">
+                                                        <div class="add__to__basket__link">                                                       
+                                                            <a href="javascript:void(0);" class="add__to__basket__btn wb-plp-add" data-url="<?php echo $this->getUrl("wbtracks/track/register"); ?>"><?php echo __('Register this learning path') ?></a>                                                       
+                                                        </div>
+                                                    </div>
+                                                    <div class="courses__cards__wrapper">
+                                                        <?php foreach($childWebinars as $webinar) {
+                                                            $daysValue = $webinar['duration'];
+                                                            $daysUnit = $block->getDurationUnitText($webinar['duration_unit']);
+                                                            $days = $daysValue.' '.$daysUnit;
+                                                        ?>
+                                                            <div class="courses__card" role="ga_wrapper">
+                                                                <div class="courses__card__left">
+                                                                    <div class="courses__card__left__title"><?php echo $webinar['title']; ?></div>
+                                                                    <span class="no__of__days"><?php echo $days; ?></span>
+                                                                    <div class="view__course__link">
+                                                                        <span class="view__course"><?php echo __('Course overview') ?></span>
+                                                                        <a class="course_popup">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                                <path d="M10.0001 16.6665C6.32508 16.6665 3.33341 13.6748 3.33341 9.99984C3.33341 6.32484 6.32508 3.33317 10.0001 3.33317C13.6751 3.33317 16.6667 6.32484 16.6667 9.99984C16.6667 13.6748 13.6751 16.6665 10.0001 16.6665ZM10.0001 1.6665C8.90573 1.6665 7.8221 1.88205 6.81105 2.30084C5.80001 2.71963 4.88135 3.33346 4.10752 4.10728C2.54472 5.67008 1.66675 7.7897 1.66675 9.99984C1.66675 12.21 2.54472 14.3296 4.10752 15.8924C4.88135 16.6662 5.80001 17.28 6.81105 17.6988C7.8221 18.1176 8.90573 18.3332 10.0001 18.3332C12.2102 18.3332 14.3298 17.4552 15.8926 15.8924C17.4554 14.3296 18.3334 12.21 18.3334 9.99984C18.3334 8.90549 18.1179 7.82186 17.6991 6.81081C17.2803 5.79976 16.6665 4.8811 15.8926 4.10728C15.1188 3.33346 14.2002 2.71963 13.1891 2.30084C12.1781 1.88205 11.0944 1.6665 10.0001 1.6665ZM10.8334 5.83317H9.16675V9.1665H5.83342V10.8332H9.16675V14.1665H10.8334V10.8332H14.1667V9.1665H10.8334V5.83317Z" fill="black"/>
+                                                                            </svg>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="personal-plan__modal">                                                              
+                                                                    <div class="personal-plan--content">
+                                                                        <span class="close-button"><span>Close</span><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></span>
+                                                                        <div class="personal-plan__modal__content">
+                                                                            <div class="personal-plan__modal__title"><?php /* escapeNotVerified*/ echo $webinar['title'];  ?></div>
+	                                                                        <div class="personal-plan__modal__sub"><?php echo $track['w_cat_title']; ?></div>
+	                                                                        <div class="personal-plan__modal__desc"></div>
+                                                                            <div class="personal-plan__modal__grid">
+                                                                                <?php echo $webinar['detail_description']; ?>
+                                                                            </div>
+                                                                            <div class="personal-plan__modal__btn">
+                                                                                <a class="personal-plan__modal__btn--cancel" href="javascript:void(0);"><?php /*escapeNotVerified*/ echo __('Cancel'); ?></a>
+                                                                                <a href="javascript:void(0);" class="detail__button wb-plp-add" data-url="<?php echo $this->getUrl("wbtracks/track/register"); ?>"><?php /*escapeNotVerified*/ echo __('Continue and register'); ?></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php } ?>
+                                                    </div>
+                                                    <div class="top__section">                                                    
+                                                        <div class="add__to__basket__link">                                                       
+                                                            <a href="javascript:void(0);" class="add__to__basket__btn wb-plp-add" data-url="<?php echo $this->getUrl("wbtracks/track/register"); ?>"><?php echo __('Register this learning path') ?></a>                                                       
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </section>
+                                <div class="personal-plan__modal">
+                                    <div id="loader--block" class="loader loader--block">
+                                        <object class="loader__img"  type="image/svg+xml" data="<?php /* @escapeNotVerified */ echo $block->getViewFileUrl('images/loader-sm.svg'); ?>" style="position: absolute;top: 50%;left: 48%;"></object>
+                                    </div>
+                                    <div class="personal-plan--content"></div>
+                                </div>
+                                <div class="thankYou-container" style='display:none;'>
+                                    <?php echo $generalHelper->getHTMLContent($thankyouMarkup);?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-    require(["jquery", "jquery/validate"], function($) {
-        $(document).ready(function() {
-            // Initialize validation without automatic triggers
-            var validator = $("#user-details-form").validate({
-                errorClass: "form-error-message",
-                rules: {
-                    firstname: {
-                        required: true,
-                        minlength: 2
-                    },
-                    lastname: {
-                        required: true,
-                        minlength: 2
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    location: {
-                        required: true,
-                        minlength: 10
-                    }
-                    // Add rules for other fields as needed
-                },
-                messages: {
-                    firstname: {
-                        required: "First name is required",
-                        minlength: "Your first name must be at least 2 characters long"
-                    },
-                    lastname: {
-                        required: "Last name is required",
-                        minlength: "Your last name must be at least 2 characters long"
-                    },
-                    email: {
-                        required: "Email is required",
-                        email: "Please enter a valid email address"
-                    },
-                    location: {
-                        required: "Location is required",
-                        minlength: "Your location must be at least 10 characters long"
-                    }
-                    // Add messages for other fields as needed
-                },
-                errorPlacement: function(error, element) {
-                    var errorElement = $(element).next('.form-error-message');
-                    errorElement.html(error);
-                },
-                success: function(label) {
-                    label.closest('.field-type-text').find('.form-error-message').empty();
-                },
-                onfocusout: false, // Disable validation on focusout
-                onkeyup: false, // Disable validation on keyup
-                onclick: false // Disable validation on click
+    (function () {
+        require(["jquery"], function (jQuery) {
+            jQuery("body").on("click", ".course_popup", function () {
+                var currentCard = jQuery(this).closest(".courses__card");
+                currentCard.find(".personal-plan__modal").addClass('show-personal-modal');
+                jQuery('body').addClass("body--disable-scroll");
             });
 
-            $("#wb-bundle-submit").on("click", function(e) {
-                e.preventDefault(); // Prevent the default action
-                if ($("#user-details-form").valid()) {
-                    // Submit the form via AJAX
-                    $.ajax({
-                        url: '<?php echo $this->getUrl("your/controller/action"); ?>',
-                        type: 'POST',
-                        data: {
-                            firstname: $('#firstname').val(),
-                            lastname: $('#lastname').val(),
-                            email: $('#email').val(),
-                            location: $('#location').val()
-                            // Add any other data you want to send to the server
-                        },
-                        success: function(response) {
-                            // Handle successful response
-                            alert('Success: ' + response.message);
-                        },
-                        error: function(xhr, status, error) {
-                            // Handle error
-                            alert('Error: ' + xhr.responseText);
+            jQuery("body").on("click", ".wb-plp-add", function () {
+                var ajaxUrl = jQuery(this).attr("data-url");
+                jQuery(".personal-plan__modal").not(".courses__card .personal-plan__modal").addClass("show-personal-modal");
+                jQuery.ajax({
+                        'method':'GET',
+                        'url' : ajaxUrl,
+                        'showLoader': true,
+                        'data' : 'trackid='+"<?php echo $trackId; ?>",
+                    }).done(function (resp) {
+                        if (resp.error == true) {
+                            jQuery(".messages").show();
+                            jQuery(".personal-plan__modal").removeClass(
+                                "show-personal-modal plp--loader"
+                            );
+                            setTimeout(function () {
+                                jQuery(".messages").hide("blind", {}, 500);
+                            }, 5000);
+                        } else {
+                            jQuery(".personal-plan__modal .personal-plan--content").not(".courses__card .personal-plan__modal .personal-plan--content").html(resp.output);
+                            jQuery(".personal-plan__modal").removeClass(
+                                "plp--loader"
+                            );
+
+                            jQuery('body').addClass("body--disable-scroll");
+                            jQuery(".timezone").on("change", function () {
+                                var option_id = jQuery(this).attr("data-option-id");
+                                var timezone_id = jQuery(this).val();
+                                var parent = jQuery(this).parents(
+                                    ".personal-plan__modal__trow--data"
+                                );
+                                if (timezone_id) {
+                                    bindDates(option_id, timezone_id);
+                                }
+                            });
+
+                            jQuery(".date").on("change", function () {
+                                var selector =jQuery(this).parents(".option-wrapper");
+                                var option = jQuery(this).find("option:selected");
+                                var rawDate = jQuery(option).attr("data-raw-date");
+                                jQuery(this).attr("data-raw-date", rawDate);
+                                if (isValidData(selector)) {
+                                    gnerateBundleOptionStr();
+                                }
+                            });
+                        }                  
+                });
+
+                function bindDates(option_id, timezone_id) {
+                    var container = jQuery(".option-container-" + option_id);
+                    var locationJson = JSON.parse(
+                        jQuery(container).find(".date-options").html()
+                    );
+                    
+                    if (timezone_id !=-1) {
+                        var dates = locationJson[timezone_id]["dates"];
+                        var dates_array = jQuery.map(dates, function (value, index) {
+                            return { raw_date: index, dt: value };
+                        });
+                        var dateOptions = "<option value=''>Select an option</option>";
+                        jQuery(dates_array).each(function (index, value) {
+                            dateOptions +=
+                                "<option value='" +
+                                value["dt"] +
+                                "' data-raw-date='" +
+                                value["raw_date"] +
+                                "'>" +
+                                value["dt"] +
+                                "</option>";
+                        });
+                        jQuery(container).find(".date").html(dateOptions);
+                    } else {
+                        var dateOptions = "<option value=''>Select an option</option>";
+                        jQuery(container).find(".date").html(dateOptions);
+                    }
+                }
+        
+                function isValidData(selector) { 
+                    var valid1 = true;
+                    jQuery(selector).each(function () {
+                        var msg = "";
+                        var date = jQuery(this).find(".date");
+                        var timezone = jQuery(this).find(".timezone");
+                        var date_value = jQuery(date).val();
+                        var timezone_value = jQuery(timezone).val();
+                    
+                        if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) { 
+                            msg = "Please select timezone and date to proceed further.";
+                            valid1 = false;
+                            jQuery(timezone).addClass("sel-error");
+                            jQuery(date).addClass("sel-error");
+                        } else if (date_value == "" || date_value == -1) {
+                            msg = "Please select the date";
+                            valid1 = false;
+                            jQuery(date).addClass("sel-error");
+                        } else if (timezone_value == -1 || timezone_value == "") {
+                            msg = "Please select the timezone";
+                            valid1 = false;
+                            jQuery(timezone).addClass("sel-error");
+                        } else {
+                            msg = "";
+                            valid1 = true;
+                            jQuery(timezone).removeClass("sel-error");
+                            jQuery(date).removeClass("sel-error");
+                        }
+                        jQuery(selector).removeClass("plp-error");
+                        if (msg != "") {
+                            jQuery(this).find(".personal-plan__modal__trow--error").html(msg);
+                            jQuery(selector).addClass("plp-error");
                         }
                     });
-                } else {
-                    console.log("Form is invalid");
+                    return valid1;
+                }
+
+                function gnerateBundleOptionStr() {
+                    var selector = jQuery(".personal-plan__modal__content .timezone");
+                    var data = {};
+                    data["track"] = "<?php echo $trackId; ?>";
+                    data["webinars"] = [];
+                    jQuery(selector).each(function () {
+                        var option_id = jQuery(this).attr("data-option-id");
+                        var container = jQuery(".option-container-" + option_id);
+                        var timezone = jQuery(this).val();
+                        var date = null;
+                        date = jQuery(container).find(".date").val();
+                        if (date != "" && date != -1) {
+                            var filtered_data = [];
+                            filtered_data = lookup(option_id, timezone, date);
+                            data["webinars"].push(filtered_data[0]["webinar_id"]);
+                        }
+                    });
+                    jQuery("#bundle-str").attr("value", JSON.stringify(data));
+                }
+
+                function lookup(option_id, timezone, date) {
+                    var data = jQuery(".lookup").html();
+                    data = JSON.parse(data);
+                    var dataArray = Object.values(data);
+                    var retVal = jQuery.grep(dataArray, function (row) {
+                        return (
+                            row.option_id == option_id &&
+                            row.card_timezone == timezone &&
+                            row.card_date == date
+                        );
+                    });
+                    return retVal;
                 }
             });
         });
-    });
+    })();
 </script>
+
+
