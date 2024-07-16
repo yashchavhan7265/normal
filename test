@@ -10,7 +10,7 @@ yash.chavan/oiYZKERck3zyvz3
 
 
 
-
+Error filtering template: Warning: Array to string conversion in /var/www/html/vendor/magento/framework/Filter/DirectiveProcessor/LegacyDirective.php on line 42 
 Array
 (
     [webinars] => Array
