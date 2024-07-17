@@ -10,133 +10,17 @@ yash.chavan/oiYZKERck3zyvz3
 
 
 
-Error filtering template: Warning: Array to string conversion in /var/www/html/vendor/magento/framework/Filter/DirectiveProcessor/LegacyDirective.php on line 42 
-Array
-(
-    [webinars] => Array
-        (
-            [0] => Array
-                (
-                    [title] => Hybrid Cloud Developer Track
-                    [location] => Virtual Classroom
-                    [date] => Sat Jan 04 - Wed Jan 08, 2025
-                )
-
-            [1] => Array
-                (
-                    [title] => Machine Learning on Google Cloud Platform
-                    [location] => Virtual Classroom
-                    [date] => Fri Jan 10 - Thu Jan 16, 2025
-                )
-
-            [2] => Array
-                (
-                    [title] => Architecting with Google Kubernetes Engine
-                    [location] => Virtual Classroom
-                    [date] => Wed Jan 01 - Fri Jan 03, 2025
-                )
-
-            [3] => Array
-                (
-                    [title] => DevOps/SRE Engineer Track
-                    [location] => Virtual Classroom
-                    [date] => Wed Jan 08 - Mon Jan 13, 2025
-                )
-
-            [4] => Array
-                (
-                    [title] => WB Test Webinar 1
-                    [location] => Virtual Classroom
-                    [date] => Tue Jul 30, 2024
-                )
-
-        )
-
-    [first_name] => adda
-    [full_name] => adda daad
-    [email] => aaadd@cybage.com
-    [unregister_url] => http://localhost/en-us/training/wbtracks/unregister/confirmation/mep/dHJJZC8xMw==/men/YXV0aElkL2FhYWRkQGN5YmFnZS5jb20=/
-    [track_name] => Professional Cloud Developer
-)
-
-
- <tbody style="padding: 0px 20px; display: flex; flex-direction: column;">
-                                                {{var webinars|webinarList}}
-                                                {{depend webinarList}}
-                                                {{foreach webinar in webinarList}}
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-subtitle"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 24px;font-style: normal;font-weight: 500;line-height: 30px;letter-spacing: -0.48px;margin-bottom: 24px;">
-                                                                    {{var webinar.title}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr style="display: flex; justify-content: space-between;">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;">
-                                                                    Location</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;margin-bottom: 14px;margin-right: 210px;">
-                                                                    Date</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr
-                                                    style="display: flex; justify-content: space-between; margin-bottom:40px">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location-title"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;">
-                                                                    {{var webinar.location}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date-title"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;margin-right: 100px;">
-                                                                    {{var webinar.date}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                {{/foreach}}
-                                                {{/depend}}
-
+<tr>
+    <td style="font-size:0" align="left" valign="top">
+        
+        <div class="m_-7332226887284608062w100p" style="display:inline-block;vertical-align:top">
+            <table class="m_-7332226887284608062w100p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:520px">
+                <tbody><tr>
+                    <td align="left" colspan="2" valign="top" class="m_-7332226887284608062hs_padded" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000000;word-break:break-word;padding:16px 20px 4px">
+                        <p style="margin:0;font-size:22px;line-height:28px;color:#000000">Introduction to Social Media&nbsp;&nbsp;</p>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+    </td>
+</tr>
