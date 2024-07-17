@@ -1,484 +1,424 @@
-<!DOCTYPE html
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office"
-    xmlns:v="urn:schemas-microsoft-com:vml" lang="en">
-
-<head>
-    <meta name="x-apple-disable-message-reformatting">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!--[if gte mso 9]><xml><o:officedocumentsettings><o:allowpng><o:pixelsperinch>96</o:pixelsperinch></o:officedocumentsettings></xml><style>ul>li{text-indent:-1em}</style><![endif]-->
-    <!--[if mso]><style type="text/css">body,td{font-family:Arial,Helvetica,sans-serif}.hse-body-wrapper-table{background-color:#f6f5f7}</style><![endif]-->
-    <meta property="og:url" content="">
-    <meta name="robots" content="noindex,follow">
-    <!--[if !((mso)|(IE))]><!-- -->
-    <style type="text/css">
-        .moz-text-html .hse-column-container {
-            max-width: 600px !important;
-            width: 600px !important
-        }
-
-        .moz-text-html .hse-column {
-            display: table-cell;
-            vertical-align: top
-        }
-
-        .moz-text-html .hse-section .hse-size-3 {
-            max-width: 150px !important;
-            width: 150px !important
-        }
-
-        .moz-text-html .hse-section .hse-size-4 {
-            max-width: 200px !important;
-            width: 200px !important
-        }
-
-        .moz-text-html .hse-section .hse-size-8 {
-            max-width: 400px !important;
-            width: 400px !important
-        }
-
-        .moz-text-html .hse-section .hse-size-9 {
-            max-width: 450px !important;
-            width: 450px !important
-        }
-
-        .moz-text-html .hse-section .hse-size-12 {
-            max-width: 600px !important;
-            width: 600px !important
-        }
-
-        [owa] .hse-column-container {
-            max-width: 600px !important;
-            width: 600px !important
-        }
-
-        [owa] .hse-column {
-            display: table-cell;
-            vertical-align: top
-        }
-
-        [owa] .hse-section .hse-size-3 {
-            max-width: 150px !important;
-            width: 150px !important
-        }
-
-        [owa] .hse-section .hse-size-4 {
-            max-width: 200px !important;
-            width: 200px !important
-        }
-
-        [owa] .hse-section .hse-size-8 {
-            max-width: 400px !important;
-            width: 400px !important
-        }
-
-        [owa] .hse-section .hse-size-9 {
-            max-width: 450px !important;
-            width: 450px !important
-        }
-
-        [owa] .hse-section .hse-size-12 {
-            max-width: 600px !important;
-            width: 600px !important
-        }
-
-        @media only screen and (min-width:640px) {
-            .hse-column-container {
-                max-width: 600px !important;
-                width: 600px !important
-            }
-
-            .hse-column {
-                display: table-cell;
-                vertical-align: top
-            }
-
-            .hse-section .hse-size-3 {
-                max-width: 150px !important;
-                width: 150px !important
-            }
-
-            .hse-section .hse-size-4 {
-                max-width: 200px !important;
-                width: 200px !important
-            }
-
-            .hse-section .hse-size-8 {
-                max-width: 400px !important;
-                width: 400px !important
-            }
-
-            .hse-section .hse-size-9 {
-                max-width: 450px !important;
-                width: 450px !important
-            }
-
-            .hse-section .hse-size-12 {
-                max-width: 600px !important;
-                width: 600px !important
-            }
-        }
-
-        @media only screen and (max-width:639px) {
-
-            .hs-stretch-cta .hs-cta-img,
-            .hs_rss_email_entries_table img,
-            img.stretch-on-mobile {
-                height: auto !important;
-                width: 100% !important
-            }
-
-            .display_block_on_small_screens {
-                display: block
-            }
-
-            .hs_padded {
-                padding-left: 20px !important;
-                padding-right: 20px !important
-            }
-
-            blockquote,
-            ul {
-                margin: 0;
-                padding: 1em 40px
-            }
-
-            .w100p {
-                width: 100% !important
-            }
-        }
-
-        @media only screen and (max-width: 767px) {
-            .spotlight-content {
-                display: flex;
-                flex-direction: column-reverse;
-            }
-
-            .spotlight-media img {
-                right: 100px !important;
-            }
-
-            .spotlight-text {
-                font-size: 28px !important;
-                line-height: 36px !important;
-                letter-spacing: -0.56px !important;
-            }
-
-            .receiver-name {
-                font-size: 32px !important;
-                line-height: 40px !important;
-                letter-spacing: -0.64px !important;
-            }
-
-            .receiver-thankyou-text {
-                font-size: 16px !important;
-                line-height: 24px !important;
-            }
-
-            .order-details p {
-                font-size: 28px !important;
-                line-height: 36px !important;
-                letter-spacing: -0.56px !important;
-            }
-
-            .course-listing-container {
-                flex-direction: column !important;
-            }
-
-            .course-list-heading p {
-                font-size: 12px !important;
-                line-height: 16px !important;
-                letter-spacing: 0.6px !important;
-            }
-
-            .course-list-title p {
-                font-size: 24px !important;
-                line-height: 30px !important;
-                letter-spacing: -0.48px !important;
-                margin-bottom: 16px !important;
-            }
-
-            .course-list-subtitle p {
-                font-size: 20px !important;
-                line-height: 28px !important;
-            }
-
-            .course-list-quantity p {
-                font-size: 16px !important;
-                line-height: 22px !important;
-                margin-bottom: 32px !important;
-            }
-
-            .course-list-date p {
-                font-size: 12px !important;
-                line-height: 16px !important;
-                letter-spacing: 0.6px !important;
-                margin-right: 110px !important;
-            }
-
-            .course-list-location p {
-                font-size: 12px !important;
-                line-height: 16px !important;
-                letter-spacing: 0.6px !important;
-            }
-
-            .course-list-location-title p {
-                font-size: 16px !important;
-                line-height: 22px !important;
-            }
-
-            .course-list-date-title p {
-                font-size: 16px !important;
-                line-height: 22px !important;
-                margin-right: 10px !important;
-            }
-
-            .vector-shapes {
-                display: none !important;
-            }
-
-            .footer-address {
-                margin-bottom: 56px !important;
-            }
-
-            .email-footer {
-                padding: 0 32px !important;
-            }
-        }
-    </style>
-    <!--<![endif]-->
-    <style type="text/css">
-        body[data-outlook-cycle] .hs_rss_email_entries_table img,
-        body[data-outlook-cycle] img.stretch-on-mobile {
-            height: auto !important;
-            width: 100% !important
-        }
-
-        body[data-outlook-cycle] .hs_padded {
-            padding-left: 20px !important;
-            padding-right: 20px !important
-        }
-
-        a[x-apple-data-detectors] {
-            color: inherit !important;
-            text-decoration: none !important;
-            font-size: inherit !important;
-            font-family: inherit !important;
-            font-weight: inherit !important;
-            line-height: inherit !important
-        }
-
-        #outlook a {
-            padding: 0
-        }
-
-        .yshortcuts a {
-            border-bottom: none !important
-        }
-
-        a {
-            text-decoration: underline
-        }
-
-        .ExternalClass {
-            width: 100%
-        }
-
-        .ExternalClass,
-        .ExternalClass div,
-        .ExternalClass font,
-        .ExternalClass p,
-        .ExternalClass span,
-        .ExternalClass td {
-            line-height: 100%
-        }
-
-        p {
-            margin: 0
-        }
-
-        body {
-            -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%;
-            -webkit-font-smoothing: antialiased;
-            moz-osx-font-smoothing: grayscale
-        }
-
-        ul li::marker {
-            content: "\25A0" !important;
-            color: #0069DF !important;
-            font-size: 20px !important;
-            margin-right: 10px !important;
-        }
-
-        ul li p {
-            margin-left: 10px
-        }
-
-        ul p a {
-            margin-left: 25px;
-            color: #0069DF
-        }
-    </style>
-</head>
-
-<body bgcolor="#f6f5f7"
-    style="margin:0!important;padding:0!important;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word">
-    <div id="preview_text"
-        style="display:none!important;font-size:1px;color:#f6f5f7;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden">
-        We're looking forward to seeing you on our Google Cloud Fundamentals: Big Data & Machine Learning course next
-        week.</div>
-    <!--[if gte mso 9]><v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t"><v:fill type="tile" size="100%,100%" color="#ffffff"></v:background><![endif]-->
-    <div class="hse-body-background" style="background-color:#f6f5f7" bgcolor="#f6f5f7">
-        <table role="presentation" class="hse-body-wrapper-table" cellpadding="0" cellspacing="0"
-            style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;margin:0;padding:0;width:100%!important;min-width:320px!important;height:100%!important"
-            width="100%" height="100%">
-            <tbody>
-                <tr>
-                    <td class="hse-body-wrapper-td" valign="top"
-                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;padding-top:20px">
-                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_dnd_area"
-                            style="color:inherit;font-size:inherit;line-height:inherit"
-                            data-hs-cos-general-type="widget" data-hs-cos-type="dnd_area">
-                            <div class="hse-section" style="padding-left:10px;padding-right:10px">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml" lang="en">
+	<head>
+		<meta name="x-apple-disable-message-reformatting">
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+				<meta http-equiv="X-UA-Compatible" content="IE=edge">
+					<meta name="viewport" content="width=device-width,initial-scale=1">
+						<!--[if gte mso 9]><xml><o:officedocumentsettings><o:allowpng><o:pixelsperinch>96</o:pixelsperinch></o:officedocumentsettings></xml><style>ul>li{text-indent:-1em}</style><![endif]-->
+						<!--[if mso]><style type="text/css">body,td{font-family:Arial,Helvetica,sans-serif}.hse-body-wrapper-table{background-color:#f6f5f7}</style><![endif]-->
+						<meta property="og:url" content="">
+							<meta name="robots" content="noindex,follow">
+								<!--[if !((mso)|(IE))]><!-- -->
+								<style type="text/css">.moz-text-html .hse-column-container{max-width:600px!important;width:600px!important}.moz-text-html .hse-column{display:table-cell;vertical-align:top}.moz-text-html .hse-section .hse-size-3{max-width:150px!important;width:150px!important}.moz-text-html .hse-section .hse-size-4{max-width:200px!important;width:200px!important}.moz-text-html .hse-section .hse-size-8{max-width:400px!important;width:400px!important}.moz-text-html .hse-section .hse-size-9{max-width:450px!important;width:450px!important}.moz-text-html .hse-section .hse-size-12{max-width:600px!important;width:600px!important}[owa] .hse-column-container{max-width:600px!important;width:600px!important}[owa] .hse-column{display:table-cell;vertical-align:top}[owa] .hse-section .hse-size-3{max-width:150px!important;width:150px!important}[owa] .hse-section .hse-size-4{max-width:200px!important;width:200px!important}[owa] .hse-section .hse-size-8{max-width:400px!important;width:400px!important}[owa] .hse-section .hse-size-9{max-width:450px!important;width:450px!important}[owa] .hse-section .hse-size-12{max-width:600px!important;width:600px!important}@media only screen and (min-width:640px){.hse-column-container{max-width:600px!important; width:600px!important}.hse-column{display:table-cell;vertical-align:top}.hse-section .hse-size-3{max-width:150px!important;width:150px!important}.hse-section .hse-size-4{max-width:200px!important;width:200px!important}.hse-section .hse-size-8{max-width:400px!important;width:400px!important}.hse-section .hse-size-9{max-width:450px!important;width:450px!important}.hse-section .hse-size-12{max-width:600px!important;width:600px!important}}@media only screen and (max-width:639px){.hs-stretch-cta .hs-cta-img,.hs_rss_email_entries_table img,img.stretch-on-mobile{height:auto!important;width:100%!important}.display_block_on_small_screens{display:block}.hs_padded{padding-left:20px!important;padding-right:20px!important}blockquote,ul{margin:0;padding:1em 40px}.w100p{width:100%!important}}</style>
+								<!--<![endif]-->
+								<style type="text/css">body[data-outlook-cycle] .hs_rss_email_entries_table img,body[data-outlook-cycle] img.stretch-on-mobile{height:auto!important;width:100%!important}body[data-outlook-cycle] .hs_padded{padding-left:20px!important;padding-right:20px!important}a[x-apple-data-detectors]{color:inherit!important;text-decoration:none!important;font-size:inherit!important;font-family:inherit!important;font-weight:inherit!important;line-height:inherit!important}#outlook a{padding:0}.yshortcuts a{border-bottom:none!important}a{text-decoration:underline}.ExternalClass{width:100%}.ExternalClass,.ExternalClass div,.ExternalClass font,.ExternalClass p,.ExternalClass span,.ExternalClass td{line-height:100%}p{margin:0}body{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased;moz-osx-font-smoothing:grayscale}
+ul li::marker {
+    content: "\25A0" !important;
+    color: #0069DF !important;
+    font-size: 20px !important;
+    margin-right: 10px !important;
+}
+ul li p {margin-left:10px}
+ul p a {margin-left: 25px;color: #0069DF}</style>
+							</head>
+							<body bgcolor="#f6f5f7" style="margin:0!important;padding:0!important;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word">
+								<div id="preview_text" style="display:none!important;font-size:1px;color:#f6f5f7;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden">We're looking forward to seeing you on our Google Cloud Fundamentals: Big Data & Machine Learning course next week.</div>
+								<!--[if gte mso 9]><v:background xmlns:v="urn:schemas-microsoft-com:vml" fill="t"><v:fill type="tile" size="100%,100%" color="#ffffff"></v:background><![endif]-->
+								<div class="hse-body-background" style="background-color:#f6f5f7" bgcolor="#f6f5f7">
+									<table role="presentation" class="hse-body-wrapper-table" cellpadding="0" cellspacing="0" style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;margin:0;padding:0;width:100%!important;min-width:320px!important;height:100%!important" width="100%" height="100%">
+										<tbody>
+											<tr>
+												<td class="hse-body-wrapper-td" valign="top" style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;padding-top:20px">
+													<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_dnd_area" style="color:inherit;font-size:inherit;line-height:inherit" data-hs-cos-general-type="widget" data-hs-cos-type="dnd_area">
+														<div class="hse-section" style="padding-left:10px;padding-right:10px">
+															<!--[if !((mso)|(IE))]><!-- -->
+															<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7" bgcolor="#f6f5f7">
+																<!--<![endif]-->
+																<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#f6f5f7"><tr style="background-color:#f6f5f7"><![endif]-->
+																<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																<div class="hse-column hse-size-12">
+																	<div id="hs_cos_wrapper_module-0-0-0" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module" style="color:inherit;font-size:inherit;line-height:inherit">
+																		<table class="hse-image-wrapper" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																			<tbody>
+																				<tr>
+																					<td align="left" valign="top" style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:left;padding:0 0 30px;font-size:0">
+																						<img alt="Jellyfish Training Logo" src="{{view url='images/email/jf-training-logo.png'}}" width="174" height="31" align="middle" srcset="{{view url='images/email/jf-training-logo.png'}} 348w" sizes="(max-width: 174px) 100vw, 174px"/>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																	<!--[if gte mso 9]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																</div>
+															</div>
+															<div class="hse-section" style="padding-left:10px;padding-right:10px">
+																<!--[if !((mso)|(IE))]><!-- -->
+																<div class="hse-column-container"
+																	style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7"
+																	bgcolor="#f6f5f7">
+																	<!--<![endif]-->
+																	<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#f6f5f7"><tr style="background-color:#f6f5f7"><![endif]-->
+																	<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																	<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																	<div class="hse-column hse-size-12">
+																		<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+																			style="color:inherit;font-size:inherit;line-height:inherit">
+																			<table align="center" bgcolor="#0056b7" border="0" cellpadding="0"
+																				cellspacing="0" class="display-width"
+																				style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:650px;border-radius:30px;padding:20px;background-color:#04006C"
+																				width="100%">
+																				<tbody>
+																					<tr>
+																						<td align="center"
+																							background="{{view url='images/email/spotlight-shapes.png'}}"
+																							style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;background-image:url("
+																							{{view url='images/email/spotlight-shapes.png'
+																							}}");background-repeat:no-repeat;background-position:center;background-size:cover"
+																							class="">
+																							<div style="margin:auto">
+																								<table align="center" border="0" cellpadding="0"
+																									cellspacing="0" width="100%"
+																									style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																									<tbody>
+																										<tr>
+																											<td align="left"
+																												style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;padding: 40px;position:relative;">
+																												<div class="width600"
+																													style="display:inline-block;width:100%;max-width:600px;vertical-align:bottom">
+																													<table align="center" border="0"
+																														cellpadding="0" cellspacing="0"
+																														class="display-width-inner banner"
+																														style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:px"
+																														width="100%">
+																														<tbody>
+																															<tr>
+																																<td align="left"
+																																	style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word">
+																																	<table align="left"
+																																		border="0"
+																																		cellpadding="0"
+																																		cellspacing="0"
+																																		style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:100%"
+																																		width="100%">
+																																		<tbody>
+																																			<tr class="spotlight-content">
+																																				<td class="spotlight-text" align="left"
+																																					style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
+																																					WBD
+																																					Cloud
+																																					+ AI
+																																				</td>
+																																				<td class="spotlight-media" align="right"
+																																					rowspan="4"
+																																					style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
+																																					<img src="WB-email.png"
+																																						alt="WB Logo"
+																																						style="max-width: 180px;height: auto;position: relative;right: 20px;bottom: 10px;">
+																																				</td>
+																																			</tr>
+																																			<tr>
+																																				<td class="spotlight-text" align="left"
+																																					style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
+																																					Skills
+																																					Challenge
+																																				</td>
+																																			</tr>
+																																			<tr>
+																																				<td class="spotlight-text" align="left"
+																																					style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
+																																					Registration
+																																				</td>
+																																			</tr>
+																																			<tr>
+																																				<td class="spotlight-text" align="left"
+																																					style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
+																																					Confirmation
+																																				</td>
+																																			</tr>
+																																		</tbody>
+																																	</table>
+																																</td>
+																															</tr>
+																														</tbody>
+																													</table>
+																												</div>
+																											</td>
+																										</tr>
+																									</tbody>
+																								</table>
+																							</div>
+																						</td>
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																	<!--[if gte mso 9]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																</div>
+															</div>
+															<div class="hse-section" style="padding-left:10px;padding-right:10px">
+																<!--[if !((mso)|(IE))]><!-- -->
+																<div class="hse-column-container"
+																	style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7"
+																	bgcolor="#F6F5F7">
+																	<!--<![endif]-->
+																	<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#F6F5F7"><tr style="background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"><![endif]-->
+																	<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																	<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																	<div class="hse-column hse-size-12">
+																		<table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+																			style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																			<tbody
+																				style="display: block; padding: 40px 36px 0 36px; gap: 16px;">
+																				<tr>
+																					<td class="hs_padded"
+																						style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+																						<div id="hs_cos_wrapper_module_16557170102211"
+																							class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+																							style="color:inherit;font-size:inherit;line-height:inherit">
+																							<div id="hs_cos_wrapper_module_16557170102211_"
+																								class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text"
+																								style="color:inherit;font-size:inherit;line-height:inherit">
+																								<h1 class="receiver-name"
+																									style="margin:0;mso-line-height-rule:exactly;font-size: 42px;font-style: normal;font-weight: 500;line-height: 50px;font-family: 'DM Sans', sans-serif;letter-spacing: -0.84px;">
+																									<span style="font-weight:400">Hi Sofia</span>
+																								</h1>
+																							</div>
+																						</div>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="hs_padded"
+																						style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
+																						<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+																							style="color:inherit;font-size:inherit;line-height:inherit">
+																							<div id="hs_cos_wrapper_module_16545187699292_"
+																								class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
+																								style="color:inherit;font-size:inherit;line-height:inherit;width: 100%;max-width: 520px; padding-bottom: 40px;border-bottom: 1px solid #e0e0e0;">
+																								<p>Thanks for registering your interest. Your request to
+																									attend<b> Developing Applications with Google Cloud
+																										Platform (GMT)</b> is ...</p>
+																							</div>
+																						</div>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																	<!--[if gte mso 9]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																</div>
+															</div>
+															<div class="hse-section" style="padding-left:10px;padding-right:10px">
+																<!--[if !((mso)|(IE))]><!-- -->
+																<div class="hse-column-container"
+																	style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"
+																	bgcolor="#F6F5F7">
+																	<!--<![endif]-->
+																	<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#F6F5F7"><tr style="background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"><![endif]-->
+																	<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																	<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																	<div class="hse-column hse-size-12">
+																		<table role="presentation" cellpadding="0" cellspacing="0" width="100%"
+																			style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																			<tbody
+																				style="display: block; padding: 40px 36px 0 36px;">
+																				<tr>
+																					<td class="hs_padded"
+																						style="border-collapse:collapse;mso-line-height-rule:exactly;font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; color:#000;word-break:break-word;">
+																						<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+																							style="color:inherit;font-size:inherit;line-height:inherit">
+																							<div id="hs_cos_wrapper_module_16545187699292_"
+																								class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
+																								style="color:inherit;font-size:inherit;line-height:inherit">
+																								<p>No longer interested in attending this course? Please
+																									cancel your interest <a href=""
+																										style="color: var(--GLOW-Spectrum-500---Primary-Blue, #0069DF); font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; text-decoration-line: underline;margin: 0;">
+																										here
+																									</a>
+																									.
+																								</p>
+																							</div>
+																						</div>
+																					</td>
+																				</tr>
+																				<tr>
+																					<td class="hs_padded"
+																						style="border-collapse:collapse;mso-line-height-rule:exactly;font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; color:#000;word-break:break-word;">
+																						<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
+																							style="color:inherit;font-size:inherit;line-height:inherit">
+																							<div id="hs_cos_wrapper_module_16545187699292_"
+																								class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
+																								style="color:inherit;font-size:inherit;line-height:inherit; margin-bottom: 40px;">
+																								<p>For any additional enquiries please contact <a
+																										href=""
+																										style="color: var(--GLOW-Spectrum-500---Primary-Blue, #0069DF); font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; text-decoration-line: underline;margin: 0;">
+																										trainingops@jellyfish.com
+																									</a>
+																								</p>
+																							</div>
+																						</div>
+																					</td>
+																				</tr>
+																			</tbody>
+																		</table>
+																	</div>
+																	<!--[if gte mso 9]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																	<!--[if (mso)|(IE)]><![endif]-->
+																</div>
+															</div>
+																	<div class="hse-section" style="padding-left:10px;padding-right:10px">
+																		<!--[if !((mso)|(IE))]><!-- -->
+																		<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#fff" bgcolor="#ffffff">
+																			<!--<![endif]-->
+																			<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff"><tr style="background-color:#fff"><![endif]-->
+																			<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																			<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																			<div class="hse-column hse-size-12">
+																				<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																					<tbody>
+																						<tr>
+																							<td class="hs_padded" style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;padding:16px 20px 0">
+																								<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module" style="color:inherit;font-size:inherit;line-height:inherit" data-hs-cos-general-type="widget" data-hs-cos-type="module">
+																									<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text" style="color:inherit;font-size:inherit;line-height:inherit">
+																										<p style="mso-line-height-rule:exactly;font-size:36px;line-height:42px">Order details</p>
+																									</div>
+																								</div>
+																							</td>
+																						</tr>
+																					</tbody>
+																				</table>
+																			</div>
+																			<!--[if gte mso 9]><![endif]-->
+																			<!--[if (mso)|(IE)]><![endif]-->
+																			<!--[if (mso)|(IE)]><![endif]-->
+																		</div>
+																	</div>
+{{layout area="frontend" handle="email_wb_items_handle" track_name=$track_name full_name=$full_name email=$email webinars=$webinars}}
+<div class="hse-section" style="padding-left:10px;padding-right:10px">
+																		<!--[if !((mso)|(IE))]><!-- -->
+																		<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7" bgcolor="#F6F5F7">
+																			<!--<![endif]-->
+																			<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#F6F5F7"><tr style="background-color:#f6f5f7"><![endif]-->
+																			<!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+																			<!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
+																			
+																		</div>
+																													<div class="hse-section" style="padding-left:10px;padding-right:10px;background-color:#000" bgcolor="#000000">
+																														<!--[if gte mso 9]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%" bgcolor="#000000" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0"><tbody><tr><td valign="top"><![endif]-->
+																														<!--[if !((mso)|(IE))]><!-- -->
+																														<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;padding-top:90px">
+																															<!--<![endif]-->
+																															<!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><![endif]-->
+																															<!--[if (mso)|(IE)]><td valign="top" style="width:450px;padding-top:80px"><![endif]-->
+																															<!--[if gte mso 9]><table role="presentation" width="450" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:450px"><![endif]-->
+																															<div class="hse-column hse-size-9">
+																																<div id="hs_cos_wrapper_module_16553738349532" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module" style="color:inherit;font-size:inherit;line-height:inherit" data-hs-cos-general-type="widget" data-hs-cos-type="module">
+																																	<table class="hse-image-wrapper" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																																		<tbody>
+																																			<tr>
+																																				<td align="left" valign="top" style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:left;padding:0;font-size:0">
+																																					<img alt="Jellyfish Training Logo" src="{{view url='images/email/jf-training-logo-footer.png'}}" width="174" height="39" align="middle" srcset="{{view url='images/email/jf-training-logo-footer.png'}} 348w" sizes="(max-width: 174px) 100vw, 174px"/>
+																																				</tr>
+																																			</tbody>
+																																		</table>
+																																	</div>
+																																</div>
+																																<!--[if gte mso 9]><![endif]-->
+																																<!--[if (mso)|(IE)]><![endif]-->
+																																<!--[if (mso)|(IE)]><td valign="top" style="width:150px;padding-top:80px"><![endif]-->
+																																<!--[if gte mso 9]><table role="presentation" width="150" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:150px"><![endif]-->
+																																<div class="hse-column hse-size-3">
+																																	<div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module" style="color:inherit;font-size:inherit;line-height:inherit" data-hs-cos-general-type="widget" data-hs-cos-type="module">
+																																		<table class="hse-image-wrapper" role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+																																			<tbody>
+																																				<tr>
+																																					<td align="right" valign="top" style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:right;padding:0;font-size:0">
+																																						<img alt="Cloud Logo" src="{{view url='images/email/footer-cloud.png'}}" width="48" height="39" align="middle" srcset="{{view url='images/email/footer-cloud.png'}} 348w" sizes="(max-width: 48px) 100vw, 48px"/>
+																																					</tr>
+																																				</tbody>
+																																			</table>
+																																		</div>
+																																	</div>
+																																	<!--[if gte mso 9]><![endif]-->
+																																	<!--[if (mso)|(IE)]><![endif]-->
+																																	<!--[if (mso)|(IE)]><![endif]-->
+																																</div>
+																																<!--[if gte mso 9]><![endif]-->
+																															</div>
+																															<div class="hse-section email-footer"
+                                style="padding-left:10px;padding-right:10px;background-color:#000;background-image:url('');background-position:center;background-repeat:no-repeat;background-size:100% 100%"
+                                bgcolor="#000000">
+                                <!--[if gte mso 9]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%" bgcolor="#000000" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0"><tbody><tr><td valign="top"><![endif]-->
                                 <!--[if !((mso)|(IE))]><!-- -->
                                 <div class="hse-column-container"
-                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7"
-                                    bgcolor="#f6f5f7">
+                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;padding-top:42px">
                                     <!--<![endif]-->
-                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#f6f5f7"><tr style="background-color:#f6f5f7"><![endif]-->
-                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
+                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><![endif]-->
+                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px;padding-bottom:42px;padding-top:42px"><![endif]-->
                                     <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
                                     <div class="hse-column hse-size-12">
-                                        <div id="hs_cos_wrapper_module-0-0-0"
+                                        <div id="hs_cos_wrapper_module-6-0-0"
                                             class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                            <table class="hse-image-wrapper" role="presentation" width="100%"
+                                            style="color:inherit;font-size:inherit;line-height:inherit"
+                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
+                                            <table role="presentation" class="hse-footer hse-secondary" width="100%"
                                                 cellpadding="0" cellspacing="0"
-                                                style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                                <tbody>
-                                                    <tr>
-                                                        <td align="left" valign="top"
-                                                            style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:left;padding:0 0 30px;font-size:0">
-                                                            <img alt="Jellyfish Training Logo"
-                                                                src="{{view url='images/email/jf-training-logo.png'}}"
-                                                                width="174" height="31" align="middle"
-                                                                srcset="{{view url='images/email/jf-training-logo.png'}} 348w"
-                                                                sizes="(max-width: 174px) 100vw, 174px" />
+                                                style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;font-family:Arial,sans-serif;font-size:12px;line-height:135%;color:#23496d;margin-bottom:0;padding:0">
+                                                <tbody style="display: flex;flex-direction: column;">
+                                                    <tr style="flex-direction:row; margin-bottom: 20px;">
+                                                        <td style="padding-right: 12px;border-right: 2px solid #fff;">
+                                                            <a
+                                                                style="text-decoration:none; color: #FFF;font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px;">Privacy
+                                                                Policy</a>
+                                                        </td>
+                                                        <td style="padding-left: 12px;">
+                                                            <a
+                                                                style="text-decoration:none; color: #FFF;font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px;">View
+                                                                in Web Browser</a>
+                                                        </td>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <!--[if gte mso 9]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                </div>
-                            </div>
-                            <div class="hse-section" style="padding-left:10px;padding-right:10px">
-                                <!--[if !((mso)|(IE))]><!-- -->
-                                <div class="hse-column-container"
-                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7"
-                                    bgcolor="#f6f5f7">
-                                    <!--<![endif]-->
-                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#f6f5f7"><tr style="background-color:#f6f5f7"><![endif]-->
-                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
-                                    <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
-                                    <div class="hse-column hse-size-12">
-                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                            <table align="center" bgcolor="#0056b7" border="0" cellpadding="0"
-                                                cellspacing="0" class="display-width"
-                                                style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:650px;border-radius:30px;padding:20px;background-color:#04006C"
-                                                width="100%">
-                                                <tbody>
+                                                    <tr style="margin-bottom: 20px">
+                                                        <td style="width: 100%; max-width: 550px;">
+                                                            <p style="color: #FFF;font-family: 'DM Sans', sans-serif; font-size: 12px; font-style: normal;font-weight: 400; line-height: 20px;">
+                                                                We hope you enjoyed receiving this email. If you prefer not
+                                                                to receive emails from us please <a style="color: #449CFF;font-family: 'DM Sans', sans-serif; font-size: 12px; font-style: normal;font-weight: 400; line-height: 20px;text-decoration-line: underline;">unsubscribe</a> from
+                                                                future Jellyfish emails.</p>
+                                                        </td>
+                                                    </tr>
                                                     <tr>
-                                                        <td align="center"
-                                                            background="{{view url='images/email/spotlight-shapes.png'}}"
-                                                            style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;background-image:url("
-                                                            {{view url='images/email/spotlight-shapes.png'
-                                                            }}");background-repeat:no-repeat;background-position:center;background-size:cover"
-                                                            class="">
-                                                            <div style="margin:auto">
-                                                                <table align="center" border="0" cellpadding="0"
-                                                                    cellspacing="0" width="100%"
-                                                                    style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td align="left"
-                                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;padding: 40px;position:relative;">
-                                                                                <div class="width600"
-                                                                                    style="display:inline-block;width:100%;max-width:600px;vertical-align:bottom">
-                                                                                    <table align="center" border="0"
-                                                                                        cellpadding="0" cellspacing="0"
-                                                                                        class="display-width-inner banner"
-                                                                                        style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:px"
-                                                                                        width="100%">
-                                                                                        <tbody>
-                                                                                            <tr>
-                                                                                                <td align="left"
-                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word">
-                                                                                                    <table align="left"
-                                                                                                        border="0"
-                                                                                                        cellpadding="0"
-                                                                                                        cellspacing="0"
-                                                                                                        style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;max-width:100%"
-                                                                                                        width="100%">
-                                                                                                        <tbody>
-                                                                                                            <tr
-                                                                                                                class="spotlight-content">
-                                                                                                                <td class="spotlight-text"
-                                                                                                                    align="left"
-                                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
-                                                                                                                    WBD
-                                                                                                                    Cloud
-                                                                                                                    + AI
-                                                                                                                </td>
-                                                                                                                <td class="spotlight-media"
-                                                                                                                    align="right"
-                                                                                                                    rowspan="4"
-                                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
-                                                                                                                    <img src="WB-email.png"
-                                                                                                                        alt="WB Logo"
-                                                                                                                        style="max-width: 180px;height: auto;position: relative;right: 20px;bottom: 10px;">
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td class="spotlight-text"
-                                                                                                                    align="left"
-                                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
-                                                                                                                    Skills
-                                                                                                                    Challenge
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td class="spotlight-text"
-                                                                                                                    align="left"
-                                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
-                                                                                                                    Registration
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                            <tr>
-                                                                                                                <td class="spotlight-text"
-                                                                                                                    align="left"
-                                                                                                                    style="border-collapse:collapse;mso-line-height-rule:exactly;word-break:break-word;color:#fff;font-family:Helvetica Neue,Helvetica,sans-serif;font-size:36px;font-weight:500;letter-spacing:-0.72;line-height:44px">
-                                                                                                                    Confirmation
-                                                                                                                </td>
-                                                                                                            </tr>
-                                                                                                        </tbody>
-                                                                                                    </table>
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
+                                                        <td colspan="2" align="center" valign="top"
+                                                            style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;text-align:center;margin-bottom:0">
+                                                            <p class="footer-address" style="mso-line-height-rule:exactly;font-size:15px;line-height:22px;text-align:left"
+                                                                align="left">
+                                                                <span style="color:#fff">Jellyfish | Floor 22, The
+                                                                    Shard, 32 London Bridge St, London SE1 9SG</span>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="display: flex;justify-content: end;">
+                                                        <td align="right" valign="top"
+                                                            style="border-collapse:collapse;mso-line-height-rule:exactly;font-size:0">
+                                                            <table cellpadding="0" cellspacing="0"
+                                                                style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
+                                                                <tbody>
+                                                                    <tr >
+                                                                        <td align="left" valign="top"
+                                                                            style="border-collapse:collapse;mso-line-height-rule:exactly;font-size:0">
+                                                                            <img class="vector-shapes" src="{{view url='images/email/footer-shapes.png'}}"
+                                                                                style="outline:0;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:100%"
+                                                                                width="156" height="108" />
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -489,495 +429,13 @@
                                     <!--[if (mso)|(IE)]><![endif]-->
                                     <!--[if (mso)|(IE)]><![endif]-->
                                 </div>
+                                <!--[if gte mso 9]><![endif]-->
                             </div>
-                            <div class="hse-section" style="padding-left:10px;padding-right:10px">
-                                <!--[if !((mso)|(IE))]><!-- -->
-                                <div class="hse-column-container"
-                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7"
-                                    bgcolor="#F6F5F7">
-                                    <!--<![endif]-->
-                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#F6F5F7"><tr style="background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"><![endif]-->
-                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
-                                    <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
-                                    <div class="hse-column hse-size-12">
-                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
-                                            style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                            <tbody
-                                                style="display: flex; flex-direction: column; padding: 40px 36px 0 36px; gap: 16px;">
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div id="hs_cos_wrapper_module_16557170102211"
-                                                            class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                                            <div id="hs_cos_wrapper_module_16557170102211_"
-                                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <h1 class="receiver-name"
-                                                                    style="margin:0;mso-line-height-rule:exactly;font-size: 42px;font-style: normal;font-weight: 500;line-height: 50px;font-family: 'DM Sans', sans-serif;letter-spacing: -0.84px;">
-                                                                    <span style="font-weight:400">Hi {{trans '%first_name' first_name=$first_name}}</span>
-                                                                </h1>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                                            <div id="hs_cos_wrapper_module_16545187699292_"
-                                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit;width: 100%;max-width: 520px; padding-bottom: 40px;border-bottom: 1px solid #e0e0e0;">
-                                                                <p>{{trans 'Thanks for registering your interest. Your request to attend the'}}<b>{{trans '%track_name' title=$track_name}}</b>{{trans 'is being reviewed.'}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!--[if gte mso 9]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                </div>
-                            </div>
-                            <div class="hse-section" style="padding-left:10px;padding-right:10px">
-                                <!--[if !((mso)|(IE))]><!-- -->
-                                <div class="hse-column-container"
-                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"
-                                    bgcolor="#F6F5F7">
-                                    <!--<![endif]-->
-                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#F6F5F7"><tr style="background-color:#f6f5f7;background-image:url('');background-position:center;background-repeat:repeat"><![endif]-->
-                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
-                                    <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
-                                    <div class="hse-column hse-size-12">
-                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
-                                            style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                            <tbody
-                                                style="display: flex; flex-direction: column; padding: 40px 36px 0 36px;">
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                                            <div id="hs_cos_wrapper_module_16545187699292_"
-                                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p>{{trans "No longer interested in attending this course? Please cancel your interest"}} {{trans '<a href="%unregister_url" target="_blank"
-                                                                        style="color: var(--GLOW-Spectrum-500---Primary-Blue, #0069DF); font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; text-decoration-line: underline;margin: 0;">
-                                                                        here
-                                                                    </a>' unregister_url=$unregister_url |raw}}.
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit">
-                                                            <div id="hs_cos_wrapper_module_16545187699292_"
-                                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text receiver-thankyou-text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p>For any additional enquiries please contact <a
-                                                                        href="'mailto: trainingops@jellyfish.com"
-                                                                        style="color: var(--GLOW-Spectrum-500---Primary-Blue, #0069DF); font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 400;line-height: 26px; text-decoration-line: underline;margin: 0;">
-                                                                        trainingops@jellyfish.com
-                                                                    </a>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!--[if gte mso 9]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                </div>
-                            </div>
-
-                            <div class="hse-section" style="padding-left:10px;padding-right:10px">
-                                <!--[if !((mso)|(IE))]><!-- -->
-                                <div class="hse-column-container"
-                                    style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;background-color:#fff;margin-top: 40px;border-radius: 20px;margin-bottom: 80px;"
-                                    bgcolor="#ffffff">
-                                    <!--<![endif]-->
-                                    <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff"><tr style="background-color:#fff"><![endif]-->
-                                    <!--[if (mso)|(IE)]><td valign="top" style="width:600px"><![endif]-->
-                                    <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
-                                    <div class="hse-column hse-size-12">
-                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%"
-                                            style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                            <tbody
-                                                style="padding: 32px 20px 0 20px; display: flex; flex-direction: column;">
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text order-details"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;font-size:36px;line-height:42px;margin-bottom: 24px">
-                                                                    {{trans "Order details"}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody class="course-listing-container"
-                                                style="padding: 0px 20px; display: flex; flex-direction: row; justify-content: space-between;">
-                                                <tr
-                                                    style="display: flex;justify-content: space-between;flex-direction: column;">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-heading"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;">
-                                                                   {{trans "Product"}} </p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-title"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 24px;font-style: normal;font-weight: 500;line-height: 36px;letter-spacing: -0.56px;margin-bottom: 40px;">
-                                                                    {{trans '%track_name' title=$track_name}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr style="display: flex;flex-direction: column;">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-heading"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;margin-bottom: 5px;">
-                                                                    {{trans "QTY"}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-quantity"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;letter-spacing: -0.56px">
-                                                                    x1</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <tbody style="padding: 0px 20px; display: flex; flex-direction: column;">
-                                                {{var webinars|webinarList}}
-                                                {{depend webinarList}}
-                                                {{foreach webinar in webinarList}}
-                                                <tr>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-subtitle"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 24px;font-style: normal;font-weight: 500;line-height: 30px;letter-spacing: -0.48px;margin-bottom: 24px;">
-                                                                    {{var webinar.title}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr style="display: flex; justify-content: space-between;">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;">
-                                                                    Location</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;margin-bottom: 14px;margin-right: 210px;">
-                                                                    Date</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr
-                                                    style="display: flex; justify-content: space-between; margin-bottom:40px">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-location-title"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;">
-                                                                    {{var webinar.location}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-date-title"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;margin-right: 100px;">
-                                                                    {{var webinar.date}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-
-                                                {{/foreach}}
-                                                {{/depend}}
-
-                                                <tr style="display: flex; justify-content: space-between;">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text course-list-heading"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-800, #525252);font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px; letter-spacing: 0.5px;text-transform: uppercase;">
-                                                                    Attendees</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr style="display: flex; flex-direction: column; margin-bottom:40px">
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;">
-                                                                    {{trans '%full_name' title=$full_name}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td class="hs_padded"
-                                                        style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;">
-                                                        <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                            style="color:inherit;font-size:inherit;line-height:inherit"
-                                                            data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_rich_text"
-                                                                style="color:inherit;font-size:inherit;line-height:inherit">
-                                                                <p
-                                                                    style="mso-line-height-rule:exactly;color: var(--GLOW-Greys-Grey-1000, #000);font-family: 'DM Sans', sans-serif;font-size: 18px;font-style: normal;font-weight: 500;line-height: 24px;margin-right: 100px;">
-                                                                    {{trans '%email' title=$email}}</p>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <!--[if gte mso 9]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                    <!--[if (mso)|(IE)]><![endif]-->
-                                </div>
-                                <div class="hse-section email-footer"
-                                    style="padding-left:10px;padding-right:10px;background-color:#000"
-                                    bgcolor="#000000">
-                                    <!--[if gte mso 9]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%" bgcolor="#000000" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0"><tbody><tr><td valign="top"><![endif]-->
-                                    <!--[if !((mso)|(IE))]><!-- -->
-                                    <div class="hse-column-container"
-                                        style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;padding-top:80px">
-                                        <!--<![endif]-->
-                                        <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><![endif]-->
-                                        <!--[if (mso)|(IE)]><td valign="top" style="width:450px;padding-top:80px"><![endif]-->
-                                        <!--[if gte mso 9]><table role="presentation" width="450" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:450px"><![endif]-->
-                                        <div class="hse-column hse-size-9">
-                                            <div id="hs_cos_wrapper_module_16553738349532"
-                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                style="color:inherit;font-size:inherit;line-height:inherit"
-                                                data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                <table class="hse-image-wrapper" role="presentation" width="100%"
-                                                    cellpadding="0" cellspacing="0"
-                                                    style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td align="left" valign="top"
-                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:left;padding:0;font-size:0">
-                                                                <img alt="Jellyfish Training Logo"
-                                                                    src="{{view url='images/email/jf-training-logo-footer.png'}}"
-                                                                    width="174" height="39" align="middle"
-                                                                    srcset="{{view url='images/email/jf-training-logo-footer.png'}} 348w"
-                                                                    sizes="(max-width: 174px) 100vw, 174px" />
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <!--[if gte mso 9]><![endif]-->
-                                        <!--[if (mso)|(IE)]><![endif]-->
-                                        <!--[if (mso)|(IE)]><td valign="top" style="width:150px;padding-top:80px"><![endif]-->
-                                        <!--[if gte mso 9]><table role="presentation" width="150" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:150px"><![endif]-->
-                                        <div class="hse-column hse-size-3">
-                                            <div class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                style="color:inherit;font-size:inherit;line-height:inherit"
-                                                data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                <table class="hse-image-wrapper" role="presentation" width="100%"
-                                                    cellpadding="0" cellspacing="0"
-                                                    style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td align="right" valign="top"
-                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;color:#000;word-break:break-word;text-align:right;padding:0;font-size:0">
-                                                                <img alt="Cloud Logo"
-                                                                    src="{{view url='images/email/footer-cloud.png'}}"
-                                                                    width="48" height="39" align="middle"
-                                                                    srcset="{{view url='images/email/footer-cloud.png'}} 348w"
-                                                                    sizes="(max-width: 48px) 100vw, 48px" />
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <!--[if gte mso 9]><![endif]-->
-                                        <!--[if (mso)|(IE)]><![endif]-->
-                                        <!--[if (mso)|(IE)]><![endif]-->
-                                    </div>
-                                    <!--[if gte mso 9]><![endif]-->
-                                </div>
-
-                                <div class="hse-section email-footer"
-                                    style="padding-left:10px;padding-right:10px;background-color:#000;background-image:url('');background-position:center;background-repeat:no-repeat;background-size:100% 100%"
-                                    bgcolor="#000000">
-                                    <!--[if gte mso 9]><table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%" style="width:100%" bgcolor="#000000" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0"><tbody><tr><td valign="top"><![endif]-->
-                                    <!--[if !((mso)|(IE))]><!-- -->
-                                    <div class="hse-column-container"
-                                        style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;padding-top:42px">
-                                        <!--<![endif]-->
-                                        <!--[if (mso)|(IE)]><div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0"><table align="center" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px" cellpadding="0" cellspacing="0" role="presentation"><tr><![endif]-->
-                                        <!--[if (mso)|(IE)]><td valign="top" style="width:600px;padding-bottom:42px;padding-top:42px"><![endif]-->
-                                        <!--[if gte mso 9]><table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;width:600px"><![endif]-->
-                                        <div class="hse-column hse-size-12">
-                                            <div id="hs_cos_wrapper_module-6-0-0"
-                                                class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_module"
-                                                style="color:inherit;font-size:inherit;line-height:inherit"
-                                                data-hs-cos-general-type="widget" data-hs-cos-type="module">
-                                                <table role="presentation" class="hse-footer hse-secondary" width="100%"
-                                                    cellpadding="0" cellspacing="0"
-                                                    style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0;font-family:Arial,sans-serif;font-size:12px;line-height:135%;color:#23496d;margin-bottom:0;padding:0">
-                                                    <tbody style="display: flex;flex-direction: column;">
-                                                        <tr style="flex-direction:row; margin-bottom: 20px;">
-                                                            <td
-                                                                style="padding-right: 12px;border-right: 2px solid #fff;">
-                                                                <a
-                                                                    style="text-decoration:none; color: #FFF;font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px;">Privacy
-                                                                    Policy</a>
-                                                            </td>
-                                                            <td style="padding-left: 12px;">
-                                                                <a
-                                                                    style="text-decoration:none; color: #FFF;font-family: 'DM Sans', sans-serif;font-size: 14px;font-style: normal;font-weight: 500;line-height: 18px;">View
-                                                                    in Web Browser</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="margin-bottom: 20px">
-                                                            <td style="width: 100%; max-width: 550px;">
-                                                                <p
-                                                                    style="color: #FFF;font-family: 'DM Sans', sans-serif; font-size: 12px; font-style: normal;font-weight: 400; line-height: 20px;">
-                                                                    We hope you enjoyed receiving this email. If you
-                                                                    prefer not
-                                                                    to receive emails from us please <a
-                                                                        style="color: #449CFF;font-family: 'DM Sans', sans-serif; font-size: 12px; font-style: normal;font-weight: 400; line-height: 20px;text-decoration-line: underline;">unsubscribe</a>
-                                                                    from
-                                                                    future Jellyfish emails.</p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td colspan="2" align="center" valign="top"
-                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000;word-break:break-word;text-align:center;margin-bottom:0">
-                                                                <p class="footer-address"
-                                                                    style="mso-line-height-rule:exactly;font-size:15px;line-height:22px;text-align:left"
-                                                                    align="left">
-                                                                    <span style="color:#fff">Jellyfish | Floor 22, The
-                                                                        Shard, 32 London Bridge St, London SE1
-                                                                        9SG</span>
-                                                                </p>
-                                                            </td>
-                                                        </tr>
-                                                        <tr style="display: flex;justify-content: end;">
-                                                            <td align="right" valign="top"
-                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-size:0">
-                                                                <table cellpadding="0" cellspacing="0"
-                                                                    style="border-spacing:0!important;border-collapse:collapse;mso-table-lspace:0;mso-table-rspace:0">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td align="left" valign="top"
-                                                                                style="border-collapse:collapse;mso-line-height-rule:exactly;font-size:0">
-                                                                                <img class="vector-shapes"
-                                                                                    src="{{view url='images/email/footer-shapes.png'}}"
-                                                                                    style="outline:0;text-decoration:none;-ms-interpolation-mode:bicubic;max-width:100%"
-                                                                                    width="156" height="108" />
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <!--[if gte mso 9]><![endif]-->
-                                        <!--[if (mso)|(IE)]><![endif]-->
-                                        <!--[if (mso)|(IE)]><![endif]-->
-                                    </div>
-                                    <!--[if gte mso 9]><![endif]-->
-                                </div>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</body>
-
-</html>
+																																				</div>
+																																			</td>
+																																		</tr>
+																																	</tbody>
+																																</table>
+																															</div>
+																														</body>
+																													</html>
