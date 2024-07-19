@@ -3,3 +3,27 @@ http://localhost/en-us/training/wbtracks/unsubscribe/confirmation/mep/dHJJZC8xMw
 http://localhost/en-us/training/wbtracks/unsubscribe/confirmation/mep/dHJJZC8xMw==/men/YXV0aElkL3lhc2guZ2FqYW5hbnJhby1jaGF2aGFuQGplbGx5ZmlzaC5jb20=/  - Yash
 
 http://localhost/en-us/training/wbtracks/unsubscribe/confirmation/mep/dHJJZC8xMw==/men/YXV0aElkL3lhc2guZ2FqYW5hbnJhby1jaGF2aGFuQGplbGx5ZmlzaC5jb20=/
+
+
+
+<?php
+
+$data = [
+    'reason1' => '<b>value1</b>',
+    'reason2' => '<i>value2</i>',
+    'mep' => 'value3',
+    'men' => 'value4',
+    'reason3' => '<u>value5</u>'
+];
+
+$filtered = array_filter($data, function($key) {
+    return strpos($key, 'reason') !== false;
+}, ARRAY_FILTER_USE_KEY);
+
+// Apply strip_tags to the filtered values
+$strippedValues = array_map('strip_tags', $filtered);
+
+$reasonValues = implode('|', $strippedValues);
+
+echo $reasonValues;  // Output: value1|value2|value5
+?>
