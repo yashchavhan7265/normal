@@ -1,26 +1,13 @@
 https://console.cloud.google.com/storage/browser/cybage_shared;tab=objects?prefix=&forceOnObjectsSortingFiltering=false
+
 cybagejellyfishteam@gmail.com/Jellyf1sh@2021
+
 UPDATE core_config_data SET VALUE = REPLACE(VALUE, 'https://www.jellyfish.com', 'http://localhost') WHERE VALUE LIKE '%https://www.jellyfish.com%';
 UPDATE core_config_data SET VALUE = 'jfdev@evolvingsols.com' WHERE (path not like '%taxjar%' AND path not like '%sender_email%') AND (VALUE LIKE '%@jellyfish.com%' OR VALUE LIKE '%@jellyfish.net%' OR VALUE LIKE '%@jellyfish.co.uk%' OR VALUE LIKE '%@jellyfish.co.za%' OR VALUE like '%@redandyellow.%');
 UPDATE core_config_data SET VALUE = 'localhost' WHERE path = 'jellyfish/jellyfish_georedirect/main_url';
 UPDATE core_config_data SET VALUE = 'localhost/training' WHERE path = 'jellyfish/jellyfish_georedirect/redirect_url';
 UPDATE core_config_data SET VALUE = 'test' WHERE path IN ('payment/stripe_payments_basic/stripe_mode', 'payment/payfast/server');
 chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
+
 yash.chavan/oiYZKERck3zyvz3  
 
-https://webkul.com/blog/call-phtml-email-template-magento2/
-
-<tr>
-    <td style="font-size:0" align="left" valign="top">
-        
-        <div class="m_-7332226887284608062w100p" style="display:inline-block;vertical-align:top">
-            <table class="m_-7332226887284608062w100p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:520px">
-                <tbody><tr>
-                    <td align="left" colspan="2" valign="top" class="m_-7332226887284608062hs_padded" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif;font-size:18px;color:#000000;word-break:break-word;padding:16px 20px 4px">
-                        <p style="margin:0;font-size:22px;line-height:28px;color:#000000">Introduction to Social Media&nbsp;&nbsp;</p>
-                    </td>
-                </tr>
-            </tbody></table>
-        </div>
-    </td>
-</tr>
