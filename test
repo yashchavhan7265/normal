@@ -11,3 +11,13 @@ chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento set
 
 yash.chavan/oiYZKERck3zyvz3  
 
+"item": {
+        "@type": "Course",
+        "name": "Connected TV Advertising",
+        "url": "https://www.jellyfish.com/en-gb/training/courses/mastering-the-world-of-ctv",
+        "description": "A course on mastering the world of Connected TV Advertising",
+        "provider": {
+          "@type": "Organization",
+          "name": "Jellyfish",
+          "url": "https://www.jellyfish.com"
+        }
