@@ -1,0 +1,117 @@
+         $("#user-details-form").validate({
+                errorElement: "div",
+                errorClass: "form-error-message",
+                rules: {
+                    firstname: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    },
+                    lastname: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        valid_domain: true
+                    },
+                    location: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    }
+                },
+                messages: {
+                    firstname: {
+                        required: "First name is required field.",
+                        minlength: "Your first name must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    },
+                    lastname: {
+                        required: "Last name is required field.",
+                        minlength: "Your last name must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    },
+                    email: {
+                        required: "Email is required field.",
+                        email: "Please enter a valid email address (Ex: johndoe@domain.com).",
+                        valid_domain : "Please enter an email address with an appropriate domain."
+                    },
+                    location: {
+                        required: "Location is required field",
+                        minlength: "Your location must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    }
+                },
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false
+            });
+
+            function isValidData(selector) {
+                var valid1 = true;
+                $(selector).each(function () {
+                    var msg = "";
+                    var date = $(this).find(".date");
+                    var timezone = $(this).find(".timezone");
+                    var date_value = $(date).val();
+                    var timezone_value = $(timezone).val();
+                    $(this).find(".personal-plan__modal__trow--error").html("");
+                    $(timezone).removeClass("sel-error");
+                    $(date).removeClass("sel-error");
+                    if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
+                        msg = "Please select timezone and date to proceed further.";
+                        valid1 = false;
+                        $(timezone).addClass("sel-error");
+                        $(date).addClass("sel-error");
+                    } else if (date_value == "" || date_value == -1) {
+                        msg = "Please select the date";
+                        valid1 = false;
+                        $(date).addClass("sel-error");
+                    } else if (timezone_value == -1 || timezone_value == "") {
+                        msg = "Please select the timezone";
+                        valid1 = false;
+                        $(timezone).addClass("sel-error");
+                    } else {
+                        msg = "";
+                        valid1 = true;
+                        $(timezone).removeClass("sel-error");
+                        $(date).removeClass("sel-error");
+                        $(this).find(".personal-plan__modal__trow--error").html(msg);
+                    }
+                    $(selector).removeClass("plp-error");
+                    if (msg != "") {
+                        $(this).find(".personal-plan__modal__trow--error").html(msg);
+                        $(selector).addClass("plp-error");
+                    }
+                });
+                var hasErrors =  $(selector).hasClass("plp-error");
+                return valid1 && !hasErrors;
+            }
+
+            $("#wb-bundle-submit").on("click", function() {
+                if (isValidData($(".personal-plan__modal__content .option-wrapper")) && $("#user-details-form").valid()) {
+                    $.ajax({
+                        url: '<?php echo $this->getUrl("wbtracks/track/save"); ?>',
+                        type: 'POST',
+                        data: {
+                            first_name: $('#firstname').val(),
+                            last_name: $('#lastname').val(),
+                            email: $('#email').val(),
+                            location: $('#location').val(),
+                            job_title: $('#job_title').val(), 
+                            webinar_details: $("#bundle-str").val()
+                        },
+                        success: function(response) {
+                            if (response["status"] == "success") {
+                                $(".personal-plan__modal").removeClass("show-personal-modal");
+                                $(".thankyou-overlay").css("display","block")
+                            } else {
+                                alert(response["message"]);
+                            }
+                        },
+                    });
+                } 
+            });
