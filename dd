@@ -1,0 +1,315 @@
+<?php
+/**
+ * Form popup templage
+ * @var $block Jellyfish\GWebinars\Block\Tracks
+ */ 
+$trackId = $block->getData('track_id');
+$trackDetails = $block->getTrackDetails($trackId);
+$trackDetails = $trackDetails[0];
+$webinarList = $block->getTrackwebinars($trackId);
+$generalHelper = $this->helper('Jellyfish\General\Helper\Data'); 
+$allowedDomains = $generalHelper->getSystemConfigValue("jellyfish/wb_portal/valid_email_domains");
+$allowedDomainsList = [];
+if($allowedDomains && $allowedDomains !="") {
+    $allowedDomainsList = explode(",", $allowedDomains);
+}
+$allowedDomainsList = json_encode($allowedDomainsList);
+?>
+<!--Personal learning modal-->
+
+<span class="close-button"><span>Close</span><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></span>
+<?php if($webinarList['error'] == true) :
+		echo "Error";
+else:
+?>
+<span class="d-none lookup" style='display:none;'><?php echo json_encode($webinarList['lookup']); ?></span>
+<input type="hidden" id="bundle-str" value='' />
+<input type="hidden" id="bundle-date-str" value='' />
+<div class="personal-plan__modal__content">
+	<div class="personal-plan__modal__title"><?php /* escapeNotVerified*/ echo  $trackDetails['w_cat_title']; ?></div>
+	<div class="personal-plan__modal__sub"><?php echo __('Google Cloud Learning path'); ?></div>
+	<div class="personal-plan__modal__grid">
+        <div class="personal-plan__modal__desc"><?php /* esscapeNotVerified */ echo __('When would you like to start the virtual classes in this path?');  ?></div>
+		<div class="personal-plan__modal__trow">
+			<div class="personal-plan__modal__trow--data">
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Course'); ?></div>
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone'); ?></div>
+				<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
+			</div>
+		</div> 
+		<?php if(count($webinarList['timezones']) > 0) { 
+			$position = 0;
+			?>
+			<?php foreach ($webinarList['timezones'] as $optionId => $data) { ?>
+				<?php if(isset($data['timezone'])) { ?>
+					<div class="personal-plan__modal__trow option-wrapper option-container-<?php echo $optionId; ?>">
+						<div class="personal-plan__modal__trow--data">
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__tdata--head"><?php echo $data['option_title']; ?></div>
+								<div class="personal-plan__modal__tdata--desc"><?php echo isset($data['option_course_duration']) ? $data['option_course_duration']." virtual classroom course" : '1 day virtual classroom course'; ?></div>
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Time Zone') ?></div>
+								<div class="personal-plan__modal__tdata--drop">								
+									<select class="dropdown timezone" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>">									
+                                        <option value='-1'>Select a Timezone</option>
+                                        <?php  foreach($data['timezone'] as $location_id => $locationData) { ?>
+												<option value="<?php echo $location_id ?>"><?php echo $locationData['title'];?></option>
+										<?php } ?>
+									</select>									
+									<span class="d-none date-options" style='display:none;'><?php echo json_encode($data['timezone']); ?></span>										
+								</div>
+								
+							</div>
+							<div class="personal-plan__modal__tdata personal-plan__modal__wid">
+								<div class="personal-plan__modal__theader personal-plan__modal__wid"><?php /* escapeNotVerified*/ echo __('Date') ?></div>
+								<div class="personal-plan__modal__tdata--drop">
+									<select class="dropdown date" id="timezone[<?php echo $optionId ?>]" name="timezone[<?php echo $optionId ?>]" data-option-id="<?php echo $optionId ?>" data-position="<?php echo $position++; ?>">
+											<option value='-1'><?php echo __('Select an option'); ?></option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="personal-plan__modal__trow--error"></div>
+					</div>
+				<?php } ?>	
+			<?php } ?>
+		<?php } ?>
+        <form id="user-details-form">
+            <div class="detail-section">
+                <div class="input-fields clearfix">
+                    <fieldset class="form-wrapper">
+                        <legend class="panel-heading">
+                            <span class="panel-title fieldset-legend">What is your name and contact email?</span>
+                        </legend>
+                    
+                        <div class="panel-body" >
+                            <div class="field-type-text">
+                                <input name="firstname" id="firstname" title="<?php /* @escapeNotVerified */ echo __('First name') ?>" class="input-text" maxlength="30" type="text"/>
+                                <label class="label" for="firstname"><span><?php /* @escapeNotVerified */ echo __('First name') ?></span></label>
+                                <div class="form-error-message"></div>
+                            </div>
+
+                            <div class="field-type-text">
+                                <input name="lastname" id="lastname" title="<?php /* @escapeNotVerified */ echo __('Last name') ?>" maxlength="30" class="input-text" type="text" />
+                                <label class="label" for="lastname">
+                                    <span>
+                                        <?php /* @escapeNotVerified */ echo __('Last name') ?>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="field-type-text">
+                                <input name="email" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="input-text" type="text" />
+                                <label class="label" for="email">
+                                    <span>
+                                        <?php /* @escapeNotVerified */ echo __('Email') ?>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="field-type-text">
+                                <input name="location" id="location" title="<?php /* @escapeNotVerified */ echo __('Location') ?>" class="input-text" maxlength="40" type="text"/>
+                                <label class="label" for="location">
+                                    <span>
+                                        <?php /* @escapeNotVerified */ echo __('Location') ?>
+                                    </span>
+                                </label>
+                            </div>  
+
+                            <div class="field-type-text">
+                                <input name="job_title" id="job_title" title="<?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>" class="input-text" maxlength="40" type="text"/>
+                                <label class="label" for="job_title">
+                                    <span>
+                                        <?php /* @escapeNotVerified */ echo __('Job title (optional)') ?>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </form>
+	</div>
+
+	<div class="personal-plan__modal__btn">
+	    <a class="personal-plan__modal__btn--cancel" href="javascript:void(0);"><?php /*escapeNotVerified*/ echo __('Cancel'); ?></a>
+	    <a href="javascript:void(0);" data-url="<?php echo $this->getUrl("wbtracks/track/save"); ?>" class="detail__button wb-bundle-submit" id="wb-bundle-submit"><?php /*escapeNotVerified*/ echo __('Continue and register'); ?></a>
+	</div>
+</div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    require(['jquery','jquery/validate'], function($) {
+        $(document).ready(function() {
+            $.validator.addMethod('validate_alphanum_with_dash', function (value, element) {
+                if(this.optional(element) || /^[a-zA-Z -]+$/.test(value, element)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }, "<?php echo $generalHelper->getNameValidationMessage(); ?>");
+
+            var domain_values = <?php echo $allowedDomainsList; ?>;
+            var allowedDomains = domain_values.map(function(domain) {
+                return domain.toLowerCase();
+            });
+
+            $.validator.addMethod("valid_domain", function(value, element) {
+                if (allowedDomains.length === 0) {
+                    return true;
+                }
+                var domain = value.split('@')[1].toLowerCase();
+                return this.optional(element) || allowedDomains.includes(domain);
+            }, "Please enter an email address with an approved domain.");
+
+            $("#user-details-form").validate({
+                errorElement: "div",
+                errorClass: "form-error-message",
+                rules: {
+                    firstname: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    },
+                    lastname: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        valid_domain: true
+                    },
+                    location: {
+                        required: true,
+                        minlength: 2,
+                        validate_alphanum_with_dash: true
+                    }
+                },
+                messages: {
+                    firstname: {
+                        required: "First name is required field.",
+                        minlength: "Your first name must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    },
+                    lastname: {
+                        required: "Last name is required field.",
+                        minlength: "Your last name must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    },
+                    email: {
+                        required: "Email is required field.",
+                        email: "Please enter a valid email address (Ex: johndoe@domain.com).",
+                        valid_domain : "Please enter an email address with an appropriate domain."
+                    },
+                    location: {
+                        required: "Location is required field",
+                        minlength: "Your location must be at least 2 characters long.",
+                        validate_alphanum_with_dash : "<?php echo $generalHelper->getNameValidationMessage(); ?>"
+                    }
+                },
+                onfocusout: false,
+                onkeyup: false,
+                onclick: false
+            });
+
+            function isValidData(selector) {
+                var valid1 = true;
+                $(selector).each(function () {
+                    var msg = "";
+                    var date = $(this).find(".date");
+                    var timezone = $(this).find(".timezone");
+                    var date_value = $(date).val();
+                    var timezone_value = $(timezone).val();
+                   
+                    if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
+                        msg = "Please select timezone and date to proceed further.";
+                        valid1 = false;
+                        $(timezone).addClass("sel-error");
+                        $(date).addClass("sel-error");
+                    } else if (date_value == "" || date_value == -1) {
+                        msg = "Please select the date";
+                        valid1 = false;
+                        $(date).addClass("sel-error");
+                    } else if (timezone_value == -1 || timezone_value == "") {
+                        msg = "Please select the timezone";
+                        valid1 = false;
+                        $(timezone).addClass("sel-error");
+                    } else {
+                        msg = "";
+                        valid1 = true;
+                        $(timezone).removeClass("sel-error");
+                        $(date).removeClass("sel-error");
+                        $(this).find(".personal-plan__modal__trow--error").html(msg);
+                    }
+                    $(selector).removeClass("plp-error");
+                    if (msg != "") {
+                        $(this).find(".personal-plan__modal__trow--error").html(msg);
+                        $(selector).addClass("plp-error");
+                    }
+                });
+                return valid1;
+            }
+
+            $("#wb-bundle-submit").on("click", function() {
+                if (isValidData($(".personal-plan__modal__content .option-wrapper")) && $("#user-details-form").valid()) {
+                    $.ajax({
+                        url: '<?php echo $this->getUrl("wbtracks/track/save"); ?>',
+                        type: 'POST',
+                        data: {
+                            first_name: $('#firstname').val(),
+                            last_name: $('#lastname').val(),
+                            email: $('#email').val(),
+                            location: $('#location').val(),
+                            job_title: $('#job_title').val(), 
+                            webinar_details: $("#bundle-str").val()
+                        },
+                        success: function(response) {
+                            if (response["status"] == "success") {
+                                $(".personal-plan__modal").removeClass("show-personal-modal");
+                                $(".thankyou-overlay").css("display","block")
+                            } else {
+                                alert(response["message"]);
+                            }
+                        },
+                    });
+                } 
+            });
+
+            $(".personal-plan__modal__content .detail-section input").each(function () {
+                blur_input_next(this);
+            });
+
+            $(".personal-plan__modal__content .detail-section .field-type-text").each(function () {
+                const inpField = $(this).find(".input-text");
+                if ($(inpField).val().length) {
+                    inpField
+                        .find(".input-text")
+                        .nextAll("label")
+                        .addClass("focussed");
+                }
+            });
+
+            $(".personal-plan__modal__content .detail-section input").on("focus", function () {
+                $(this).nextAll("label").addClass("focussed");
+            });
+
+            $(".personal-plan__modal__content .detail-section input").on("blur", function () {
+                blur_input_next(this);
+            });
+
+            function blur_input_next(y) {
+                if (
+                    $(y).val().length === 0 ||
+                    $(y).val().length == null
+                ) {
+                    $(y).nextAll("label").removeClass("focussed");
+                } else {
+                    $(y).nextAll("label").addClass("focussed");
+                }
+            }
+        });
+    });
+</script>
