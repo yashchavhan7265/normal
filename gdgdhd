@@ -1,0 +1,38 @@
+function isValidData(selector) {
+    var valid1 = true;
+    $(selector).each(function () {
+        var msg = "";
+        var date = $(this).find(".date");
+        var timezone = $(this).find(".timezone");
+        var date_value = $(date).val();
+        var timezone_value = $(timezone).val();
+        $(this).find(".personal-plan__modal__trow--error").html("");
+        $(timezone).removeClass("sel-error");
+        $(date).removeClass("sel-error");
+
+        if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
+            msg = "Please select timezone and date to proceed further.";
+            valid1 = false;
+            $(timezone).addClass("sel-error");
+            $(date).addClass("sel-error");
+        } else if (date_value == "" || date_value == -1) {
+            msg = "Please select the date";
+            valid1 = false;
+            $(date).addClass("sel-error");
+        } else if (timezone_value == -1 || timezone_value == "") {
+            msg = "Please select the timezone";
+            valid1 = false;
+            $(timezone).addClass("sel-error");
+        }
+
+        if (msg != "") {
+            $(this).find(".personal-plan__modal__trow--error").html(msg);
+            $(this).addClass("plp-error");
+        } else {
+            $(this).removeClass("plp-error");
+        }
+    });
+
+    var hasErrors = $(selector).hasClass("plp-error");
+    return valid1 && !hasErrors;
+}
