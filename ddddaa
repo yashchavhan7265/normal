@@ -5,3 +5,5 @@ wget http://ct-share:81/Certs/Proxy-Certificate-Public.crt
 sudo mkdir /usr/share/ca-certificates/extra
 cp Proxy-Certificate-Public.crt /usr/share/ca-certificates/extra/
 sudo dpkg-reconfigure ca-certificates
+
+http://172.27.172.203:81/Certs/Proxy-Certificate-Public.crt
