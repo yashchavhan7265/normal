@@ -1,1 +1,7 @@
-http://localhost/jfcms/admin/auth/reset-password?code=be163f665fdb5b5fe107fdd18fce918216a2b639
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+
+wget http://ct-share:81/Certs/Proxy-Certificate-Public.crt
+sudo mkdir /usr/share/ca-certificates/extra
+cp Proxy-Certificate-Public.crt /usr/share/ca-certificates/extra/
+sudo dpkg-reconfigure ca-certificates
