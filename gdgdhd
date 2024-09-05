@@ -1,38 +1,290 @@
-function isValidData(selector) {
-    var valid1 = true;
-    $(selector).each(function () {
-        var msg = "";
-        var date = $(this).find(".date");
-        var timezone = $(this).find(".timezone");
-        var date_value = $(date).val();
-        var timezone_value = $(timezone).val();
-        $(this).find(".personal-plan__modal__trow--error").html("");
-        $(timezone).removeClass("sel-error");
-        $(date).removeClass("sel-error");
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 
-        if ((timezone_value == -1 || timezone_value == "") && (date_value == "" || date_value == -1)) {
-            msg = "Please select timezone and date to proceed further.";
-            valid1 = false;
-            $(timezone).addClass("sel-error");
-            $(date).addClass("sel-error");
-        } else if (date_value == "" || date_value == -1) {
-            msg = "Please select the date";
-            valid1 = false;
-            $(date).addClass("sel-error");
-        } else if (timezone_value == -1 || timezone_value == "") {
-            msg = "Please select the timezone";
-            valid1 = false;
-            $(timezone).addClass("sel-error");
-        }
+// @codingStandardsIgnoreFile
 
-        if (msg != "") {
-            $(this).find(".personal-plan__modal__trow--error").html(msg);
-            $(this).addClass("plp-error");
-        } else {
-            $(this).removeClass("plp-error");
-        }
-    });
+?>
+<?php $_order = $block->getOrder();
+$currencyCode = $_order ? $_order->getOrderCurrencyCode() : 'GBP';
+ ?>
+<?php if ($_order): ?>
+    <?php $_items = $_order->getAllItems(); ?>
+    <div class="hse-section" style="padding-left:10px; padding-right:10px">
+    <!--[if !((mso)|(IE))]><!-- -->
+        <div class="hse-column-container" style="min-width:280px; max-width:600px; width:100%; Margin-left:auto; Margin-right:auto; border-collapse:collapse; border-spacing:0; background-color:#ffffff" bgcolor="#ffffff">
+        <!--<![endif]-->
+        <!--[if (mso)|(IE)]>
+			<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;">
+			<table align="center" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px;" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff">
+			<tr style="background-color:#ffffff;">
+			<![endif]-->
+	
+			<!--[if (mso)|(IE)]>
+			<td valign="top" style="width:600px;">
+			<![endif]-->
+			<!--[if gte mso 9]>
+			<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px">
+			<![endif]-->
+            <div class="hse-column hse-size-12">
+                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0 !important; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt">
+                        <?php foreach ($_items as $_item): ?>
+                            <?php
+                                if ($_item->getParentItem()) {
+                                    continue;
+                                }
+                            ?>
+                            <tbody>
+                                <?= $block->getItemHtml($_item) ?>
+                            </tbody>
+                        <?php endforeach; die;?>
+                    </table>
+            </div>
+            <!--[if gte mso 9]></table><![endif]-->
+			<!--[if (mso)|(IE)]></td><![endif]-->
+			<!--[if (mso)|(IE)]></tr></table><![endif]-->
+        </div>
+    </div>
+    <div class="hse-section" style="padding-left:10px; padding-right:10px">
+    <!--[if !((mso)|(IE))]><!-- -->
+        <div class="hse-column-container" style="min-width:280px; max-width:600px; width:100%; Margin-left:auto; Margin-right:auto; border-collapse:collapse; border-spacing:0; background-color:#ffffff;padding-top: 36px;" bgcolor="#ffffff">
+    <!--<![endif]-->
+    <!--[if (mso)|(IE)]>
+			<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;">
+			<table align="center" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px;" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff">
+			<tr style="background-color:#ffffff;">
+			<![endif]-->
+	
+			<!--[if (mso)|(IE)]>
+			<td valign="top" style="width:600px;">
+			<![endif]-->
+			<!--[if gte mso 9]>
+			<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px">
+			<![endif]-->
+            <div class="hse-column hse-size-12">
+                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0 !important; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; background-color: #0069DF">
+					<tbody>
+                        <tr>
+							<td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
+                            <td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
+						</tr>
+                        <?= $block->getChildHtml('order_totals') ?>
+                        <tr>
+							<td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
+                            <td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
+						</tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--[if gte mso 9]></table><![endif]-->
+			<!--[if (mso)|(IE)]></td><![endif]-->
+			<!--[if (mso)|(IE)]></tr></table><![endif]-->
+        </div>
+    </div>                
+<?php endif; ?>
 
-    var hasErrors = $(selector).hasClass("plp-error");
-    return valid1 && !hasErrors;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+/** @var $block \Magento\Sales\Block\Order\Email\Items\DefaultItems */
+
+/** @var $_item \Magento\Sales\Model\Order\Item */
+$_item = $block->getItem();
+$_order = $_item->getOrder();
+$storeId = $_order->getStoreId();
+$generalHelper = $this->helper('Jellyfish\General\Helper\Data');
+$courseHelper = $this->helper('Jellyfish\CoursePart\Helper\Data');
+$corporateOrderHelper = $this->helper('Jellyfish\CorporateOrder\Helper\Data');
+$isCorporateOrder = $_order->getIsCorporateOrder();
+$vouchers = $corporateOrderHelper->getVouchers($_order);
+if($vouchers) {
+    $itemVouchers = isset($vouchers[$_item->getId()]) ? $vouchers[$_item->getId()] : [];
 }
+?>
+<?php $helper = $this->helper('Jellyfish\ThankYou\Helper\Data');?>
+<?php $funnelHelper = $this->helper('Jellyfish\CheckoutFunnel\Helper\Data');?>
+<?php $tyHelper = $this->helper('Jellyfish\ThankYou\Helper\Data');?>
+<?php $product = $helper->getProductById($_item->getProductId(), $storeId); ?>
+<?php $level = '';?>
+<?php $attributeSetId = $product->getAttributeSetId();?>
+<?php if($product->getCourseLevel()){?> 
+	<?php $level = $product->getResource()->getAttribute('course_level')->getFrontend()->getValue($product);?>
+<?php }else{?>
+	<?php if(!$tyHelper->isClassroomCourse($attributeSetId,$_item->getName())){ ?>
+		<?php $level = "Online"; ?>
+	<?php } ?>
+<?php } ?>
+<tr>
+    <td style="font-size:0;" align="left" valign="top">
+        <!--[if (gte mso 9)|(IE)]>
+        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
+        <tr>
+        <td valign="top" style="width: 520px;">
+        <![endif]-->
+        <div class="w100p" style="display:inline-block;vertical-align:top;">
+            <table class="w100p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 520px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;"><?php echo __('Product') ?></p>
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:28px; line-height:36px; color: #000000"><?php echo $block->escapeHtml($_item->getName()).' '. __($level); ?></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--[if (gte mso 9)|(IE)]>
+        </td><td valign="top" style="width:80px;">
+        <![endif]-->
+        <div class="w110p" style="display:inline-block;vertical-align:top;">
+            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:80px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;"><?php echo __('Qty'); ?></p>
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:36px; color: #000000">x<?= /* @escapeNotVerified */  $_item->getQtyOrdered() * 1 ?></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+    </td>
+</tr>
+
+<tr>
+    <td style="font-size:0;" align="left" valign="top">
+        <!--[if (gte mso 9)|(IE)]>
+        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
+        <tr>
+        <td valign="top" style="width: 300px;">
+        <![endif]-->
+        <?php if($product->getCourseLocation()) {?>
+        <div class="w110p" style="display:inline-block;vertical-align:top;">
+            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 300px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo __('Location') ?></p>
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?php echo $product->getResource()->getAttribute('course_location')->getFrontend()->getValue($product); ?></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php } ?>
+        <!--[if (gte mso 9)|(IE)]>
+        </td><td valign="top" style="width:300px;">
+        <![endif]-->
+        <?php if($product->getCourseDate()) {?>
+        <div class="w110p" style="display:inline-block;vertical-align:top;">
+            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:300px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;">Training</p>
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?php echo $courseHelper->getCourseDate($product); ?></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <?php } ?>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+    </td>
+</tr>
+
+<tr>
+    <td style="font-size:0;" align="left" valign="top">
+        <!--[if (gte mso 9)|(IE)]>
+        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
+        <tr>
+        <td valign="top" style="width: 300px;">
+        <![endif]-->
+        <div class="w110p" style="display:inline-block;vertical-align:top;">
+            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 300px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo !$isCorporateOrder ? __('Attendees') : __('Voucher(s)') ; ?></p>
+                        <?php if(!$isCorporateOrder) { 
+                            $participant = $funnelHelper->getParticipant($_order->getId(),$product->getId());
+                            ?>
+                            <?php if(count($participant) > 0){?>
+                                <?php foreach($participant as $_participant) {?>
+                                    <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">
+                                        <?php echo strip_tags($_participant->getFirstname(). " " . $_participant->getLastname());?><br />
+                                        <?php echo strip_tags($_participant->getEmail()); ?>
+                                    </p>
+                                <?php } ?>
+                            <?php } else { ?>
+                                    <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">N/A</p>
+                            <?php } ?>
+                        <?php } else { ?>
+                            <?php if(!empty($itemVouchers)) { 
+                                    foreach($itemVouchers as $voucher) { ?>
+                                <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">
+                                    <?php echo strip_tags($voucher['voucher_code']);?>     
+                                </p>
+                                <?php } ?>    
+                            <?php } ?>
+                        <?php } ?>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--[if (gte mso 9)|(IE)]>
+        </td><td valign="top" style="width:300px;">
+        <![endif]-->
+        <div class="w110p" style="display:inline-block;vertical-align:top;">
+            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:300px;">
+                <tr>
+                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo __('Price') ?></p>
+                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?= /* @escapeNotVerified */  $generalHelper->getFormatedPrice($_item->getRowTotal(), 2); ?></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--[if (gte mso 9)|(IE)]>
+        </td>
+        </tr>
+        </table>
+        <![endif]-->
+    </td>
+</tr>
+
+
+<tr>
+    <td style="font-size:0;" align="center" valign="top" class="hs_padded" style="padding:16px 20px 4px;text-align: center;">
+        <div style="height: 1px;background:#E0E0E0;margin: 24px 20px;"></div>
+    </td>
+</tr>
+
+
+
+
