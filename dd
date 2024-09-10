@@ -1,3 +1,9 @@
+"Update failed. First exception on row 0 with id 006RN00000BK6XZYA1; first error: CANNOT_EXECUTE_FLOW_TRIGGER, We can't save this record because the “Closed Won Opportunity” process failed. Give your Salesforce admin these details. This error occurred when the flow tried to create records: FIELD_CUSTOM_VALIDATION_EXCEPTION: NPC target is required. You can look up ExceptionCode values in the SOAP API Developer Guide. Error ID: 221418296-2014197 (-515721971)k up ExceptionCode values in the SOAP API Developer Guide. Error ID: 221418296-2014197 (-515721971): []"
+
+
+
+
+
 {
 	"infinity_installation_id": "60",
 	"infinity_visitor_id": null,
