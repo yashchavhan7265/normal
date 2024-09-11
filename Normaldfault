@@ -1,1 +1,14 @@
-<?php echo $this->getUrl('*/*/', ['_current' => true, '_use_rewrite' => true,'_query' => '']); ?>
+function sha256(message) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+
+    return crypto.subtle.digest('SHA-256', data).then(hash => {
+        return Array.from(new Uint8Array(hash))
+            .map(b => b.toString(16).padStart(2, '0'))
+            .join('');
+    });
+}
+
+sha256('your_string').then(hash => {
+    console.log(hash);
+});
