@@ -1,179 +1,79 @@
-https://jellyfish.my.salesforce-sites.com/trainingrequests/services/apexrest/trainingsync
-https://github.com/JellyfishGroup/jellyfish-training-magento/compare/dev-yash-redesign-new-latest?expand=1
+    $this->addColumn(
+            'page_url',
+            [
+             'header'       => __('Page URL'),
+             'filter_index' => 'page_url',
+             'index'        => 'page_url',
+             'type'         => 'text',
+             'truncate'     => 50,
+             'escape'       => true,
+            ]
+        );
 
-
-{
-	"infinity_installation_id": "60",
-	"infinity_visitor_id": null,
-	"order_id": "7023",
-	"customer_details": {
-		"firstname": "Menna",
-		"lastname": "Cadwallader",
-		"email": "menna.cadwallader@dotdigital.com",
-		"phone": "",
-		"company": "Dotdigital",
-		"jobtitle": "Global L and D Manager"
-	},
-	"opportunity_product": [{
-		"name": "Content Strategy & Copywriting for SEO",
-		"attendees": 1,
-		"attendees_details": [{
-			"first_name": "Tosan",
-			"last_name": "Ebisan",
-			"email": "tosan.abisan@dotdigital.com",
-			"company": "Dotdigital",
-			"job_title": "SEO Lead"
-		}],
-		"type": "",
-		"product_code": "TRAI589",
-		"prodprice": 499,
-		"course_date": "2024-08-12"
-	}],
-	"order_total": {
-		"currency_code": "GBP",
-		"subtotal": 499,
-		"VATPercentage": 0,
-		"discount": 0,
-		"total": 598.8
-	},
-	"billing_address": {
-		"street": "Dotdigital\n1 London Bridge",
-		"city": "LONDON",
-		"state": null,
-		"postal_code": "SE1 9BG",
-		"country": "GB"
-	},
-	"RecordType": "012j00000019THy",
-	"CAMPAIGNID": "Jellyfish Training",
-	"LeadSource": "Website Inbound",
-	"SubSource": "Jellyfish Training - Form",
-	"Type": "New Parent Account",
-	"booking_reference": "5000006147",
-	"marketing": "Jellyfish U.K. Ltd"
-}
+        $this->addColumn(
+            'page_type',
+            [
+             'header'       => __('Page Type'),
+             'filter_index' => 'page_type',
+             'index'        => 'page_type',
+             'type'         => 'text',
+             'truncate'     => 50,
+             'escape'       => true,
+            ]
+        );
 
 
 
 
-
-{
-	"infinity_installation_id": "60",
-	"infinity_visitor_id": null,
-	"order_id": "6951",
-	"customer_details": {
-		"firstname": "Chris",
-		"lastname": "So Woon Yuen",
-		"email": "chris.y@wendywutours.co.uk",
-		"phone": "",
-		"company": "Wendy Wu Tours",
-		"jobtitle": "Business Development Manager"
-	},
-	"opportunity_product": [{
-		"name": "Mastering Social Media Content Creation",
-		"attendees": 1,
-		"attendees_details": [{
-			"first_name": "Chris",
-			"last_name": "So Woon Yuen",
-			"email": "chris.y@wendywutours.co.uk",
-			"company": "Wendy Wu Tours",
-			"job_title": "Business Development Manager"
-		}],
-		"type": "",
-		"product_code": "TRAI583",
-		"prodprice": 499,
-		"course_date": "2024-05-30"
-	}],
-	"order_total": {
-		"currency_code": "GBP",
-		"subtotal": 499,
-		"VATPercentage": 0,
-		"discount": 0,
-		"total": 598.8
-	},
-	"billing_address": {
-		"street": "15 Channing Street",
-		"city": "Kettering",
-		"state": "Northamptonshire",
-		"postal_code": "NN16 0RT",
-		"country": "GB"
-	},
-	"RecordType": "012j00000019THy",
-	"CAMPAIGNID": "Jellyfish Training",
-	"LeadSource": "Website Inbound",
-	"SubSource": "Jellyfish Training - Form",
-	"Type": "New Parent Account",
-	"booking_reference": "5000006079",
-	"marketing": "Jellyfish U.K. Ltd"
-}
+$salesforce['page_url'] = $post['page_url'];
+                $salesforce['page_type'] = $post['page_type'];
 
 
+<column xsi:type="varchar" name="page_url" nullable="true" length="100" comment="Page URL from which form is submitted"/>
+    <column xsi:type="varchar" name="page_type" nullable="true" length="100" comment="Page Type from which form is submitted"/>
+
+$gtmArr2 = [];
+$gtmUser = [];
+$currentUrl = $generalHelper->getCurrentPageUrl();
+$currentPageType = $generalHelper->getCurrentPageType();
 
 
+  <input type="hidden" name="page_url" id="page_url" value="<?php echo $currentUrl; ?>" />
+            <input type="hidden" name="page_type" id="page_type" value="<?php echo $currentPageType; ?>" />
 
+  /**
+     * Get URL of current page
+     *
+     * @return string
+     */
+    public function getCurrentPageUrl()
+    {
+        return $this->_urlInterface->getCurrentUrl();
+    }
 
-{
-	"infinity_installation_id": "60",
-	"infinity_visitor_id": null,
-	"order_id": "7091",
-	"customer_details": {
-		"firstname": "Michael ",
-		"lastname": "Measures",
-		"email": "michael.measures@checkatrade.com",
-		"phone": "",
-		"company": "Checkatrade",
-		"jobtitle": "Marketing Analytics Manager"
-	},
-	"opportunity_product": [{
-		"name": "Introduction to Google Analytics 4 Reporting",
-		"attendees": 2,
-		"attendees_details": [{
-			"first_name": "Michael ",
-			"last_name": "Measures",
-			"email": "michael.measures@checkatrade.com",
-			"company": "Checkatrade",
-			"job_title": "Marketing Analytics Manager"
-		}, {
-			"first_name": "Kieran",
-			"last_name": "Greene",
-			"email": "Kieran.greena@Checkatrade.com",
-			"company": "Checkatrade",
-			"job_title": "Marketing analyst "
-		}],
-		"type": "",
-		"product_code": "TRAI546",
-		"prodprice": 499,
-		"course_date": "2024-08-19"
-	}],
-	"order_total": {
-		"currency_code": "GBP",
-		"subtotal": 998,
-		"VATPercentage": 0,
-		"discount": 0,
-		"total": 1197.6
-	},
-	"billing_address": {
-		"street": "Building 2000 Lakeside North Harbour\nWestern Rd",
-		"city": "Portsmouth ",
-		"state": null,
-		"postal_code": "PO6 3EN",
-		"country": "GB"
-	},
-	"RecordType": "012j00000019THy",
-	"CAMPAIGNID": "Jellyfish Training",
-	"LeadSource": "Website Inbound",
-	"SubSource": "Jellyfish Training - Form",
-	"Type": "New Parent Account",
-	"booking_reference": "5000006209",
-	"marketing": "Jellyfish U.K. Ltd"
-}
+    /**
+     * Get URL of current page type
+     *
+     * @return string
+     */
+    public function getCurrentPageType()
+    {
+        $pageType = 'Content Page';
+        $route      = $this->_request->getRouteName();
+        $controller = $this->_request->getControllerName();
+        $action     = $this->_request->getActionName();
 
+        if($route == 'catalog' && $controller == 'category') {
+            $pageType = "Category Page";
+        } 
 
-
-
-
-
-
-
-
-
-
+        if($route == 'catalog' && $controller == 'product' && $action == 'view') {
+            $pageType = "Course Page";
+            $productId = $this->_request->getParam('id');
+            $product = $this->productRepository->getById($productId);
+            if ($product->getTypeId() == 'bundle') {
+                $pageType = "Course Bundle Page";
+            } 
+        } 
+        return $pageType;
+    }
