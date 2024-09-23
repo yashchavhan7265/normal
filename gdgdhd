@@ -1,290 +1,230 @@
-<?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+{
+        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_GLOBAL);
+        $output->writeln("Automated Order Report Script Started");
+        $this->logger->debug("======= Automated Order Report Script Started ======");
 
-// @codingStandardsIgnoreFile
+        $receiverEmails = $this->generalHelper->getSystemConfigValue(self::RECEIVER_EMAIL);
 
-?>
-<?php $_order = $block->getOrder();
-$currencyCode = $_order ? $_order->getOrderCurrencyCode() : 'GBP';
- ?>
-<?php if ($_order): ?>
-    <?php $_items = $_order->getAllItems(); ?>
-    <div class="hse-section" style="padding-left:10px; padding-right:10px">
-    <!--[if !((mso)|(IE))]><!-- -->
-        <div class="hse-column-container" style="min-width:280px; max-width:600px; width:100%; Margin-left:auto; Margin-right:auto; border-collapse:collapse; border-spacing:0; background-color:#ffffff" bgcolor="#ffffff">
-        <!--<![endif]-->
-        <!--[if (mso)|(IE)]>
-			<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;">
-			<table align="center" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px;" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff">
-			<tr style="background-color:#ffffff;">
-			<![endif]-->
-	
-			<!--[if (mso)|(IE)]>
-			<td valign="top" style="width:600px;">
-			<![endif]-->
-			<!--[if gte mso 9]>
-			<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px">
-			<![endif]-->
-            <div class="hse-column hse-size-12">
-                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0 !important; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt">
-                        <?php foreach ($_items as $_item): ?>
-                            <?php
-                                if ($_item->getParentItem()) {
-                                    continue;
+        if(!empty($receiverEmails)) 
+        {
+            $paymentMethods = ['purchaseorder','stripe_payments','cashondelivery', 'payfast'];
+
+            $currentDate = date("Y-m-d 23:59:59");
+            $monthStartDate = date('Y-m-01 00:00:00');
+
+            $orders = $this->collectionFactory->create();
+            $orders->getSelect()->join(
+                ["sop" => "sales_order_payment"],
+                'main_table.entity_id = sop.parent_id',
+                array('method')
+            );
+            $orders->addAttributeToFilter('created_at', array('from' => $monthStartDate, 'to' => $currentDate));
+
+            $orders->addFieldToFilter(
+                'method',
+                ['in' => $paymentMethods]
+            );
+
+            $orderIds = $orders->getAllIds();
+
+            if (!is_array($orderIds) || empty($orderIds)) {
+                $output->writeln("No Orders Found.");
+                $this->logger->debug("No Orders Found.");
+            } else {
+                $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
+
+                $objPHPExcel->getDefaultStyle()->getFont()->setName('Calibri');
+                $objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
+
+                $objSheet = $objPHPExcel->getActiveSheet();
+                $objSheet->getStyle('A1:P1')->getFont()->setBold(true)->setSize(10);
+
+                $objPHPExcel->setActiveSheetIndex(0)
+                    ->setCellValue('A1', 'Order Id')
+                    ->setCellValue('B1', 'Invoice No')
+                    ->setCellValue('C1', 'Email address')
+                    ->setCellValue('D1', 'Created')
+                    ->setCellValue('E1', 'Subtotal ex VAT')
+                    ->setCellValue('F1', 'Discount')
+                    ->setCellValue('G1', 'Total inc VAT')
+                    ->setCellValue('H1', 'Status')
+                    ->setCellValue('O1', 'Payment Type')
+                    ->setCellValue('P1', 'VAT Number');
+
+                $objPHPExcel->setActiveSheetIndex(0)->mergeCells('I1:N1');
+                $objSheet->getCell('I1')->setValue('Course booking details');
+
+                $objPHPExcel->getActiveSheet()->getStyle('I1')->getAlignment()
+                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+                $_current = 2;
+
+                foreach ($orderIds as $orderId) {
+                    try {
+                        $order = $this->orderFactory->create()->load($orderId);
+                        $subTotal = $order->getSubTotal();
+                        $discount = $order->getDiscountAmount() ? abs($order->getDiscountAmount()) : 0.00;
+                        $revenue = $subTotal - $discount;
+                        $items = $order->getAllItems();
+                        $qty   = $order->getTotalQtyOrdered();
+
+                        $_mergeCells = ($_current + $qty);
+
+                        $payment = $order->getPayment();
+                        $method  = $payment->getMethodInstance();
+                        $paymentTitle = $method->getTitle();
+                        $billingAddress = $order->getBillingAddress();
+
+                        foreach (range('A', 'H') as $columnID) {
+                            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("{$columnID}{$_current}:{$columnID}{$_mergeCells}");
+                        }
+
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("O{$_current}:O{$_mergeCells}");
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("P{$_current}:P{$_mergeCells}");
+
+                        $objSheet->getCell("I{$_current}")->setValue('Course Name(s)');
+                        $objSheet->getCell("J{$_current}")->setValue('Revenue by product (ex VAT)');
+                        $objSheet->getCell("K{$_current}")->setValue('Course date(s)');
+                        $objSheet->getCell("L{$_current}")->setValue('Attendee(s)');
+                        $objSheet->getCell("M{$_current}")->setValue('Attendee(s) email');
+                        $objSheet->getCell("N{$_current}")->setValue('Course Type');
+
+                        foreach (range('A', 'P') as $columnID) {
+                            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+                        }
+
+                        $objSheet->getStyle("I{$_current}:N{$_current}")->getFont()->setBold(true)->setSize(10);
+
+                        $objSheet->getCell("A{$_current}")->setValue($order->getId());
+                        $objSheet->getCell("B{$_current}")->setValue($order->getIncrementId());
+                        $objSheet->getCell("C{$_current}")->setValue($order->getCustomerEmail());
+                        $objSheet->getCell("D{$_current}")->setValue(date("m/d/Y g:i A", strtotime($order->getCreatedAt())));
+                            $objSheet->getCell("E{$_current}")->setValue($this->priceHelper->currencyByStore(
+                                $revenue,
+                                $order->getStoreId(),
+                                true,
+                                false
+                            ));
+                            $objSheet->getCell("F{$_current}")->setValue($this->priceHelper->currencyByStore(
+                                $discount,
+                                $order->getStoreId(),
+                                true,
+                                false
+                            ));
+                            $objSheet->getCell("G{$_current}")->setValue($this->priceHelper->currencyByStore(
+                                $order->getGrandTotal(),
+                                $order->getStoreId(),
+                                true,
+                                false
+                            ));
+                        $objSheet->getCell("H{$_current}")->setValue(ucwords($order->getStatus()));
+
+                        $rowSet = $this->getCoursesAndParticipant($items, $order,$order->getStoreId());
+                        $index  = 1;
+                        $subIndex = 1;
+
+                        for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
+                            if (array_key_exists($index, $rowSet)) {
+                                if (!empty($rowSet[$index]['attendees'])) {
+                                    $participantsCnt = count($rowSet[$index]['attendees']);
+                                    $mergeCol        = ($i + ($participantsCnt - 1));
+                                    if ($participantsCnt > 1) {
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+                                    }
+                                    for ($j = $i; $j <= $mergeCol; $j++) {
+                                        $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
+                                        $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
+                                        $subIndex++;
+                                    }
                                 }
-                            ?>
-                            <tbody>
-                                <?= $block->getItemHtml($_item) ?>
-                            </tbody>
-                        <?php endforeach; die;?>
-                    </table>
-            </div>
-            <!--[if gte mso 9]></table><![endif]-->
-			<!--[if (mso)|(IE)]></td><![endif]-->
-			<!--[if (mso)|(IE)]></tr></table><![endif]-->
-        </div>
-    </div>
-    <div class="hse-section" style="padding-left:10px; padding-right:10px">
-    <!--[if !((mso)|(IE))]><!-- -->
-        <div class="hse-column-container" style="min-width:280px; max-width:600px; width:100%; Margin-left:auto; Margin-right:auto; border-collapse:collapse; border-spacing:0; background-color:#ffffff;padding-top: 36px;" bgcolor="#ffffff">
-    <!--<![endif]-->
-    <!--[if (mso)|(IE)]>
-			<div class="hse-column-container" style="min-width:280px;max-width:600px;width:100%;Margin-left:auto;Margin-right:auto;border-collapse:collapse;border-spacing:0;">
-			<table align="center" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px;" cellpadding="0" cellspacing="0" role="presentation" width="600" bgcolor="#ffffff">
-			<tr style="background-color:#ffffff;">
-			<![endif]-->
-	
-			<!--[if (mso)|(IE)]>
-			<td valign="top" style="width:600px;">
-			<![endif]-->
-			<!--[if gte mso 9]>
-			<table role="presentation" width="600" cellpadding="0" cellspacing="0" style="border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;width:600px">
-			<![endif]-->
-            <div class="hse-column hse-size-12">
-                <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-spacing:0 !important; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; background-color: #0069DF">
-					<tbody>
-                        <tr>
-							<td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
-                            <td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
-						</tr>
-                        <?= $block->getChildHtml('order_totals') ?>
-                        <tr>
-							<td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
-                            <td height="12" align="left" valign="top" style="border-collapse:collapse; mso-line-height-rule:exactly; font-size:px;">&nbsp;</td>
-						</tr>
-                    </tbody>
-                </table>
-            </div>
-            <!--[if gte mso 9]></table><![endif]-->
-			<!--[if (mso)|(IE)]></td><![endif]-->
-			<!--[if (mso)|(IE)]></tr></table><![endif]-->
-        </div>
-    </div>                
-<?php endif; ?>
+                                $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
+                                $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
+                                $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
+                                $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
 
+                                $index++;
+                            }//end if
+                        }//end for
+                        $objSheet->getCell("O{$_current}")->setValue($paymentTitle);
+                        $objSheet->getCell("P{$_current}")->setValue($billingAddress->getVatId());
+                        $_current = ($_mergeCells + 1);
+                        
+                    } catch (\Exception $ex) {
+                        $objPHPExcel->getActiveSheet()->removeRow($_current);
+                        $output->writeln("========== Automated Monthly Order Report Mail: Exception for Order Id:$orderId ===============");
+                        $output->writeln('========== Automated Monthly Order Report Mail: Exception Details:'.$ex->getMessage().' ===============');
+                        $this->logger->critical("========== Automated Monthly Order Report Mail: Exception for Order Id:'.$orderId.' ===============");
+                        $this->logger->critical('========== Automated Monthly Order Report Mail: Exception Details:'.$ex->getMessage().' ===============');
+                    } 
+                }//end foreach
 
+                $exportDirectory =  $this->directoryList->getPath("var") . "/exports/";
+                $file = 'order_data_' . date("Y_m_d") . '.xlsx';
+                if (!is_dir($exportDirectory)) {
+                    $ioAdapter = $this->file;
+                    $ioAdapter->mkdir($exportDirectory, 0775);
+                }
+                $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
+                $objWriter->save($exportDirectory . $file);
+                $this->mailSendMethod($exportDirectory, $file, $receiverEmails);
+                $output->writeln("Email Sent Successfully to :".$receiverEmails.".");
+            }//end if
+        } else {
+            $output->writeln("Please enter the receiver email address in configuration.");
+        }//end if
 
+        $output->writeln("Automated Order Report Script Ended");
+        $this->logger->debug("======= Automated Order Report Script Ended ======");        
+    }
 
+    /**
+     * Get Course and Participant
+     *
+     * @param array
+     */
+    public function getCoursesAndParticipant($items, $order, $storeId)
+    {
+        $list = [];
+        $orderId = $order->getId();
+        $isFlexibleTrainingOrder = $order->getIsCorporateOrder();
+        $index = 1;
+        $j     = 1;
+        foreach ($items as $item) {
+            $product = $this->_funnelHelper->getProductById($item->getProductId());
+            if ($product->getId()) {
+                $level = '';
+                if ($product->getCourseLevel()) {
+                    $level = $product->getResource()->getAttribute('course_level')->getFrontend()->getValue($product);
+                }
+                
+                $type = 'classroom';            
+                if (!empty($this->_funnelHelper->getAttributeSetNameByID($product->getAttributeSetId())) && strpos($this->_funnelHelper->getAttributeSetNameByID($product->getAttributeSetId()), 'ONLINE') !== false) {
+                    $type = 'online';
+                }
 
+                $type = $product->getDefaultCourseLength().' '. $type . __(' course');
+                
+                if ($isFlexibleTrainingOrder) {
+                    $type = 'flexible training plan';
+                }
+                $list[$index]['name']  = $item->getName() . " " .$level;
+                $list[$index]['price'] = $this->priceHelper->currencyByStore($item->getRowTotal(), $storeId, true, false);
+                $list[$index]['date']  = !$isFlexibleTrainingOrder ? $this->_funnelHelper->getFormatedDate($product->getCourseDate()) : '';
+                $list[$index]['type']  = ucwords($type);
 
+                $participants = $this->_funnelHelper->getParticipant($orderId, $item->getProductId());
 
+                foreach ($participants as $_participant) {
+                    $list[$index]['attendees'][$j]['name']  = $_participant->getFirstname().$_participant->getLastname();
+                    $list[$index]['attendees'][$j]['email'] = $_participant->getEmail();
 
-
-
-
-
-
-
-
-
-
-
-
-<?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-// @codingStandardsIgnoreFile
-
-/** @var $block \Magento\Sales\Block\Order\Email\Items\DefaultItems */
-
-/** @var $_item \Magento\Sales\Model\Order\Item */
-$_item = $block->getItem();
-$_order = $_item->getOrder();
-$storeId = $_order->getStoreId();
-$generalHelper = $this->helper('Jellyfish\General\Helper\Data');
-$courseHelper = $this->helper('Jellyfish\CoursePart\Helper\Data');
-$corporateOrderHelper = $this->helper('Jellyfish\CorporateOrder\Helper\Data');
-$isCorporateOrder = $_order->getIsCorporateOrder();
-$vouchers = $corporateOrderHelper->getVouchers($_order);
-if($vouchers) {
-    $itemVouchers = isset($vouchers[$_item->getId()]) ? $vouchers[$_item->getId()] : [];
-}
-?>
-<?php $helper = $this->helper('Jellyfish\ThankYou\Helper\Data');?>
-<?php $funnelHelper = $this->helper('Jellyfish\CheckoutFunnel\Helper\Data');?>
-<?php $tyHelper = $this->helper('Jellyfish\ThankYou\Helper\Data');?>
-<?php $product = $helper->getProductById($_item->getProductId(), $storeId); ?>
-<?php $level = '';?>
-<?php $attributeSetId = $product->getAttributeSetId();?>
-<?php if($product->getCourseLevel()){?> 
-	<?php $level = $product->getResource()->getAttribute('course_level')->getFrontend()->getValue($product);?>
-<?php }else{?>
-	<?php if(!$tyHelper->isClassroomCourse($attributeSetId,$_item->getName())){ ?>
-		<?php $level = "Online"; ?>
-	<?php } ?>
-<?php } ?>
-<tr>
-    <td style="font-size:0;" align="left" valign="top">
-        <!--[if (gte mso 9)|(IE)]>
-        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
-        <tr>
-        <td valign="top" style="width: 520px;">
-        <![endif]-->
-        <div class="w100p" style="display:inline-block;vertical-align:top;">
-            <table class="w100p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 520px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;"><?php echo __('Product') ?></p>
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:28px; line-height:36px; color: #000000"><?php echo $block->escapeHtml($_item->getName()).' '. __($level); ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!--[if (gte mso 9)|(IE)]>
-        </td><td valign="top" style="width:80px;">
-        <![endif]-->
-        <div class="w110p" style="display:inline-block;vertical-align:top;">
-            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:80px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;"><?php echo __('Qty'); ?></p>
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:36px; color: #000000">x<?= /* @escapeNotVerified */  $_item->getQtyOrdered() * 1 ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!--[if (gte mso 9)|(IE)]>
-        </td>
-        </tr>
-        </table>
-        <![endif]-->
-    </td>
-</tr>
-
-<tr>
-    <td style="font-size:0;" align="left" valign="top">
-        <!--[if (gte mso 9)|(IE)]>
-        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
-        <tr>
-        <td valign="top" style="width: 300px;">
-        <![endif]-->
-        <?php if($product->getCourseLocation()) {?>
-        <div class="w110p" style="display:inline-block;vertical-align:top;">
-            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 300px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo __('Location') ?></p>
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?php echo $product->getResource()->getAttribute('course_location')->getFrontend()->getValue($product); ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <?php } ?>
-        <!--[if (gte mso 9)|(IE)]>
-        </td><td valign="top" style="width:300px;">
-        <![endif]-->
-        <?php if($product->getCourseDate()) {?>
-        <div class="w110p" style="display:inline-block;vertical-align:top;">
-            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:300px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;">Training</p>
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?php echo $courseHelper->getCourseDate($product); ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <?php } ?>
-        <!--[if (gte mso 9)|(IE)]>
-        </td>
-        </tr>
-        </table>
-        <![endif]-->
-    </td>
-</tr>
-
-<tr>
-    <td style="font-size:0;" align="left" valign="top">
-        <!--[if (gte mso 9)|(IE)]>
-        <table cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 100%;">
-        <tr>
-        <td valign="top" style="width: 300px;">
-        <![endif]-->
-        <div class="w110p" style="display:inline-block;vertical-align:top;">
-            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width: 300px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo !$isCorporateOrder ? __('Attendees') : __('Voucher(s)') ; ?></p>
-                        <?php if(!$isCorporateOrder) { 
-                            $participant = $funnelHelper->getParticipant($_order->getId(),$product->getId());
-                            ?>
-                            <?php if(count($participant) > 0){?>
-                                <?php foreach($participant as $_participant) {?>
-                                    <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">
-                                        <?php echo strip_tags($_participant->getFirstname(). " " . $_participant->getLastname());?><br />
-                                        <?php echo strip_tags($_participant->getEmail()); ?>
-                                    </p>
-                                <?php } ?>
-                            <?php } else { ?>
-                                    <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">N/A</p>
-                            <?php } ?>
-                        <?php } else { ?>
-                            <?php if(!empty($itemVouchers)) { 
-                                    foreach($itemVouchers as $voucher) { ?>
-                                <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000">
-                                    <?php echo strip_tags($voucher['voucher_code']);?>     
-                                </p>
-                                <?php } ?>    
-                            <?php } ?>
-                        <?php } ?>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!--[if (gte mso 9)|(IE)]>
-        </td><td valign="top" style="width:300px;">
-        <![endif]-->
-        <div class="w110p" style="display:inline-block;vertical-align:top;">
-            <table class="w110p" cellpadding="0" cellspacing="0" border="0" role="presentation" style="width:300px;">
-                <tr>
-                    <td align="left" valign="top" class="hs_padded" style="border-collapse:collapse; mso-line-height-rule:exactly; font-family:Helvetica, Arial, sans-serif; font-size:18px; color:#000000; word-break:break-word; padding:16px 20px 4px">
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:14px; line-height:18px; text-transform: uppercase; color: #525252;padding-bottom: 5px;"><?php echo __('Price') ?></p>
-                        <p style="margin: 0;mso-line-height-rule:exactly; font-size:18px; line-height:24px; color: #000000"><?= /* @escapeNotVerified */  $generalHelper->getFormatedPrice($_item->getRowTotal(), 2); ?></p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <!--[if (gte mso 9)|(IE)]>
-        </td>
-        </tr>
-        </table>
-        <![endif]-->
-    </td>
-</tr>
-
-
-<tr>
-    <td style="font-size:0;" align="center" valign="top" class="hs_padded" style="padding:16px 20px 4px;text-align: center;">
-        <div style="height: 1px;background:#E0E0E0;margin: 24px 20px;"></div>
-    </td>
-</tr>
-
-
-
-
+                    $j++;
+                }
+                $index++;
+            }                           
+        }
+        return $list;
+    }//end getCoursesAndParticipant()
