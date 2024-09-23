@@ -1,103 +1,78 @@
-foreach ($orderIds as $orderId) {
-    try {
-        $order = $this->orderFactory->create()->load($orderId);
-        $subTotal = $order->getSubTotal();
-        $discount = $order->getDiscountAmount() ? abs($order->getDiscountAmount()) : 0.00;
-        $revenue = $subTotal - $discount;
-        $items = $order->getAllItems();
-        $qty   = $order->getTotalQtyOrdered();
+(
+    [1] => Array
+        (
+            [name] => Introduction to Google Analytics 4 Reporting 
+            [price] => $1,098.00
+            [date] => Mon 18 Nov, 2024
+            [type] =>  Classroom Course
+            [attendees] => Array
+                (
+                    [1] => Array
+                        (
+                            [name] => YashChavhan
+                            [email] => yashch@test.com
+                        )
 
-        $_mergeCells = ($_current + $qty);
+                    [2] => Array
+                        (
+                            [name] => JaimeenBhat
+                            [email] => jaimenb@test.com
+                        )
 
-        $payment = $order->getPayment();
-        $method  = $payment->getMethodInstance();
-        $paymentTitle = $method->getTitle();
-        $billingAddress = $order->getBillingAddress();
+                )
 
-        // Merge A-H, O-P cells for the order (general information)
-        foreach (range('A', 'H') as $columnID) {
-            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("{$columnID}{$_current}:{$columnID}{$_mergeCells}");
-        }
+        )
 
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("O{$_current}:O{$_mergeCells}");
-        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("P{$_current}:P{$_mergeCells}");
+    [2] => Array
+        (
+            [name] => Google Ads Search: Fundamentals 
+            [price] => $549.00
+            [date] => Mon 02 Dec, 2024
+            [type] =>  Classroom Course
+            [attendees] => Array
+                (
+                    [1] => Array
+                        (
+                            [name] => JaimeenBhat
+                            [email] => jaimenb@test.com
+                        )
 
-        // Set headers for course information
-        $objSheet->getCell("I{$_current}")->setValue('Course Name(s)');
-        $objSheet->getCell("J{$_current}")->setValue('Revenue by product (ex VAT)');
-        $objSheet->getCell("K{$_current}")->setValue('Course date(s)');
-        $objSheet->getCell("L{$_current}")->setValue('Attendee(s)');
-        $objSheet->getCell("M{$_current}")->setValue('Attendee(s) email');
-        $objSheet->getCell("N{$_current}")->setValue('Course Type');
+                )
 
-        foreach (range('A', 'P') as $columnID) {
-            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-        }
+        )
 
-        $objSheet->getStyle("I{$_current}:N{$_current}")->getFont()->setBold(true)->setSize(10);
+)
 
-        // Set general order information
-        $objSheet->getCell("A{$_current}")->setValue($order->getId());
-        $objSheet->getCell("B{$_current}")->setValue($order->getIncrementId());
-        $objSheet->getCell("C{$_current}")->setValue($order->getCustomerEmail());
-        $objSheet->getCell("D{$_current}")->setValue(date("m/d/Y g:i A", strtotime($order->getCreatedAt())));
-        $objSheet->getCell("E{$_current}")->setValue($this->priceHelper->currencyByStore($revenue, $order->getStoreId(), true, false));
-        $objSheet->getCell("F{$_current}")->setValue($this->priceHelper->currencyByStore($discount, $order->getStoreId(), true, false));
-        $objSheet->getCell("G{$_current}")->setValue($this->priceHelper->currencyByStore($order->getGrandTotal(), $order->getStoreId(), true, false));
-        $objSheet->getCell("H{$_current}")->setValue(ucwords($order->getStatus()));
 
-        // Fetch the courses and participants
-        $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
-        $index = 1;  // Reset index for each order
 
-        for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
-            if (array_key_exists($index, $rowSet)) {
-                // Check if there are attendees and merge accordingly
-                if (!empty($rowSet[$index]['attendees'])) {
-                    $participantsCnt = count($rowSet[$index]['attendees']);
-                    $mergeCol = ($i + ($participantsCnt - 1));
 
-                    // Merge cells for multiple attendees
-                    if ($participantsCnt > 1) {
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
-                    }
 
-                    // Loop through attendees and populate their information
-                    $subIndex = 1;  // Reset subIndex for each course's attendees
-                    for ($j = $i; $j <= $mergeCol; $j++) {
-                        $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
-                        $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
-                        $subIndex++;
-                    }
+ $rowSet = $this->getCoursesAndParticipant($items, $order,$order->getStoreId());
+                        $index  = 1;
+                        $subIndex = 1;
 
-                    // Move pointer to the last merged row to avoid overwriting rows
-                    $i = $mergeCol;
-                }
+                        for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
+                            if (array_key_exists($index, $rowSet)) {
+                                if (!empty($rowSet[$index]['attendees'])) {
+                                    $participantsCnt = count($rowSet[$index]['attendees']);
+                                    $mergeCol        = ($i + ($participantsCnt - 1));
+                                    if ($participantsCnt > 1) {
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
+                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+                                    }
+                                    for ($j = $i; $j <= $mergeCol; $j++) {
+                                        $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
+                                        $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
+                                        $subIndex++;
+                                    }
+                                }
+                                $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
+                                $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
+                                $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
+                                $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
 
-                // Set course information
-                $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
-                $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
-                $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
-                $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
-
-                $index++;
-            }
-        }
-
-        // Set payment method and VAT number
-        $objSheet->getCell("O{$_current}")->setValue($paymentTitle);
-        $objSheet->getCell("P{$_current}")->setValue($billingAddress->getVatId());
-
-        // Move to the next row for the next order
-        $_current = ($_mergeCells + 1);
-
-    } catch (\Exception $ex) {
-        // Error handling
-        $objPHPExcel->getActiveSheet()->removeRow($_current);
-        $output->writeln("Exception for Order Id: $orderId. Details: ".$ex->getMessage());
-        $this->logger->critical("Exception for Order Id: $orderId. Details: ".$ex->getMessage());
-    }
-}
+                                $index++;
+                            }//end if
+                        }//end for
