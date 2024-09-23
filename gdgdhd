@@ -1,4 +1,134 @@
-ji{
+<?php
+namespace Jellyfish\CustomConsoles\Console;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
+use Magento\Sales\Model\OrderFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem\Io\File;
+use Psr\Log\LoggerInterface;
+use Magento\Framework\Mail\Template\TransportBuilder;
+use Magento\Framework\Translate\Inline\StateInterface;
+use Magento\Framework\Pricing\Helper\Data;
+use Jellyfish\CheckoutFunnel\Helper\Data as CheckoutHelper;
+use Jellyfish\General\Helper\Data as GeneralHelper;
+use Magento\Framework\App\State;
+
+class MonthlyOrderReport extends Command
+{
+   /*
+    * Email template, sender and receivers for Monthly Order Report Mail
+    */
+    const XML_PATH_EMAIL_TEMPLATE_FIELD = 'jellyfish/email_setting/automated_order_report_template';
+    const SENDER_NAME = 'jellyfish/email_setting/sender_name';
+    const SENDER_EMAIL = 'jellyfish/email_setting/sender_email';
+    const RECEIVER_EMAIL = 'jellyfish/email_setting/automated_order_report_receiver_email';
+
+    /**
+     * @var CollectionFactory
+     */
+    protected $collectionFactory;
+
+    /**
+     * @var OrderFactory
+     */
+    protected $orderFactory;
+
+    /**
+     * @var DirectoryList
+     */
+    protected $directoryList;
+
+    /**
+     * @var File
+     */
+    protected $file;
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    /**
+     * @var TransportBuilder
+     */
+    protected $transportBuilder;
+
+    /**
+     * @var StateInterface
+     */
+    protected $inlineTranslation;
+
+    /**
+     * @var Data
+     */
+    protected $priceHelper;
+
+    /**
+     * @var CheckoutHelper
+     */
+    protected $checkoutHelper;
+
+    /**
+     * @var State
+     */
+    protected $state;
+
+    /**
+     * @var GeneralHelper
+     */
+    protected $generalHelper;
+
+    /**
+     * @param CollectionFactory $collectionFactory
+     * @param OrderFactory $orderFactory
+     * @param DirectoryList $directoryList
+     * @param File file
+     * @param LoggerInterface $logger
+     * @param TransportBuilder $transportBuilder
+     * @param StateInterface $inlineTranslation
+     * @param Data $priceHelper
+     * @param CheckoutHelper $checkoutHelper
+     * @param State $state
+     * @param GeneralHelper $generalHelper
+     */
+    public function __construct(
+        CollectionFactory $collectionFactory,
+        OrderFactory $orderFactory,
+        DirectoryList $directoryList,
+        File $file,
+        LoggerInterface $logger,
+        TransportBuilder $transportBuilder,
+        StateInterface $inlineTranslation,
+        Data $priceHelper,
+        CheckoutHelper $checkoutHelper,
+        State $state,
+        GeneralHelper $generalHelper
+    ) {
+        $this->orderFactory  = $orderFactory;
+        $this->collectionFactory = $collectionFactory;
+        $this->directoryList = $directoryList;
+        $this->file = $file;
+        $this->logger = $logger;
+        $this->transportBuilder = $transportBuilder;
+        $this->inlineTranslation = $inlineTranslation;
+        $this->priceHelper = $priceHelper;
+        $this->_funnelHelper = $checkoutHelper;
+        $this->state = $state;
+        $this->generalHelper = $generalHelper;
+        parent::__construct();
+    }
+    protected function configure()
+    {
+        $this->setName('jf:order:run');
+        $this->setDescription('Schedule to send an Order Report On Every Last Friday Of Month.');
+        parent::configure();
+    }
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_GLOBAL);
         $output->writeln("Automated Order Report Script Started");
         $this->logger->debug("======= Automated Order Report Script Started ======");
@@ -229,54 +359,69 @@ ji{
         return $list;
     }//end getCoursesAndParticipant()
 
-
-
-
-
-$subIndex = 1;  // Reset subIndex before the loop for attendees
-
-for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
-    if (array_key_exists($index, $rowSet)) {
-        if (!empty($rowSet[$index]['attendees'])) {
-            $participantsCnt = count($rowSet[$index]['attendees']);
-            $mergeCol = ($i + ($participantsCnt - 1));
-
-            if ($participantsCnt > 1) {
-                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
-                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
-                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
-                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+    /**
+     * Send Email 
+     *
+     * @param  string $filePath
+     * @param  string $filename
+     * @param  array  $receiverEmails
+     * @return void
+     */
+    public function mailSendMethod($filePath, $filename, $receiverEmails)
+    {
+        $senderInfo = [
+            'name' => $this->generalHelper->getSystemConfigValue(self::SENDER_NAME),
+            'email' => $this->generalHelper->getSystemConfigValue(self::SENDER_EMAIL),
+        ];
+        $recievers = explode(',', $receiverEmails);
+        foreach($recievers as $reciever) {
+            try {
+                $this->inlineTranslation->suspend();
+                $this->generateTemplate($senderInfo, $reciever, $filePath, $filename);
+                $transport = $this->transportBuilder->getTransport();
+                $transport->sendMessage();
+                $this->inlineTranslation->resume();
+                $this->logger->debug("========== Automated Monthly Order Report Mail Sent Successfully to:'.$reciever.' ===============");        
+            } catch (\Exception $ex) {
+                $this->logger->critical('========== Automated Monthly Order Report Mail Exception:'.$ex->getMessage().' ===============');
             }
-
-            // Reset subIndex here for each set of attendees
-            $subIndex = 1;  // <--- Resetting subIndex to 1 for each course
-
-            for ($j = $i; $j <= $mergeCol; $j++) {
-                $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
-                $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
-                $subIndex++;  // Increment after each attendee is processed
-            }
-
-            // Move 'i' pointer to avoid overriding the next row
-            $i = $mergeCol;
-        }
-
-        $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
-        $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
-        $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
-        $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
-
-        $index++;
+        }           
     }
+
+    /**
+     * template file and tempaltes variables values
+     * @param  Mixed $senderInfo
+     * @param  Mixed $receiverInfo
+     * @param  string $filePath
+     * @param  string $filename
+     * @return void
+     */
+    public function generateTemplate($senderInfo, $receiverInfo, $filePath, $filename)
+    {
+        $storeId = $this->generalHelper->getStoreinfo();
+        $template = $this->generalHelper->getSystemConfigValue(self::XML_PATH_EMAIL_TEMPLATE_FIELD);
+        $currrentMonth = date('F');
+        $emailTemplateVariables = [
+            "month" => $currrentMonth
+        ];
+        $file_content = file_get_contents($filePath.$filename); 
+        $template = $this->transportBuilder->setTemplateIdentifier($template)
+            ->setTemplateOptions(
+                [
+                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+                    'store' => $storeId,
+                ]
+            )
+            ->setTemplateVars($emailTemplateVariables)
+            ->setFrom($senderInfo)
+            ->addTo($receiverInfo)
+            ->clearAttachments()
+            ->addAttachment(
+                $file_content,
+                'application/vnd.ms-excel',
+                $filename
+            );
+        return $this;
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
