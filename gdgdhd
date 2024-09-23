@@ -1,4 +1,4 @@
-{
+ji{
         $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_GLOBAL);
         $output->writeln("Automated Order Report Script Started");
         $this->logger->debug("======= Automated Order Report Script Started ======");
@@ -228,3 +228,55 @@
         }
         return $list;
     }//end getCoursesAndParticipant()
+
+
+
+
+
+$subIndex = 1;  // Reset subIndex before the loop for attendees
+
+for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
+    if (array_key_exists($index, $rowSet)) {
+        if (!empty($rowSet[$index]['attendees'])) {
+            $participantsCnt = count($rowSet[$index]['attendees']);
+            $mergeCol = ($i + ($participantsCnt - 1));
+
+            if ($participantsCnt > 1) {
+                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
+                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
+                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
+                $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+            }
+
+            // Reset subIndex here for each set of attendees
+            $subIndex = 1;  // <--- Resetting subIndex to 1 for each course
+
+            for ($j = $i; $j <= $mergeCol; $j++) {
+                $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
+                $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
+                $subIndex++;  // Increment after each attendee is processed
+            }
+
+            // Move 'i' pointer to avoid overriding the next row
+            $i = $mergeCol;
+        }
+
+        $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
+        $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
+        $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
+        $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
+
+        $index++;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
