@@ -1,336 +1,48 @@
-Array
-(
-    [1] => Array
-        (
-            [name] => SEO Specialist 
-            [price] => £1,048.00
-            [date] => Mon 23 Sep, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@test.com
-                        )
+$rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
+$index = 1;  // Start with the first course
 
-                )
+for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
+    if (array_key_exists($index, $rowSet)) {
+        // Get course details
+        $course = $rowSet[$index];
+        $attendees = isset($course['attendees']) ? $course['attendees'] : [];
 
-        )
+        // Count the number of attendees, default to 1 if none are present
+        $participantsCnt = count($attendees) > 0 ? count($attendees) : 1;
 
-    [2] => Array
-        (
-            [name] => Technical SEO 
-            [price] => £0.00
-            [date] => Tue 03 Dec, 2024
-            [type] =>  Classroom Course
-        )
+        // Merge cells if there are multiple attendees
+        $mergeCol = ($i + ($participantsCnt - 1));
+        if ($participantsCnt > 1) {
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+        }
 
-    [3] => Array
-        (
-            [name] => SEO Copywriting & Content Strategy 
-            [price] => £0.00
-            [date] => Mon 11 Nov, 2024
-            [type] =>  Classroom Course
-        )
+        // Set course details in the first row (if merged, it will span all rows for that course)
+        $objSheet->getCell("I{$i}")->setValue($course['name']);
+        $objSheet->getCell("J{$i}")->setValue($course['price']);
+        $objSheet->getCell("K{$i}")->setValue($course['date']);
+        $objSheet->getCell("N{$i}")->setValue($course['type']);
 
-    [4] => Array
-        (
-            [name] => Link Building & Digital PR 
-            [price] => £0.00
-            [date] => Tue 12 Nov, 2024
-            [type] =>  Classroom Course
-        )
+        // Loop through each attendee (if any) and assign their data
+        if ($participantsCnt > 0) {
+            $attendeeKeys = array_keys($attendees);  // Get actual keys of attendees
+            for ($j = $i, $attendeeIndex = 0; $j <= $mergeCol; $j++, $attendeeIndex++) {
+                if (isset($attendeeKeys[$attendeeIndex])) {
+                    $attendeeKey = $attendeeKeys[$attendeeIndex];
+                    $objSheet->getCell("L{$j}")->setValue($attendees[$attendeeKey]['name']);
+                    $objSheet->getCell("M{$j}")->setValue($attendees[$attendeeKey]['email']);
+                }
+            }
+        } else {
+            // If no attendees, ensure we still increment the row for the course
+            $objSheet->getCell("L{$i}")->setValue("N/A");
+            $objSheet->getCell("M{$i}")->setValue("N/A");
+        }
 
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => PHP & MySQL 
-            [price] => £599.00
-            [date] => Mon 16 Sep, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yash.gajananrao-chavhan@jellyfish.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Professional Data Engineer 
-            [price] => £2,232.00
-            [date] => Mon 23 Sep, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yash.gajananrao-chavhan@jellyfish.com
-                        )
-
-                )
-
-        )
-
-    [2] => Array
-        (
-            [name] => Google Cloud Fundamentals: Big Data & Machine Learning 
-            [price] => £0.00
-            [date] => Mon 02 Dec, 2024
-            [type] =>  Classroom Course
-        )
-
-    [3] => Array
-        (
-            [name] => Data Engineering on Google Cloud 
-            [price] => £0.00
-            [date] => Tue 03 Dec, 2024
-            [type] =>  Classroom Course
-        )
-
-    [4] => Array
-        (
-            [name] => SEO Specialist 
-            [price] => £1,048.00
-            [date] => Mon 23 Sep, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [2] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yash.gajananrao-chavhan@jellyfish.com
-                        )
-
-                )
-
-        )
-
-    [5] => Array
-        (
-            [name] => Technical SEO 
-            [price] => £0.00
-            [date] => Tue 08 Oct, 2024
-            [type] =>  Classroom Course
-        )
-
-    [6] => Array
-        (
-            [name] => SEO Copywriting & Content Strategy 
-            [price] => £0.00
-            [date] => Mon 11 Nov, 2024
-            [type] =>  Classroom Course
-        )
-
-    [7] => Array
-        (
-            [name] => Link Building & Digital PR 
-            [price] => £0.00
-            [date] => Tue 12 Nov, 2024
-            [type] =>  Classroom Course
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Adobe Illustrator CC 
-            [price] => £399.00
-            [date] => Mon 03 Feb, 2025
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yash.gajananrao-chavhan@jellyfish.com
-                        )
-
-                )
-
-        )
-
-    [2] => Array
-        (
-            [name] => Mastering Amazon Essentials 
-            [price] => £499.00
-            [date] => Tue 04 Feb, 2025
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [2] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yash.gajananrao-chavhan@jellyfish.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Gemini for Workspace 
-            [price] => £1,349.00
-            [date] => Mon 16 Dec, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@cybage.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Mastering Amazon Essentials 
-            [price] => $549.00
-            [date] => Wed 05 Feb, 2025
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@tes.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Adobe Analytics 
-            [price] => $549.00
-            [date] => Tue 11 Feb, 2025
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@test.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Technical SEO 
-            [price] => £499.00
-            [date] => Mon 07 Oct, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => atharva.joshi-external@jellyfish.com
-                        )
-
-                )
-
-        )
-
-)
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Introduction to SEO 
-            [price] => £499.00
-            [date] => Mon 03 Feb, 2025
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@cybage.com
-                        )
-
-                )
-
-        )
-
-)
-
-
-<pre>Array
-(
-    [1] => Array
-        (
-            [name] => Introduction to Google Analytics 4 Reporting 
-            [price] => $1,098.00
-            [date] => Mon 18 Nov, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [1] => Array
-                        (
-                            [name] => YashChavhan
-                            [email] => yashch@test.com
-                        )
-
-                    [2] => Array
-                        (
-                            [name] => JaimeenBhat
-                            [email] => jaimenb@test.com
-                        )
-
-                )
-
-        )
-
-    [2] => Array
-        (
-            [name] => Google Ads Search: Fundamentals 
-            [price] => $549.00
-            [date] => Mon 02 Dec, 2024
-            [type] =>  Classroom Course
-            [attendees] => Array
-                (
-                    [3] => Array
-                        (
-                            [name] => JaimeenBhat
-                            [email] => jaimenb@test.com
-                        )
-
-                )
-
-        )
-
-)
+        // Move the row index to the last row of the merged block
+        $i = $mergeCol;
+        $index++;  // Move to the next course
+    }
+}
