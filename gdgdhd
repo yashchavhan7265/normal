@@ -1,427 +1,103 @@
-<?php
-namespace Jellyfish\CustomConsoles\Console;
+foreach ($orderIds as $orderId) {
+    try {
+        $order = $this->orderFactory->create()->load($orderId);
+        $subTotal = $order->getSubTotal();
+        $discount = $order->getDiscountAmount() ? abs($order->getDiscountAmount()) : 0.00;
+        $revenue = $subTotal - $discount;
+        $items = $order->getAllItems();
+        $qty   = $order->getTotalQtyOrdered();
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Magento\Sales\Model\ResourceModel\Order\CollectionFactory;
-use Magento\Sales\Model\OrderFactory;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Filesystem\Io\File;
-use Psr\Log\LoggerInterface;
-use Magento\Framework\Mail\Template\TransportBuilder;
-use Magento\Framework\Translate\Inline\StateInterface;
-use Magento\Framework\Pricing\Helper\Data;
-use Jellyfish\CheckoutFunnel\Helper\Data as CheckoutHelper;
-use Jellyfish\General\Helper\Data as GeneralHelper;
-use Magento\Framework\App\State;
+        $_mergeCells = ($_current + $qty);
 
-class MonthlyOrderReport extends Command
-{
-   /*
-    * Email template, sender and receivers for Monthly Order Report Mail
-    */
-    const XML_PATH_EMAIL_TEMPLATE_FIELD = 'jellyfish/email_setting/automated_order_report_template';
-    const SENDER_NAME = 'jellyfish/email_setting/sender_name';
-    const SENDER_EMAIL = 'jellyfish/email_setting/sender_email';
-    const RECEIVER_EMAIL = 'jellyfish/email_setting/automated_order_report_receiver_email';
+        $payment = $order->getPayment();
+        $method  = $payment->getMethodInstance();
+        $paymentTitle = $method->getTitle();
+        $billingAddress = $order->getBillingAddress();
 
-    /**
-     * @var CollectionFactory
-     */
-    protected $collectionFactory;
-
-    /**
-     * @var OrderFactory
-     */
-    protected $orderFactory;
-
-    /**
-     * @var DirectoryList
-     */
-    protected $directoryList;
-
-    /**
-     * @var File
-     */
-    protected $file;
-
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    /**
-     * @var TransportBuilder
-     */
-    protected $transportBuilder;
-
-    /**
-     * @var StateInterface
-     */
-    protected $inlineTranslation;
-
-    /**
-     * @var Data
-     */
-    protected $priceHelper;
-
-    /**
-     * @var CheckoutHelper
-     */
-    protected $checkoutHelper;
-
-    /**
-     * @var State
-     */
-    protected $state;
-
-    /**
-     * @var GeneralHelper
-     */
-    protected $generalHelper;
-
-    /**
-     * @param CollectionFactory $collectionFactory
-     * @param OrderFactory $orderFactory
-     * @param DirectoryList $directoryList
-     * @param File file
-     * @param LoggerInterface $logger
-     * @param TransportBuilder $transportBuilder
-     * @param StateInterface $inlineTranslation
-     * @param Data $priceHelper
-     * @param CheckoutHelper $checkoutHelper
-     * @param State $state
-     * @param GeneralHelper $generalHelper
-     */
-    public function __construct(
-        CollectionFactory $collectionFactory,
-        OrderFactory $orderFactory,
-        DirectoryList $directoryList,
-        File $file,
-        LoggerInterface $logger,
-        TransportBuilder $transportBuilder,
-        StateInterface $inlineTranslation,
-        Data $priceHelper,
-        CheckoutHelper $checkoutHelper,
-        State $state,
-        GeneralHelper $generalHelper
-    ) {
-        $this->orderFactory  = $orderFactory;
-        $this->collectionFactory = $collectionFactory;
-        $this->directoryList = $directoryList;
-        $this->file = $file;
-        $this->logger = $logger;
-        $this->transportBuilder = $transportBuilder;
-        $this->inlineTranslation = $inlineTranslation;
-        $this->priceHelper = $priceHelper;
-        $this->_funnelHelper = $checkoutHelper;
-        $this->state = $state;
-        $this->generalHelper = $generalHelper;
-        parent::__construct();
-    }
-    protected function configure()
-    {
-        $this->setName('jf:order:run');
-        $this->setDescription('Schedule to send an Order Report On Every Last Friday Of Month.');
-        parent::configure();
-    }
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_GLOBAL);
-        $output->writeln("Automated Order Report Script Started");
-        $this->logger->debug("======= Automated Order Report Script Started ======");
-
-        $receiverEmails = $this->generalHelper->getSystemConfigValue(self::RECEIVER_EMAIL);
-
-        if(!empty($receiverEmails)) 
-        {
-            $paymentMethods = ['purchaseorder','stripe_payments','cashondelivery', 'payfast'];
-
-            $currentDate = date("Y-m-d 23:59:59");
-            $monthStartDate = date('Y-m-01 00:00:00');
-
-            $orders = $this->collectionFactory->create();
-            $orders->getSelect()->join(
-                ["sop" => "sales_order_payment"],
-                'main_table.entity_id = sop.parent_id',
-                array('method')
-            );
-            $orders->addAttributeToFilter('created_at', array('from' => $monthStartDate, 'to' => $currentDate));
-
-            $orders->addFieldToFilter(
-                'method',
-                ['in' => $paymentMethods]
-            );
-
-            $orderIds = $orders->getAllIds();
-
-            if (!is_array($orderIds) || empty($orderIds)) {
-                $output->writeln("No Orders Found.");
-                $this->logger->debug("No Orders Found.");
-            } else {
-                $objPHPExcel = new \PhpOffice\PhpSpreadsheet\Spreadsheet;
-
-                $objPHPExcel->getDefaultStyle()->getFont()->setName('Calibri');
-                $objPHPExcel->getDefaultStyle()->getFont()->setSize(10);
-
-                $objSheet = $objPHPExcel->getActiveSheet();
-                $objSheet->getStyle('A1:P1')->getFont()->setBold(true)->setSize(10);
-
-                $objPHPExcel->setActiveSheetIndex(0)
-                    ->setCellValue('A1', 'Order Id')
-                    ->setCellValue('B1', 'Invoice No')
-                    ->setCellValue('C1', 'Email address')
-                    ->setCellValue('D1', 'Created')
-                    ->setCellValue('E1', 'Subtotal ex VAT')
-                    ->setCellValue('F1', 'Discount')
-                    ->setCellValue('G1', 'Total inc VAT')
-                    ->setCellValue('H1', 'Status')
-                    ->setCellValue('O1', 'Payment Type')
-                    ->setCellValue('P1', 'VAT Number');
-
-                $objPHPExcel->setActiveSheetIndex(0)->mergeCells('I1:N1');
-                $objSheet->getCell('I1')->setValue('Course booking details');
-
-                $objPHPExcel->getActiveSheet()->getStyle('I1')->getAlignment()
-                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-
-                $_current = 2;
-
-                foreach ($orderIds as $orderId) {
-                    try {
-                        $order = $this->orderFactory->create()->load($orderId);
-                        $subTotal = $order->getSubTotal();
-                        $discount = $order->getDiscountAmount() ? abs($order->getDiscountAmount()) : 0.00;
-                        $revenue = $subTotal - $discount;
-                        $items = $order->getAllItems();
-                        $qty   = $order->getTotalQtyOrdered();
-
-                        $_mergeCells = ($_current + $qty);
-
-                        $payment = $order->getPayment();
-                        $method  = $payment->getMethodInstance();
-                        $paymentTitle = $method->getTitle();
-                        $billingAddress = $order->getBillingAddress();
-
-                        foreach (range('A', 'H') as $columnID) {
-                            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("{$columnID}{$_current}:{$columnID}{$_mergeCells}");
-                        }
-
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("O{$_current}:O{$_mergeCells}");
-                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("P{$_current}:P{$_mergeCells}");
-
-                        $objSheet->getCell("I{$_current}")->setValue('Course Name(s)');
-                        $objSheet->getCell("J{$_current}")->setValue('Revenue by product (ex VAT)');
-                        $objSheet->getCell("K{$_current}")->setValue('Course date(s)');
-                        $objSheet->getCell("L{$_current}")->setValue('Attendee(s)');
-                        $objSheet->getCell("M{$_current}")->setValue('Attendee(s) email');
-                        $objSheet->getCell("N{$_current}")->setValue('Course Type');
-
-                        foreach (range('A', 'P') as $columnID) {
-                            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
-                        }
-
-                        $objSheet->getStyle("I{$_current}:N{$_current}")->getFont()->setBold(true)->setSize(10);
-
-                        $objSheet->getCell("A{$_current}")->setValue($order->getId());
-                        $objSheet->getCell("B{$_current}")->setValue($order->getIncrementId());
-                        $objSheet->getCell("C{$_current}")->setValue($order->getCustomerEmail());
-                        $objSheet->getCell("D{$_current}")->setValue(date("m/d/Y g:i A", strtotime($order->getCreatedAt())));
-                            $objSheet->getCell("E{$_current}")->setValue($this->priceHelper->currencyByStore(
-                                $revenue,
-                                $order->getStoreId(),
-                                true,
-                                false
-                            ));
-                            $objSheet->getCell("F{$_current}")->setValue($this->priceHelper->currencyByStore(
-                                $discount,
-                                $order->getStoreId(),
-                                true,
-                                false
-                            ));
-                            $objSheet->getCell("G{$_current}")->setValue($this->priceHelper->currencyByStore(
-                                $order->getGrandTotal(),
-                                $order->getStoreId(),
-                                true,
-                                false
-                            ));
-                        $objSheet->getCell("H{$_current}")->setValue(ucwords($order->getStatus()));
-
-                        $rowSet = $this->getCoursesAndParticipant($items, $order,$order->getStoreId());
-                        $index  = 1;
-                        $subIndex = 1;
-
-                        for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
-                            if (array_key_exists($index, $rowSet)) {
-                                if (!empty($rowSet[$index]['attendees'])) {
-                                    $participantsCnt = count($rowSet[$index]['attendees']);
-                                    $mergeCol        = ($i + ($participantsCnt - 1));
-                                    if ($participantsCnt > 1) {
-                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
-                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
-                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
-                                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
-                                    }
-                                    for ($j = $i; $j <= $mergeCol; $j++) {
-                                        $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
-                                        $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
-                                        $subIndex++;
-                                    }
-                                }
-                                $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
-                                $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
-                                $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
-                                $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
-
-                                $index++;
-                            }//end if
-                        }//end for
-                        $objSheet->getCell("O{$_current}")->setValue($paymentTitle);
-                        $objSheet->getCell("P{$_current}")->setValue($billingAddress->getVatId());
-                        $_current = ($_mergeCells + 1);
-                        
-                    } catch (\Exception $ex) {
-                        $objPHPExcel->getActiveSheet()->removeRow($_current);
-                        $output->writeln("========== Automated Monthly Order Report Mail: Exception for Order Id:$orderId ===============");
-                        $output->writeln('========== Automated Monthly Order Report Mail: Exception Details:'.$ex->getMessage().' ===============');
-                        $this->logger->critical("========== Automated Monthly Order Report Mail: Exception for Order Id:'.$orderId.' ===============");
-                        $this->logger->critical('========== Automated Monthly Order Report Mail: Exception Details:'.$ex->getMessage().' ===============');
-                    } 
-                }//end foreach
-
-                $exportDirectory =  $this->directoryList->getPath("var") . "/exports/";
-                $file = 'order_data_' . date("Y_m_d") . '.xlsx';
-                if (!is_dir($exportDirectory)) {
-                    $ioAdapter = $this->file;
-                    $ioAdapter->mkdir($exportDirectory, 0775);
-                }
-                $objWriter = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($objPHPExcel);
-                $objWriter->save($exportDirectory . $file);
-                $this->mailSendMethod($exportDirectory, $file, $receiverEmails);
-                $output->writeln("Email Sent Successfully to :".$receiverEmails.".");
-            }//end if
-        } else {
-            $output->writeln("Please enter the receiver email address in configuration.");
-        }//end if
-
-        $output->writeln("Automated Order Report Script Ended");
-        $this->logger->debug("======= Automated Order Report Script Ended ======");        
-    }
-
-    /**
-     * Get Course and Participant
-     *
-     * @param array
-     */
-    public function getCoursesAndParticipant($items, $order, $storeId)
-    {
-        $list = [];
-        $orderId = $order->getId();
-        $isFlexibleTrainingOrder = $order->getIsCorporateOrder();
-        $index = 1;
-        $j     = 1;
-        foreach ($items as $item) {
-            $product = $this->_funnelHelper->getProductById($item->getProductId());
-            if ($product->getId()) {
-                $level = '';
-                if ($product->getCourseLevel()) {
-                    $level = $product->getResource()->getAttribute('course_level')->getFrontend()->getValue($product);
-                }
-                
-                $type = 'classroom';            
-                if (!empty($this->_funnelHelper->getAttributeSetNameByID($product->getAttributeSetId())) && strpos($this->_funnelHelper->getAttributeSetNameByID($product->getAttributeSetId()), 'ONLINE') !== false) {
-                    $type = 'online';
-                }
-
-                $type = $product->getDefaultCourseLength().' '. $type . __(' course');
-                
-                if ($isFlexibleTrainingOrder) {
-                    $type = 'flexible training plan';
-                }
-                $list[$index]['name']  = $item->getName() . " " .$level;
-                $list[$index]['price'] = $this->priceHelper->currencyByStore($item->getRowTotal(), $storeId, true, false);
-                $list[$index]['date']  = !$isFlexibleTrainingOrder ? $this->_funnelHelper->getFormatedDate($product->getCourseDate()) : '';
-                $list[$index]['type']  = ucwords($type);
-
-                $participants = $this->_funnelHelper->getParticipant($orderId, $item->getProductId());
-
-                foreach ($participants as $_participant) {
-                    $list[$index]['attendees'][$j]['name']  = $_participant->getFirstname().$_participant->getLastname();
-                    $list[$index]['attendees'][$j]['email'] = $_participant->getEmail();
-
-                    $j++;
-                }
-                $index++;
-            }                           
+        // Merge A-H, O-P cells for the order (general information)
+        foreach (range('A', 'H') as $columnID) {
+            $objPHPExcel->setActiveSheetIndex(0)->mergeCells("{$columnID}{$_current}:{$columnID}{$_mergeCells}");
         }
-        return $list;
-    }//end getCoursesAndParticipant()
 
-    /**
-     * Send Email 
-     *
-     * @param  string $filePath
-     * @param  string $filename
-     * @param  array  $receiverEmails
-     * @return void
-     */
-    public function mailSendMethod($filePath, $filename, $receiverEmails)
-    {
-        $senderInfo = [
-            'name' => $this->generalHelper->getSystemConfigValue(self::SENDER_NAME),
-            'email' => $this->generalHelper->getSystemConfigValue(self::SENDER_EMAIL),
-        ];
-        $recievers = explode(',', $receiverEmails);
-        foreach($recievers as $reciever) {
-            try {
-                $this->inlineTranslation->suspend();
-                $this->generateTemplate($senderInfo, $reciever, $filePath, $filename);
-                $transport = $this->transportBuilder->getTransport();
-                $transport->sendMessage();
-                $this->inlineTranslation->resume();
-                $this->logger->debug("========== Automated Monthly Order Report Mail Sent Successfully to:'.$reciever.' ===============");        
-            } catch (\Exception $ex) {
-                $this->logger->critical('========== Automated Monthly Order Report Mail Exception:'.$ex->getMessage().' ===============');
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("O{$_current}:O{$_mergeCells}");
+        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("P{$_current}:P{$_mergeCells}");
+
+        // Set headers for course information
+        $objSheet->getCell("I{$_current}")->setValue('Course Name(s)');
+        $objSheet->getCell("J{$_current}")->setValue('Revenue by product (ex VAT)');
+        $objSheet->getCell("K{$_current}")->setValue('Course date(s)');
+        $objSheet->getCell("L{$_current}")->setValue('Attendee(s)');
+        $objSheet->getCell("M{$_current}")->setValue('Attendee(s) email');
+        $objSheet->getCell("N{$_current}")->setValue('Course Type');
+
+        foreach (range('A', 'P') as $columnID) {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $objSheet->getStyle("I{$_current}:N{$_current}")->getFont()->setBold(true)->setSize(10);
+
+        // Set general order information
+        $objSheet->getCell("A{$_current}")->setValue($order->getId());
+        $objSheet->getCell("B{$_current}")->setValue($order->getIncrementId());
+        $objSheet->getCell("C{$_current}")->setValue($order->getCustomerEmail());
+        $objSheet->getCell("D{$_current}")->setValue(date("m/d/Y g:i A", strtotime($order->getCreatedAt())));
+        $objSheet->getCell("E{$_current}")->setValue($this->priceHelper->currencyByStore($revenue, $order->getStoreId(), true, false));
+        $objSheet->getCell("F{$_current}")->setValue($this->priceHelper->currencyByStore($discount, $order->getStoreId(), true, false));
+        $objSheet->getCell("G{$_current}")->setValue($this->priceHelper->currencyByStore($order->getGrandTotal(), $order->getStoreId(), true, false));
+        $objSheet->getCell("H{$_current}")->setValue(ucwords($order->getStatus()));
+
+        // Fetch the courses and participants
+        $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
+        $index = 1;  // Reset index for each order
+
+        for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
+            if (array_key_exists($index, $rowSet)) {
+                // Check if there are attendees and merge accordingly
+                if (!empty($rowSet[$index]['attendees'])) {
+                    $participantsCnt = count($rowSet[$index]['attendees']);
+                    $mergeCol = ($i + ($participantsCnt - 1));
+
+                    // Merge cells for multiple attendees
+                    if ($participantsCnt > 1) {
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
+                        $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
+                    }
+
+                    // Loop through attendees and populate their information
+                    $subIndex = 1;  // Reset subIndex for each course's attendees
+                    for ($j = $i; $j <= $mergeCol; $j++) {
+                        $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
+                        $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
+                        $subIndex++;
+                    }
+
+                    // Move pointer to the last merged row to avoid overwriting rows
+                    $i = $mergeCol;
+                }
+
+                // Set course information
+                $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
+                $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
+                $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
+                $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
+
+                $index++;
             }
-        }           
-    }
+        }
 
-    /**
-     * template file and tempaltes variables values
-     * @param  Mixed $senderInfo
-     * @param  Mixed $receiverInfo
-     * @param  string $filePath
-     * @param  string $filename
-     * @return void
-     */
-    public function generateTemplate($senderInfo, $receiverInfo, $filePath, $filename)
-    {
-        $storeId = $this->generalHelper->getStoreinfo();
-        $template = $this->generalHelper->getSystemConfigValue(self::XML_PATH_EMAIL_TEMPLATE_FIELD);
-        $currrentMonth = date('F');
-        $emailTemplateVariables = [
-            "month" => $currrentMonth
-        ];
-        $file_content = file_get_contents($filePath.$filename); 
-        $template = $this->transportBuilder->setTemplateIdentifier($template)
-            ->setTemplateOptions(
-                [
-                    'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => $storeId,
-                ]
-            )
-            ->setTemplateVars($emailTemplateVariables)
-            ->setFrom($senderInfo)
-            ->addTo($receiverInfo)
-            ->clearAttachments()
-            ->addAttachment(
-                $file_content,
-                'application/vnd.ms-excel',
-                $filename
-            );
-        return $this;
-    }
+        // Set payment method and VAT number
+        $objSheet->getCell("O{$_current}")->setValue($paymentTitle);
+        $objSheet->getCell("P{$_current}")->setValue($billingAddress->getVatId());
 
+        // Move to the next row for the next order
+        $_current = ($_mergeCells + 1);
+
+    } catch (\Exception $ex) {
+        // Error handling
+        $objPHPExcel->getActiveSheet()->removeRow($_current);
+        $output->writeln("Exception for Order Id: $orderId. Details: ".$ex->getMessage());
+        $this->logger->critical("Exception for Order Id: $orderId. Details: ".$ex->getMessage());
+    }
 }
