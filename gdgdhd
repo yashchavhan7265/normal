@@ -1,4 +1,4 @@
-(
+de(
     [1] => Array
         (
             [name] => Introduction to Google Analytics 4 Reporting 
@@ -82,37 +82,38 @@
 
 
 
-$rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
+ $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
 $index = 1;
 
 for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
     if (array_key_exists($index, $rowSet)) {
-        $subIndex = 0; // Reset subIndex to 0 for each course to match array key
+        $subIndex = 1; // Reset subIndex to 1 for each course to match the 1-based array key
         if (!empty($rowSet[$index]['attendees'])) {
             $participantsCnt = count($rowSet[$index]['attendees']);
             $mergeCol = ($i + ($participantsCnt - 1));
             if ($participantsCnt > 1) {
+                // Merge course cells across multiple attendees
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("J{$i}:J{$mergeCol}");
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
             }
+            // Loop through each attendee and set their name and email
             for ($j = $i; $j <= $mergeCol; $j++) {
-                // Ensure $subIndex is used correctly for 0-based arrays
                 $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
                 $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
                 $subIndex++;
             }
         }
 
-        // Set course details (merged cells or single row)
+        // Set course details for the row (merged or single)
         $objSheet->getCell("I{$i}")->setValue($rowSet[$index]['name']);
         $objSheet->getCell("J{$i}")->setValue($rowSet[$index]['price']);
         $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
         $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
 
-        // Move to the next row correctly after processing attendees
-        $i = $mergeCol; // Skip to the next row after merged cells (if any)
+        // After processing attendees, move $i to the last merged row for the next course
+        $i = $mergeCol; 
         $index++; // Move to the next course
     }
 }
