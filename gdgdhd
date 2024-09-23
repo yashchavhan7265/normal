@@ -81,16 +81,18 @@ de(
 
 
 
-
- $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
+$rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
 $index = 1;
 
 for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
     if (array_key_exists($index, $rowSet)) {
-        $subIndex = 1; // Reset subIndex to 1 for each course to match the 1-based array key
-        if (!empty($rowSet[$index]['attendees'])) {
-            $participantsCnt = count($rowSet[$index]['attendees']);
+        // Retrieve attendees for the current course
+        $attendees = $rowSet[$index]['attendees'];
+        
+        if (!empty($attendees)) {
+            $participantsCnt = count($attendees);
             $mergeCol = ($i + ($participantsCnt - 1));
+
             if ($participantsCnt > 1) {
                 // Merge course cells across multiple attendees
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("I{$i}:I{$mergeCol}");
@@ -98,11 +100,13 @@ for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("K{$i}:K{$mergeCol}");
                 $objPHPExcel->setActiveSheetIndex(0)->mergeCells("N{$i}:N{$mergeCol}");
             }
+
             // Loop through each attendee and set their name and email
-            for ($j = $i; $j <= $mergeCol; $j++) {
-                $objSheet->getCell("L{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['name']);
-                $objSheet->getCell("M{$j}")->setValue($rowSet[$index]['attendees'][$subIndex]['email']);
-                $subIndex++;
+            $attendeeKeys = array_keys($attendees);  // Get the actual attendee keys
+            for ($j = $i, $subIndex = 0; $j <= $mergeCol; $j++, $subIndex++) {
+                $attendeeKey = $attendeeKeys[$subIndex];  // Access using the correct attendee key
+                $objSheet->getCell("L{$j}")->setValue($attendees[$attendeeKey]['name']);
+                $objSheet->getCell("M{$j}")->setValue($attendees[$attendeeKey]['email']);
             }
         }
 
@@ -112,8 +116,8 @@ for ($i = ($_current + 1); $i <= $_mergeCells; $i++) {
         $objSheet->getCell("K{$i}")->setValue($rowSet[$index]['date']);
         $objSheet->getCell("N{$i}")->setValue($rowSet[$index]['type']);
 
-        // After processing attendees, move $i to the last merged row for the next course
-        $i = $mergeCol; 
+        // After processing attendees, move $i to the last row of the merged block
+        $i = $mergeCol;
         $index++; // Move to the next course
     }
 }
