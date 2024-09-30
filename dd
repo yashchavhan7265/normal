@@ -39,3 +39,51 @@ if($("#contact-form").valid()){
                 } else {
                     $("#contact-form .contact-submit").removeClass('disabled');
                 }
+
+
+
+
+if($("#contact-form").valid()){
+
+    function sha256(message) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(message);
+        return crypto.subtle.digest('SHA-256', data).then(hash => {
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        });
+    }
+
+    // Get the field values (email, name, etc.)
+    var emailValue = $("#email").val();
+    var nameValue = $("#name").val(); // Add more fields as needed
+
+    // Create promises for hashing multiple fields
+    Promise.all([
+        sha256(emailValue),
+        sha256(nameValue)
+    ]).then(([emailHash, nameHash]) => {
+        // Once all the hashes are ready, push them into the dataLayer
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'user_provided_data',
+            'sha256_email_address': emailHash,
+            'sha256_name': nameHash // Add more fields if needed
+        });
+
+        // Push form submission event
+        window.dataLayer.push({
+            'event': 'contactusFormSubmission'
+        });
+
+        // Disable the submit button after processing
+        $("#contact-form .contact-submit").addClass('disabled');
+    }).catch(error => {
+        console.error("Error while generating hash:", error);
+    });
+
+} else {
+    $("#contact-form .contact-submit").removeClass('disabled');
+}
+
