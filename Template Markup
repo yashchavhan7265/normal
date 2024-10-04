@@ -1,20 +1,52 @@
-purchaseArray = [];
-$purchaseArray['event'] = 'advanced_matcching_data';
-$purchaseArray['sha256_email_address'] = hash('sha256', $billingAddress->getEmail());
-$purchaseArray['sha256_name'] = hash('sha256', $billingAddress->getFirstname().' '.$billingAddress->getLastname());
+https://jellyfish.my.salesforce-sites.com/trainingrequests/services/apexrest/trainingsync
 
-$street = $billingAddress->getStreet();
-$address = $street[0].", ";
-if(array_key_exists(1, $street)) {
-    $address.= $street[1].", ";
+
+ {
+	"infinity_installation_id": "60",
+	"infinity_visitor_id": null,
+	"order_id": "7226",
+	"customer_details": {
+		"firstname": "Catherine",
+		"lastname": "Prior",
+		"email": "cprior@sightsavers.org",
+		"phone": "",
+		"company": "Sightsavers",
+		"jobtitle": "Digital Insight and Optimisation Manager"
+	},
+	"opportunity_product": [{
+		"name": "Introduction to Google Analytics 4 Reporting",
+		"attendees": 1,
+		"attendees_details": [{
+			"first_name": "Poppy",
+			"last_name": "Hainge",
+			"email": "phainge@sightsavers.org",
+			"company": null,
+			"job_title": null
+		}],
+		"type": "",
+		"product_code": "TRAI546",
+		"prodprice": 499,
+		"course_date": "2025-01-13"
+	}],
+	"order_total": {
+		"currency_code": "GBP",
+		"subtotal": 499,
+		"VATPercentage": 0,
+		"discount": 0,
+		"total": 598.8
+	},
+	"billing_address": {
+		"street": "35 Perrymount Rd,",
+		"city": "Haywards Heath",
+		"state": "West Sussex",
+		"postal_code": "RH16 3BW",
+		"country": "GB"
+	},
+	"RecordType": "012j00000019THy",
+	"CAMPAIGNID": "Jellyfish Training",
+	"LeadSource": "Website Inbound",
+	"SubSource": "Jellyfish Training - Form",
+	"Type": "New Parent Account",
+	"booking_reference": "5000006331",
+	"marketing": "Jellyfish U.K. Ltd"
 }
-$address.= $billingAddress->getCity().", ";
-$address.= $billingAddress->getRegion().", ";
-$address.= $billingAddress->getPostcode().", ";
-$address.= $helper->getCountryName($billingAddress->getCountryId());
-
-$purchaseArray['sha256_address'] = hash('sha256', $address);
-$purchaseArray['sha256_phone_number'] = hash('sha256', $billingAddress->getTelephone());
-?>
-
- window.dataLayer.push(<?php echo json_encode($purchaseArray); ?>);
