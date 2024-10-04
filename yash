@@ -1,0 +1,42 @@
+<?php
+// Load Object Manager and Category Collection Factory
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$categoryCollectionFactory = $objectManager->get(\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory::class);
+
+// Get the product from the block
+$product = $_product; // Assuming you already have the product object
+
+// Get category IDs associated with the product
+$categoryIds = $product->getCategoryIds();
+
+// Load categories using the Category Collection Factory
+$categoryCollection = $categoryCollectionFactory->create()
+    ->addAttributeToSelect(['name', 'level', 'parent_id']) // Select necessary attributes
+    ->addAttributeToFilter('entity_id', ['in' => $categoryIds]);
+
+// Initialize array to store category names
+$categoryNames = [];
+
+// Loop through each category
+foreach ($categoryCollection as $category) {
+    // If the category level is greater than 3, traverse up to find the parent category at level 3
+    while ($category->getLevel() > 3) {
+        $parentCategoryId = $category->getParentId();
+        $category = $categoryCollectionFactory->create()
+            ->addAttributeToSelect(['name', 'level'])
+            ->addAttributeToFilter('entity_id', $parentCategoryId)
+            ->getFirstItem();
+    }
+
+    // Add the level 3 category name to the list, avoiding duplicates
+    if (!in_array($category->getName(), $categoryNames)) {
+        $categoryNames[] = $category->getName();
+    }
+}
+
+// Output the category names
+foreach ($categoryNames as $categoryName) {
+    echo '<span>' . $categoryName . '</span><br>';
+}
+
+?>
