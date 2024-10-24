@@ -1,3 +1,5 @@
+https://console.cloud.google.com/storage/browser/cybage_shared;tab=objects?prefix=&forceOnObjectsSortingFiltering=false
+
 UPDATE catalog_product_entity_text SET VALUE = REPLACE(VALUE, '<p style="margin-bottom: 10px; font-size: 16px; color: #666;">', '<p style="margin-bottom:10px;font-size:12px;color:#2a3d3d">') WHERE VALUE LIKE '%<p style="margin-bottom: 10px; font-size: 16px; color: #666;">%' AND attribute_id=255;
 
 select * from catalog_product_entity_text where attribute_id=255 AND value like "%https://www.webex.com/test-meeting.html%" \G;
