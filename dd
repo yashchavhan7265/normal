@@ -7,6 +7,11 @@ select * from catalog_product_entity_text where attribute_id=255 AND value like 
 select * from catalog_product_entity_text where attribute_id=255 AND value like "%training@jellyfish.com%" \G;
 
 
+<a style="margin-left: 0px" href="https://www.webex.com/test-meeting.html">https://www.webex.com/test-meeting.html</a>
+
+<a style="margin-left: 0px" href="https://jellyfish.qwiklabs.com">https://jellyfish.qwiklabs.com</a>
+
+<a  style="margin-left: 0px" href="mailto:training@jellyfish.com">training@jellyfish.com</a>  
 
 $productData->getFinalPrice()
 
