@@ -1,42 +1,175 @@
-<?php
-// Load Object Manager and Category Collection Factory
-$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-$categoryCollectionFactory = $objectManager->get(\Magento\Catalog\Model\ResourceModel\Category\CollectionFactory::class);
+public function execute()
+    {
+        $post = $this->getRequest()->getPostValue();
+        if (!$post) {
+            $this->activityHelper->track('Contact Us: Save', 'No data received', 0, 1, $post);
+            $this->_redirect($this->_redirect->getRefererUrl());
+        }
+        if (!$this->formKeyValidator->validate($this->getRequest())) {
+            $this->activityHelper->track('Contact Us: Save', 'Form key validation failure', 0, 1, $post);
+            $this->_redirect($this->_redirect->getRefererUrl());
+        }
 
-// Get the product from the block
-$product = $_product; // Assuming you already have the product object
+        $noOfPeople = $this->contactHelper->getNoOfPeople();
+        $plannedBudget = $this->contactHelper->getPlannedBudget(); 
+        $categoryNames = $this->contactHelper->getCategoryNamesOptionsArray();
 
-// Get category IDs associated with the product
-$categoryIds = $product->getCategoryIds();
+        if ($this->dataHelper->isEnabled()) {
+            try {
+                $postObject = new \Magento\Framework\DataObject();
 
-// Load categories using the Category Collection Factory
-$categoryCollection = $categoryCollectionFactory->create()
-    ->addAttributeToSelect(['name', 'level', 'parent_id']) // Select necessary attributes
-    ->addAttributeToFilter('entity_id', ['in' => $categoryIds]);
+                $error = false;
 
-// Initialize array to store category names
-$categoryNames = [];
+                if (!\Zend_Validate::is(trim($post['name']), 'NotEmpty')) {
+                    $error = true;
+                }
 
-// Loop through each category
-foreach ($categoryCollection as $category) {
-    // If the category level is greater than 3, traverse up to find the parent category at level 3
-    while ($category->getLevel() > 3) {
-        $parentCategoryId = $category->getParentId();
-        $category = $categoryCollectionFactory->create()
-            ->addAttributeToSelect(['name', 'level'])
-            ->addAttributeToFilter('entity_id', $parentCategoryId)
-            ->getFirstItem();
+
+                if (!\Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
+                    $error = true;
+                }
+
+                if (!\Zend_Validate::is(trim($post['no_of_people']), 'NotEmpty')) {
+                    $error = true;
+                }
+
+                if(!(count($noOfPeople) > 0 && in_array($post['no_of_people'], $noOfPeople))) {
+                    throw new \Exception('Please pass correct value for No Of People dropdown.');
+                }
+                
+                if (!\Zend_Validate::is($post['interested_in'], 'NotEmpty')) {
+                    $error = true;
+                }
+
+                if (!(count($categoryNames) > 0 && empty(array_diff($post['interested_in'], $categoryNames)))) {
+                    throw new \Exception('Please pass correct values for Interested In dropdown.');
+                }
+                
+                if (!\Zend_Validate::is(trim($post['planned_budget']), 'NotEmpty')) {
+                    $error = true;
+                }
+
+                if(!(count($plannedBudget) > 0 && in_array($post['planned_budget'], $plannedBudget))) {
+                    throw new \Exception('Please pass correct value for Planned Budget dropdown.');
+                }
+
+                if (\Zend_Validate::is(trim($post['hideit']), 'NotEmpty')) {
+                    $error = true;
+                }
+
+                if ($error) {
+                    throw new \Exception('Validation failure');
+                }
+                //salesforce code
+                $salesforce = [];
+                $name = explode(" ", trim($post['name']));
+                $title = $post['title'] ?? '';
+                if (count($name) > 1) {
+                    $salesforce['firstname'] = $title != '' ? $title .' '. $name[0] : $name[0];
+                    unset($name[0]);
+                    $salesforce['lastname'] = implode(" ", $name);
+                } else {
+                    $salesforce['firstname'] = $title;
+                    $salesforce['lastname'] = $name[0];
+                }
+                // Use regular expression to separate currency symbol and value
+                preg_match('/^([^\d]+)(\d.*)$/', $post['planned_budget'], $matches);
+                $currencySymbol = '';
+                $budgetValue = '';
+                if(isset($matches) && !empty($matches)) {
+                    $currencySymbol = $matches[1];
+                    $budgetValue = $matches[2];
+                }
+                $post['name'] = $title != '' ? $title .' '. $post['name'] : $post['name'];
+                $post['interested_in'] = implode(",", $post['interested_in']);
+                $websiteName = $this->_generalHelper->getCurrentWebsiteName();
+                $interestedIn = $post['interested_in'];
+                $salesforce['Email'] = $post['email'];
+                $salesforce['Phone'] = $post['telephone'];
+                $salesforce['Company'] = empty(trim($post['company'])) ? "Not Provided" : $post['company'];
+                $salesforce['ImInterestedin'] = $interestedIn;
+                $salesforce['noofpeople'] = $post['no_of_people'];
+                $salesforce['plannedbudgetcurrency'] = $currencySymbol;
+                $salesforce['plannedbudget'] = $budgetValue;
+                $salesforce['message'] = $interestedIn != '' ? $post['comment'] . ' Interested in services: ' . str_replace(';', ',', $interestedIn) : $post['comment'];
+                $salesforce['infinity_visitor_id'] = $post['inf_vid'];
+                $salesforce['infinity_installation_id'] = $post['inf_igrp'];
+                $salesforce['GACookieId'] = $this->_fetch_cid_value();
+                $salesforce['Country'] = $websiteName;
+                $salesforce['country_full'] = $websiteName;
+                $salesforce['RecordType'] = '012j00000019THy';
+                $salesforce['CAMPAIGNID'] = 'Jellyfish Training';
+                $salesforce['LeadSource'] = 'Website Inbound';
+                $salesforce['SubSource'] = 'Jellyfish Training - Form';
+                $salesforce['GATRACKID__c'] = $post['GATRACKID'];
+                $salesforce['GACLIENTID__c'] = $post['GACLIENTID'];
+                $salesforce['page_url'] = $post['page_url'];
+                $salesforce['page_type'] = $post['page_type'];
+                
+                if (array_key_exists("is_subscribed", $post)) {
+                    $salesforce['JFCommunications'] = "True";
+                } else {
+                    $salesforce['JFCommunications'] = "False";
+                }
+
+                if (trim($this->_generalHelper->getSystemConfigValue(self::SALESFORCE_GATRACKID))) {
+                    $salesforce['GACLIENTID'] = $this->_fetch_cid_value();
+                    $salesforce['GATRACKID'] = $this->_generalHelper->getSystemConfigValue(self::SALESFORCE_GATRACKID);
+                }
+
+                $post['link'] = $this->generateLink($post);
+                $postObject->setData($post);
+
+                $this->notify($post['name'],$post['email']);
+
+                $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+                if (!empty($this->scopeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, $storeScope)) && trim($this->scopeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, $storeScope)) != '') {
+                    $transport = $this->_transportBuilder
+                            ->setTemplateIdentifier($this->scopeConfig->getValue(self::XML_PATH_EMAIL_TEMPLATE, $storeScope))
+                            ->setTemplateOptions(
+                                [
+                                        'area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
+                                        'store' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                                    ]
+                            )
+                            ->setTemplateVars(['data' => $postObject])
+                            ->setFrom($this->scopeConfig->getValue(self::XML_PATH_EMAIL_SENDER, $storeScope))
+                            ->addTo($this->scopeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, $storeScope))
+                            ->setReplyTo($post['email'])
+                            ->getTransport();
+
+                    $transport->sendMessage();
+                    $this->activityHelper->track('Contact Us: Save', 'Email notification sent successfully', 1, 1);
+                }
+                $this->inlineTranslation->resume();
+                /*
+                 *
+                 * save contact info
+                 */
+                $contact = $this->_contactFactory->create();
+
+                $post['created_at'] = (strtotime('now'));
+                $post['is_subscribed'] = isset($post['is_subscribed']) ? 1 : 0;
+                $post['salesforce_json'] = json_encode($salesforce, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                $post['is_salesforce_submitted'] = 0;
+                $post['ref_website'] = $this->_storeManager->getStore()->getWebsiteId();
+                $contact->setData($post)->save();
+
+                $this->messageManager->addSuccess(
+                    __('Thank you for your enquiry, we will be in contact shortly.')
+                );
+                $this->activityHelper->track('Contact Us: Save', 'Details saved successfully', 1, 2);
+                $this->getDataPersistor()->clear('contact_us');
+                $this->_redirect($this->_redirect->getRefererUrl());
+                return;
+            } catch (\Exception $e) {
+                $this->inlineTranslation->resume();
+                $this->messageManager->addError(
+                    __('We can\'t process your request right now. Sorry, that\'s all we know.')
+                );
+                $this->activityHelper->track('Contact Us: Save', 'Exception: ' . $e->getMessage(), 0, 3, $post);
+                $this->getDataPersistor()->set('contact_us', $post);
+                $this->_redirect($this->_redirect->getRefererUrl());
+            }//end try
+        }
     }
-
-    // Add the level 3 category name to the list, avoiding duplicates
-    if (!in_array($category->getName(), $categoryNames)) {
-        $categoryNames[] = $category->getName();
-    }
-}
-
-// Output the category names
-foreach ($categoryNames as $categoryName) {
-    echo '<span>' . $categoryName . '</span><br>';
-}
-
-?>
