@@ -1,0 +1,67 @@
+$("#contact-form").submit(function (event) {
+
+    // Prevent the form from submitting immediately
+    event.preventDefault();
+
+    // Get GACLIENTID on form submit
+    if (typeof ga != 'undefined' && ga && ga.getAll() && ga.getAll().length) {
+        var tracker = ga.getAll()[0];
+        var clientId = tracker.get('clientId');
+        document.getElementById('GACLIENTID').value = clientId;
+    }
+
+    if ($("#contact-form").valid()) {
+
+        function sha256(message) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            return crypto.subtle.digest('SHA-256', data).then(hash => {
+                return Array.from(new Uint8Array(hash))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+            });
+        }
+
+        var emailValue = $("#email").val();
+
+        sha256(emailValue).then(hash => {
+            console.log("Email Hash : " + hash);
+            
+            // Push events to dataLayer
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'user_provided_data',
+                'sha256_email_address': hash
+            });
+            window.dataLayer.push({
+                'event': 'contactusFormSubmission'
+            });
+
+            // Disable the submit button to avoid multiple submissions
+            $("#contact-form .contact-submit").addClass('disabled');
+
+            // Collect form data
+            var formData = $("#contact-form").serialize();
+
+            // Make AJAX call
+            $.ajax({
+                url: '/path/to/your/controller', // Update with the URL for form submission
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle success response
+                    console.log("Form submitted successfully");
+                    // You can also display a success message or handle other actions
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error("Form submission failed: " + error);
+                    $("#contact-form .contact-submit").removeClass('disabled');
+                }
+            });
+        });
+
+    } else {
+        $("#contact-form .contact-submit").removeClass('disabled');
+    }
+});
