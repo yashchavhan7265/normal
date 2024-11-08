@@ -352,3 +352,25 @@ $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
         $(this).css("display", "none");
     }
 });
+
+
+
+
+
+<script type="text/javascript">
+      (function () {
+    require(["jquery"], function ($) {
+        $(document).ready(function() {
+            $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
+                $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
+            });
+
+            $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
+                if (!$(event.target).closest(".message-container").length) {
+                    $(this).css("display", "none");
+                }
+            });
+        });
+    });
+})();
+</script>
