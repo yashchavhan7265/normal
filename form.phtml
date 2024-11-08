@@ -1,4 +1,25 @@
-hi<aside class="contact" id="contact" name ="contact">
+<?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php $generalHelper = $this->helper('Jellyfish\General\Helper\Data');
+$contactHelper = $this->helper('Jellyfish\ContactBoost\Helper\Data');
+$noOfPeople = $contactHelper->getNoOfPeople();
+$plannedBudget = $contactHelper->getPlannedBudget(); 
+$categoryNames = $contactHelper->getCategoryNamesOptions();
+$formKey = $generalHelper->getFormKey();
+$gtmArr2 = [];
+$gtmUser = [];
+$currentUrl = $generalHelper->getCurrentPageUrl();
+$currentPageType = $generalHelper->getCurrentPageType();
+$successResponse = $generalHelper->getSystemConfigValue("jellyfish/contact_us_link/contactus_success_response");
+?>
+<aside class="contact" id="contact" name ="contact">
     <div class="container">
         <div class="contact__top">
             <h2 class="contact__title"><?php /* @escapeNotVerified */ echo __('Contact us') ?></h2>
@@ -111,32 +132,265 @@ hi<aside class="contact" id="contact" name ="contact">
 </aside>
 
 <div class="overlay-new-success" style='display:none;'>
-    <div class="message-container">
-        <div class="close-icon" ><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></div>
-        <p class="success-message">
-            Thank you for reaching out to Jellyfish Training.
-        </p>
-        <p class="info-text">
-            A member of our team will be in contact in the next 24 hours to discuss
-            your needs and the best solution for you.                
-        </p>
-        <p class="info-text info-text-2">In the meantime, feel free to take a look at our upcoming courses.</p>
-        <div class="cta-button">
-            Browse our courses
-        </div>
-        <div class="contact-info">
-            <p>If you'd prefer to speak with someone directly, please call <span class="phone-number">020 79934556</span></p>
-        </div>
-    </div>
+    <?php echo $generalHelper->getHTMLContent($successResponse);?>
 </div>
 
 <div class="overlay-new-error" style='display:none;'>
-    <div class="error-message-container">
+    <div class="message-container">
         <div class="close-icon"><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></div>
-        <p class="error-message" id="error-message-line"></p>
+        <p class="error-message" id="error-message-line"><?php echo __("Something went wrong while submitting form. Please refresh the page and try again.");?></p>
     </div>
 </div>
 
+<script type="text/javascript">
+    require([
+        "jquery"
+    ], function ($) {
+        // Function to update the top position based on window width
+        function updateTopPosition() {
+            var windowWidth = $(window).width();
+            if (windowWidth <= 767) {
+                var contact_top = document.querySelector('.en-au .contact__top');
+                if (contact_top) {
+                    contact_top.style.marginBottom = '0';
+                }
+                var formHeight = $('#contact-form').outerHeight() - 20;
+                $('.contact__no').css('top', formHeight + 'px');
+            } else {
+                // Reset top position if window width is greater than 767 pixels
+                $('.contact__no').css('top', '');
+            }
+        }
+        // Initial update
+        updateTopPosition();
+
+        setInterval(function () {
+            if ($(window).width() <= 767) {
+                updateTopPosition();
+            }
+        }, 1000);
+
+        // Update on window resize
+        $(window).resize(function () {
+            updateTopPosition();
+        });
+    });
+</script>
+<script type="text/javascript">
+    (function($) {
+  var Defaults = $.fn.select2.amd.require('select2/defaults');
+  $.extend(Defaults.defaults, {
+    dropdownPosition: 'auto'
+  });
+  var AttachBody = $.fn.select2.amd.require('select2/dropdown/attachBody');
+  var _positionDropdown = AttachBody.prototype._positionDropdown;
+  AttachBody.prototype._positionDropdown = function() {
+    var $window = $(window);
+    var isCurrentlyAbove = this.$dropdown.hasClass('select2-dropdown--above');
+    var isCurrentlyBelow = this.$dropdown.hasClass('select2-dropdown--below');
+    var newDirection = null;
+    var offset = this.$container.offset();
+    offset.bottom = offset.top + this.$container.outerHeight(false);
+    var container = {
+        height: this.$container.outerHeight(false)
+    };
+    container.top = offset.top;
+    container.bottom = offset.top + container.height;
+    var dropdown = {
+      height: this.$dropdown.outerHeight(false)
+    };
+    var viewport = {
+      top: $window.scrollTop(),
+      bottom: $window.scrollTop() + $window.height()
+    };
+    var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
+    var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
+    var css = {
+      left: offset.left,
+      top: container.bottom
+    };
+    // Determine what the parent element is to use for calciulating the offset
+    var $offsetParent = this.$dropdownParent;
+    // For statically positoned elements, we need to get the element
+    // that is determining the offset
+    if ($offsetParent.css('position') === 'static') {
+      $offsetParent = $offsetParent.offsetParent();
+    }
+    var parentOffset = $offsetParent.offset();
+    css.top -= parentOffset.top;
+    css.left -= parentOffset.left;
+    var dropdownPositionOption = this.options.get('dropdownPosition');
+    if (dropdownPositionOption === 'above' || dropdownPositionOption === 'below') {
+      newDirection = dropdownPositionOption;
+    } else {
+      if (!isCurrentlyAbove && !isCurrentlyBelow) {
+        newDirection = 'below';
+      }
+      if (!enoughRoomBelow && enoughRoomAbove && !isCurrentlyAbove) {
+        newDirection = 'above';
+      } else if (!enoughRoomAbove && enoughRoomBelow && isCurrentlyAbove) {
+        newDirection = 'below';
+      }
+    }
+    if (newDirection == 'above' ||
+    (isCurrentlyAbove && newDirection !== 'below')) {
+        css.top = container.top - parentOffset.top - dropdown.height;
+    }
+    if (newDirection != null) {
+      this.$dropdown
+        .removeClass('select2-dropdown--below select2-dropdown--above')
+        .addClass('select2-dropdown--' + newDirection);
+      this.$container
+        .removeClass('select2-container--below select2-container--above')
+        .addClass('select2-container--' + newDirection);
+    }
+    this.$dropdownContainer.css(css);
+  };
+})(window.jQuery);
+
+    </script>
+
+<script type="text/javascript">
+               
+    // Initialize the Select2 dropdown
+    require(["jquery", "selectoptionjs"], function ($) {
+        var $j = jQuery.noConflict();
+            $j(document).ready(function() {
+                var labelContainer = $('.no_of_ppl');
+                if ($(".contact__input").hasClass("mage-error")) {
+                            // Iterate over each select element with mage-error class
+                            $(".contact__input.mage-error").each(function () {
+                                // Add contact__section--error to the parent container
+                                $(this).closest(".contact__section").addClass("contact__section--error");
+                            });
+                        }
+                
+                $("#no_of_people").select2({
+                            // placeholder: $.mage.__('How many people is the training for?'),
+                            allowClear: true,
+                            width: '100%', 
+                            minimumResultsForSearch: Infinity,
+                            dropdownPosition: 'below'
+                });
+                $('#no_of_people').val('').trigger('change');
+                $('.no_of_ppl').text("<?php echo __('How many people is the training for?'); ?>");
+
+                // Add event listener for the change event
+                $("#no_of_people").on('change', function() {
+                    var selectedOption = $(this).find(':selected');
+                    var label = selectedOption.text();
+                    
+
+                    // If an option is selected, show the selected label
+                    if (selectedOption.val()) {
+                        labelContainer.addClass('no_of_ppl--focused contact__label--focused');
+                    } else {
+                        labelContainer.removeClass('no_of_ppl--focused contact__label--focused');
+                    }
+                    
+                    // Set the label text to either the selected label or the default placeholder
+                    labelContainer.text(label || "<?php echo __('How many people is the training for?'); ?>");
+
+                    
+                    if ($('#no_of_people-error')[0]) {
+                        $('.contact__section.required.singleselect').addClass('contact__section--error');
+                    }
+
+                $('.no_of_ppl').text("<?php echo __('How many people is the training for?'); ?>");
+                    
+                });
+            });
+       
+    });
+
+    require(["jquery", "selectoptionjs"], function ($) {
+    $(document).ready(function () {
+        var $j = jQuery.noConflict();
+        $("#interests").select2({
+            // placeholder: $.mage.__('What are you interested in?'),
+            allowClear: true,
+            closeOnSelect: false,
+            width: '100%',
+            minimumResultsForSearch: Infinity, // Disable searching
+            dropdownPosition: 'below'
+            // Add more options as needed
+        });
+        setTimeout(function () {
+                var select2Container = $("#interests").data('select2').$container;
+                select2Container.addClass('multi-selection');
+            }, 100);
+
+        $('#interests').on('select2:open', function (e) {
+            $('.select2-container--open').addClass('multi-selection');
+        });
+       
+        var interestsSelect = $("#interests");
+        var labelContainer = $(".interest_category");
+        var searchBox = $(".select2-search.select2-search--inline");
+        searchBox.hide();
+        // Initial check for selected options
+        updateLabel();
+
+                // Add event listener for the change event
+                interestsSelect.on('change', function () {
+                    // Update label on change
+                    updateLabel();
+                });
+
+                function updateLabel() {
+                    var selectedItems = $(".select2-selection__rendered .select2-selection__choice");
+                    if (selectedItems.length > 0) {
+                        // If items are selected, hide the placeholder label
+                        labelContainer.text("<?php echo __('What are you interested in?'); ?>");
+                        labelContainer.focus();
+                        labelContainer.addClass('interest_category--focused contact__label--focused');
+                    } else {
+                        // If no items are selected, show the placeholder label
+                        labelContainer.text("<?php echo __('What are you interested in?'); ?>");
+                        labelContainer.removeClass('interest_category--focused contact__label--focused');
+                    }
+                }
+    });
+});
+
+require(["jquery", "selectoptionjs"], function ($) {
+        var $j = jQuery.noConflict();
+            $j(document).ready(function() {
+                var $j = jQuery.noConflict();
+                var plannedBudgetSelect = $("#planned_budget");
+                var labelContainer = $('.planned_budget');
+                $("#planned_budget").select2({
+                            // placeholder: $.mage.__('How many people is the training for?'),
+                            allowClear: true,
+                            width: '100%', 
+                            minimumResultsForSearch: Infinity,
+                            dropdownPosition: 'below'
+                });
+                $('.planned_budget').text("<?php echo __('What is your planned budget?'); ?>");
+                $('#planned_budget').val('').trigger('change');
+                
+                // Add event listener for the change event
+                $("#planned_budget").on('change', function() {
+                    var selectedOption = $(this).find(':selected');
+                    var label = selectedOption.text();
+                    
+
+                    // If an option is selected, show the selected label
+                    if (selectedOption.val()) {
+                        labelContainer.addClass('planned_budget--focused contact__label--focused');
+                    } else {
+                        labelContainer.removeClass('planned_budget--focused contact__label--focused');
+                    }
+                    
+                    // Set the label text to either the selected label or the default placeholder
+                    $('.planned_budget').text("<?php echo __('What is your planned budget?'); ?>");
+
+                });
+            });
+       
+    });
+    
+</script>
 
 
 <script>
@@ -217,15 +471,19 @@ hi<aside class="contact" id="contact" name ="contact">
                                     $('#planned_budget').val('').trigger('change');
                                     $('#no_of_people').val('').trigger('change');
                                     $('#interests').val('').trigger('change');
-
                                     $("#contact-form").find("input[type=checkbox]").prop("checked", false).blur();
                                 } else {
+                                    if(response['message']) {
+                                        var errMessage = response['message'];
+                                        $("#error-message-line").html(errMessage);
+                                    }
                                     $(".overlay-new-error").css("display","block");
                                 }
                                 $("#contact-form .contact-submit").removeClass('disabled');
                                 $("#contact-form .contact__button").removeClass('disabled').removeAttr('disabled');
                             },
                             error: function(xhr, status, error) {
+                                $("#error-message-line").html(error);
                                 $(".overlay-new-error").css("display","block");
                                 $("#contact-form .contact-submit").removeClass('disabled');
                                 $("#contact-form .contact__button").removeClass('disabled').removeAttr('disabled');
@@ -275,87 +533,6 @@ hi<aside class="contact" id="contact" name ="contact">
 
     
 </script>
-
-
-
-
-
-$(document).ready(function() {
-    // Close the overlay on close button click
-    $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
-        $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
-    });
-
-    // Close the overlay if clicking outside of it
-    $(document).on("click", function(event) {
-        if ($(".overlay-new-success").css("display") === "block" && !$(event.target).closest(".overlay-new-success").length) {
-            $(".overlay-new-success").css("display", "none");
-        }
-        if ($(".overlay-new-error").css("display") === "block" && !$(event.target).closest(".overlay-new-error").length) {
-            $(".overlay-new-error").css("display", "none");
-        }
-    });
-});
-
-
-
-
-
-$(document).ready(function() {
-    // Close the overlay on close button click
-    $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
-        $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
-    });
-
-    // Prevent click event propagation inside the overlay
-    $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
-        event.stopPropagation();
-    });
-
-    // Close the overlay if clicking outside of it
-    $(document).on("click", function(event) {
-        if ($(".overlay-new-success").css("display") === "block") {
-            $(".overlay-new-success").css("display", "none");
-        }
-        if ($(".overlay-new-error").css("display") === "block") {
-            $(".overlay-new-error").css("display", "none");
-        }
-    });
-});
-
-
-
-
-
-		    (function () {
-    require(["jquery"], function ($) {
-        $(document).ready(function() {
-            // Close the overlay when the close button is clicked
-            $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
-                console.log("Close icon clicked");
-                $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
-            });
-            // Close the overlay when clicking outside the message content
-            $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
-                // Check if the click is outside the content area (message container)
-                if (!$(event.target).closest(".message-container").length) {
-                    $(this).css("display", "none");
-                }
-            });
-        });
-    });
-})();
-
-$(".overlay-new-success, .overlay-new-error").on("click", function(event) {
-    // Check if the click is outside the entire overlay (not just the message container)
-    if (!$(event.target).closest(this).length) {
-        $(this).css("display", "none");
-    }
-});
-
-
-
-
 
 <script type="text/javascript">
       (function () {
