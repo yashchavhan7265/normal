@@ -322,3 +322,33 @@ $(document).ready(function() {
         }
     });
 });
+
+
+
+
+
+		    (function () {
+    require(["jquery"], function ($) {
+        $(document).ready(function() {
+            // Close the overlay when the close button is clicked
+            $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
+                console.log("Close icon clicked");
+                $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
+            });
+            // Close the overlay when clicking outside the message content
+            $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
+                // Check if the click is outside the content area (message container)
+                if (!$(event.target).closest(".message-container").length) {
+                    $(this).css("display", "none");
+                }
+            });
+        });
+    });
+})();
+
+$(".overlay-new-success, .overlay-new-error").on("click", function(event) {
+    // Check if the click is outside the entire overlay (not just the message container)
+    if (!$(event.target).closest(this).length) {
+        $(this).css("display", "none");
+    }
+});
