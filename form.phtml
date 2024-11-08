@@ -1,109 +1,138 @@
-$("#contact-form").submit(function(event) {
-    event.preventDefault();  // Prevent default form submission
+<aside class="contact" id="contact" name ="contact">
+    <div class="container">
+        <div class="contact__top">
+            <h2 class="contact__title"><?php /* @escapeNotVerified */ echo __('Contact us') ?></h2>
+            <?php if ($generalHelper->getInfinityNumbere() != '') { ?>
+            <div class="contact__no">
+                <div class="contact__no-label"><?php /* @escapeNotVerified */ echo __('Get in touch') ?></div>
+                <div class="contact__phone <?php if($generalHelper->isInfinityNumberRequired()) { echo "number_replace clickable"; } ?>"><a href="tel:<?php echo $generalHelper->getInfinityNumbere(); ?>"><?php echo $generalHelper->getInfinityNumbere(); ?></a></div>
+            </div>
+            <?php }?>
+        </div>
+        <form autocomplete="off" class="contact__row" action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>" id="contact-form" method="post" data-mage-init='{"validation":{}}' novalidate>
+			<?php echo $this->getBlockHtml('formkey')?>
+			<input type="hidden" name="inf_vid" id="inf_vid">
+                        <input type="hidden" name="form_key" value="<?php echo $formKey; ?>">
+			<input type="hidden" name="inf_igrp" id="inf_igrp" value="<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getInfigrp('inf_igrp'));?>">
+			<input type="hidden" name="inf_dgrp" id="inf_dgrp" value="<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getInfigrp('inf_dgrp'));?>">
+            <input type= "hidden" id= "GATRACKID" name= "GATRACKID" value= "<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getGaTrackId());?>" >
+			<input type= "hidden" id= "GACLIENTID" name= "GACLIENTID" value= "" >
+            <input type="hidden" name="hideit" id="hideit" value="" />
+            <input type="hidden" name="page_url" id="page_url" value="<?php echo $currentUrl; ?>" />
+            <input type="hidden" name="page_type" id="page_type" value="<?php echo $currentPageType; ?>" />
+            <div class="contact__left">
+                <div class="contact__section contact__title_section">
+                    <input maxlength="100" type="text" class="contact__input" name="title" title="<?php /* @escapeNotVerified */ echo __('Title') ?>" />
+                    <label class="contact__label" for="name"><?php /* @escapeNotVerified */ echo __('Title') ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="name_contact contact__section required">
+                    <input maxlength="100" type="text" class="contact__input" name="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Name is required field') ?>" />
+                    <label class="contact__label" for="name"><?php /* @escapeNotVerified */ echo __('Name') ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__section">
+					<input name="company" id="company"  maxlength="100" title="<?php /* @escapeNotVerified */ echo __('Company') ?>" class="contact__input" type="text" />
+                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('Company') ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__section required">
+					<input name="email" autocomplete="email" maxlength="100" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="contact__input" type="text" data-validate="{required:true, 'validate-email':true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Email is required field') ?>" data-msg-validate-email="<?php /* @escapeNotVerified */ echo __('Please enter valid email address') ?>" />
+                    <label class="contact__label" for="email"><?php /* @escapeNotVerified */ echo __('Email'); ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__section">
+					<input name="telephone" maxlength="20" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone') ?>" class="contact__input" type="text" />
+                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('Phone'); ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__section required singleselect">
+                    <select name="no_of_people" id="no_of_people" title="<?php /* @escapeNotVerified */ echo __('Number of People') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('No of people is required field') ?>" >
+                        <?php if(count($noOfPeople) > 0) {   
+                            foreach($noOfPeople as $people) {?>
+                                <option value="<?php echo $people;?>"><?php echo $people; ?></option>
+                            <?php }
+                        } ?>
+                    </select>
+                    <label class="contact__label no_of_ppl"></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__section required multiselect">
+                    <select name="interested_in[]" id="interests" title="<?php /* @escapeNotVerified */ echo __('What are you interested in?') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Interest is required field') ?>" multiple>
+                        <?php if($categoryNames && $categoryNames->getSize() > 0) {    
+                            foreach($categoryNames as $category) {?>
+                                <option value="<?php echo $category->getName();?>"><?php echo $category->getName(); ?></option>
+                            <?php } 
+                        } ?>
+                                <option value="<?php echo __("Other");?>"><?php echo __("Other"); ?></option>
+                    </select>
+                    <label class="contact__label interest_category"></label>
+                    <span class="contact__error"></span>
+                </div>                  
+            </div>
+            <div class="contact__right">
+                <div class="contact__section required singleselect">
+                        <select name="planned_budget" id="planned_budget" title="<?php /* @escapeNotVerified */ echo __('What is your planned budget?') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Budget is required field') ?>" >
+                            <?php if(count($plannedBudget) > 0) {    
+                                foreach($plannedBudget as $budget) {?>
+                                    <option value="<?php echo $budget;?>"><?php echo $budget; ?></option>
+                                <?php } 
+                            } ?>
+                        </select>
+                    <label class="contact__label planned_budget"></label>
+                    <span class="contact__error"></span>
+                </div> 
+                <div class="contact__section">
+					<textarea name="comment" id="comment" maxlength="1000" title="<?php /* @escapeNotVerified */ echo __('How can we help?') ?>" class="contact__input" cols="5" rows="1" <?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('comment')) ?>></textarea>
+                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('How can we help?'); ?></label>
+                    <span class="contact__error"></span>
+                </div>
+                <div class="contact__submit">
+                    
+                    <div class="contact__signup">
+                        <label  class="contact__signup-label">
+							<input type="checkbox" name="is_subscribed" id="is_subscribed" class="contact__check" title="<?php /* @escapeNotVerified */ echo __($generalHelper->getContactUsText()) ?>" />
+							<span class="contact__checkmark"></span>
+							<span class="contact__signup-txt"><?php /* @escapeNotVerified */ echo __($generalHelper->getContactUsText()) ?></span>
+							<span class="contact__tip"><?php /* @escapeNotVerified */ echo $generalHelper->getContactUsTermsText(); ?></span>
+                        </label>
+                    </div>
+					<div class="contact__btn-sec">
+                                            <button type="submit" class="contact__button"><?php /* @escapeNotVerified */ echo __('Submit'); ?></button>
+                                            <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=51693&conversionId=1927892&fmt=gif" />
+					</div>
+					
+                </div>
+            </div>
+        </form>
+        <div class="fr_description"><label><?php echo $contactHelper->getContactUsDesc() ?></label></div>
+    </div>
+    <input type="hidden" id="contactGtm" data-set='<?php echo json_encode(array('event' => 'contact','form' => $gtmArr2, 'user' => $gtmUser)); ?>' >
+</aside>
 
-    // Check for any validation errors
-    if ($(".contact__input").hasClass("mage-error")) {
-        $(".contact__input.mage-error").each(function() {
-            $(this).closest(".contact__section").addClass("contact__section--error");
-        });
-    }
+<div class="overlay-new-success" style='display:none;'>
+    <div class="message-container">
+        <div class="close-icon" ><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></div>
+        <p class="success-message">
+            Thank you for reaching out to Jellyfish Training.
+        </p>
+        <p class="info-text">
+            A member of our team will be in contact in the next 24 hours to discuss
+            your needs and the best solution for you.                
+        </p>
+        <p class="info-text info-text-2">In the meantime, feel free to take a look at our upcoming courses.</p>
+        <div class="cta-button">
+            Browse our courses
+        </div>
+        <div class="contact-info">
+            <p>If you'd prefer to speak with someone directly, please call <span class="phone-number">020 79934556</span></p>
+        </div>
+    </div>
+</div>
 
-    // If the form is valid, proceed with AJAX submission
-    if ($("#contact-form").valid()) {
-        // Disable submit button to prevent multiple submissions
-        var submitButton = $(this).find('button[type=submit]');
-        submitButton.attr('disabled', 'disabled').addClass('disabled');
-
-        // Get GACLIENTID if available
-        if (typeof ga != 'undefined' && ga && ga.getAll() && ga.getAll().length) {
-            var tracker = ga.getAll()[0];
-            var clientId = tracker.get('clientId');
-            $('#GACLIENTID').val(clientId);
-        }
-
-        // Hash the email using SHA-256
-        function sha256(message) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(message);
-            return crypto.subtle.digest('SHA-256', data).then(hash => {
-                return Array.from(new Uint8Array(hash))
-                    .map(b => b.toString(16).padStart(2, '0'))
-                    .join('');
-            });
-        }
-
-        var emailValue = $("#email").val();
-        sha256(emailValue).then(hash => {
-            // Push data to Google Tag Manager
-            window.dataLayer = window.dataLayer || [];
-            window.dataLayer.push({
-                'event': 'user_provided_data',
-                'sha256_email_address': hash
-            });
-            window.dataLayer.push({
-                'event': 'contactusFormSubmission'
-            });
-
-            // Serialize form data and send it via AJAX
-            var formData = $("#contact-form").serialize();
-            $.ajax({
-                url: '<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>',
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    // Show success or error overlay based on response
-                    if (response.status === "success") {
-                        // Reset form fields without triggering a submit
-                        $("#contact-form")[0].reset();
-                        $(".overlay-new-success").css("display", "block");
-                    } else {
-                        $(".overlay-new-error").css("display", "block");
-                    }
-                    // Re-enable submit button
-                    submitButton.removeClass('disabled').removeAttr('disabled');
-                },
-                error: function(xhr, status, error) {
-                    // Show error overlay and re-enable submit button on failure
-                    $(".overlay-new-error").css("display", "block");
-                    submitButton.removeClass('disabled').removeAttr('disabled');
-                }
-            });
-        });
-    } else {
-        // Re-enable submit button if validation fails
-        $(this).find('button[type=submit]').removeClass('disabled').removeAttr('disabled');
-    }
-});
-
-
-
-
-function submitForm() {
-    $.ajax({
-        url: '/path/to/your/controller', // Replace with actual controller URL
-        type: 'POST',
-        data: $("#contact-form").serialize(), // Collects form data
-        dataType: 'json',
-        success: function(response) {
-            if (response.status === 'success') {
-                console.log("Form submitted successfully");
-
-                // Manually clear each form field without using form.reset()
-                $("#contact-form").find("input[type=text], input[type=email], textarea").val("");
-                $("#contact-form").find("select").prop("selectedIndex", 0);
-                $("#contact-form").find("input[type=checkbox]").prop("checked", false);
-
-                // Re-enable the submit button
-                $(".contact__button").removeClass('disabled').removeAttr('disabled');
-            } else {
-                console.log("Unexpected response status: " + response.status);
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Form submission failed: " + error);
-
-            // Re-enable the submit button in case of error
-            $(".contact__button").removeClass('disabled').removeAttr('disabled');
-        }
-    });
-}
+<div class="overlay-new-error" style='display:none;'>
+    <div class="error-message-container">
+        <div class="close-icon"><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></div>
+        <p class="error-message" id="error-message-line"></p>
+    </div>
+</div>
