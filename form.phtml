@@ -136,3 +136,145 @@
         <p class="error-message" id="error-message-line"></p>
     </div>
 </div>
+
+
+
+<script>
+    (function () {
+        require(["jquery", "slick"], function ($) {
+            function customCheckbox(checkboxName) {
+                var checkBox = $('input[name="' + checkboxName + '"]');
+                $(checkBox).each(function () {
+                     // $(this).wrap("<span class='custom-checkbox'></span>");
+                    if ($(this).is(':checked')) {
+                        $(this).parent().addClass("selected");
+                    }
+                });
+                $(checkBox).click(function () {
+                    $(this).parent().toggleClass("selected");
+                });
+            }
+            $(document).ready(function () {
+                customCheckbox("is_subscribed");
+                /* if(typeof ga === "function" && ga && ga.getAll() && ga.getAll().length) {
+		    var tracker = ga.getAll()[ 0 ];
+		    var clientId = tracker.get('clientId');
+		    document.getElementById('GACLIENTID').value = clientId;
+		  } */
+            });
+            $( "#contact-form" ).submit(function (event) {
+                if ($(".contact__input").hasClass("mage-error")) {
+                    // Iterate over each select element with mage-error class
+                    $(".contact__input.mage-error").each(function () {
+                        // Add contact__section--error to the parent container
+                        $(this).closest(".contact__section").addClass("contact__section--error");
+                    });
+                }
+                event.preventDefault();
+	    	    // Get GACLIENTID on form submit
+                if(typeof ga != 'undefined' && ga && ga.getAll() && ga.getAll().length) {
+                    var tracker = ga.getAll()[0];
+                    var clientId = tracker.get('clientId');
+                    document.getElementById('GACLIENTID').value = clientId;
+                } 
+                if($("#contact-form").valid()){
+                    var submitChildren = $(this).find('button[type=submit]');
+                    submitChildren.attr('disabled', 'disabled');
+                    submitChildren.addClass('disabled');
+                    function sha256(message) {
+                        const encoder = new TextEncoder();
+                        const data = encoder.encode(message);
+                        return crypto.subtle.digest('SHA-256', data).then(hash => {
+                            return Array.from(new Uint8Array(hash))
+                                .map(b => b.toString(16).padStart(2, '0'))
+                                .join('');
+                        });
+                    }
+
+                    var emailValue = $("#email").val();
+                    var emailhash = '';
+                    
+                    sha256(emailValue).then(hash => {
+                        emailhash = hash;
+                        window.dataLayer = window.dataLayer || [];
+                        window.dataLayer.push({
+                            'event': 'user_provided_data',
+                            'sha256_email_address': emailhash
+                        });
+                        window.dataLayer.push({
+                            'event': 'contactusFormSubmission'
+                        });
+                        $("#contact-form .contact-submit").addClass('disabled');
+                        var formData = $("#contact-form").serialize();
+                        $.ajax({
+                            url: '<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>',
+                            type: 'POST',
+                            data: formData,
+                            success: function(response) {
+                                if (response["status"] == "success") {
+                                    $(".overlay-new-success").css("display","block");
+                                    $("#contact-form").find("input[type=text], input[type=email], textarea").val("").blur();
+                                    $('#planned_budget').val('').trigger('change');
+                                    $('#no_of_people').val('').trigger('change');
+                                    $('#interests').val('').trigger('change');
+
+                                    $("#contact-form").find("input[type=checkbox]").prop("checked", false).blur();
+                                } else {
+                                    $(".overlay-new-error").css("display","block");
+                                }
+                                $("#contact-form .contact-submit").removeClass('disabled');
+                                $("#contact-form .contact__button").removeClass('disabled').removeAttr('disabled');
+                            },
+                            error: function(xhr, status, error) {
+                                $(".overlay-new-error").css("display","block");
+                                $("#contact-form .contact-submit").removeClass('disabled');
+                                $("#contact-form .contact__button").removeClass('disabled').removeAttr('disabled');
+                            }
+                        });
+                    });
+                } else {
+                    $("#contact-form .contact-submit").removeClass('disabled');
+                    $("#contact-form .contact__button").removeClass('disabled').removeAttr('disabled');
+                }
+            });
+        });
+    })();
+
+
+	//Calling Blur Input
+    (function () {
+        require(["jquery"], function ($) {
+            $(document).ready(function () {
+				jQuery(".footer-contact .first input").on('focus', function() {
+					jQuery(this).nextAll('label').addClass("focussed");
+				});
+				jQuery(".footer-contact .first input").on('blur', function() {
+					if (jQuery(this).val().length === 0 || jQuery(this).val().length == null) {
+						jQuery(this).nextAll("label").removeClass("focussed");
+					} else {
+						jQuery(this).nextAll("label").addClass("focussed");
+					}
+				});
+                jQuery("#contact").on('focus', '.contact__input', function() {
+                    if(jQuery(this).attr('name') != 'is_subscribe') {
+                        jQuery(this).nextAll('label').addClass("contact__label--focused");
+                    }
+                    });
+                    jQuery("#contact").on('blur', '.contact__input', function() {
+                    if (jQuery(this).val().length === 0 || jQuery(this).val().length == null) {
+                        jQuery(this).nextAll("label").removeClass("contact__label--focused");
+                    } else {
+                        if(jQuery(this).attr('name') != 'is_subscribe') {
+                        jQuery(this).nextAll("label").addClass("contact__label--focused");
+                        }
+                    }
+                    });
+			});
+        });
+    })();
+
+    
+</script>
+
+
+
