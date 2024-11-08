@@ -1,559 +1,76 @@
-<?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+$("#contact-form").submit(function(event) {
+    event.preventDefault();  // Prevent default form submission
 
-// @codingStandardsIgnoreFile
-
-?>
-<?php $generalHelper = $this->helper('Jellyfish\General\Helper\Data');
-$contactHelper = $this->helper('Jellyfish\ContactBoost\Helper\Data');
-$noOfPeople = $contactHelper->getNoOfPeople();
-$plannedBudget = $contactHelper->getPlannedBudget(); 
-$categoryNames = $contactHelper->getCategoryNamesOptions();
-$formKey = $generalHelper->getFormKey();
-$gtmArr2 = [];
-$gtmUser = [];
-$currentUrl = $generalHelper->getCurrentPageUrl();
-$currentPageType = $generalHelper->getCurrentPageType();
-?>
-<aside class="contact" id="contact" name ="contact">
-    <div class="container">
-        <div class="contact__top">
-            <h2 class="contact__title"><?php /* @escapeNotVerified */ echo __('Contact us') ?></h2>
-            <?php if ($generalHelper->getInfinityNumbere() != '') { ?>
-            <div class="contact__no">
-                <div class="contact__no-label"><?php /* @escapeNotVerified */ echo __('Get in touch') ?></div>
-                <div class="contact__phone <?php if($generalHelper->isInfinityNumberRequired()) { echo "number_replace clickable"; } ?>"><a href="tel:<?php echo $generalHelper->getInfinityNumbere(); ?>"><?php echo $generalHelper->getInfinityNumbere(); ?></a></div>
-            </div>
-            <?php }?>
-        </div>
-        <form autocomplete="off" class="contact__row" action="<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>" id="contact-form" method="post" data-mage-init='{"validation":{}}' novalidate>
-			<?php echo $this->getBlockHtml('formkey')?>
-			<input type="hidden" name="inf_vid" id="inf_vid">
-                        <input type="hidden" name="form_key" value="<?php echo $formKey; ?>">
-			<input type="hidden" name="inf_igrp" id="inf_igrp" value="<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getInfigrp('inf_igrp'));?>">
-			<input type="hidden" name="inf_dgrp" id="inf_dgrp" value="<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getInfigrp('inf_dgrp'));?>">
-            <input type= "hidden" id= "GATRACKID" name= "GATRACKID" value= "<?php echo $block->escapeHtml($this->helper('Jellyfish\ContactBoost\Helper\Data')->getGaTrackId());?>" >
-			<input type= "hidden" id= "GACLIENTID" name= "GACLIENTID" value= "" >
-            <input type="hidden" name="hideit" id="hideit" value="" />
-            <input type="hidden" name="page_url" id="page_url" value="<?php echo $currentUrl; ?>" />
-            <input type="hidden" name="page_type" id="page_type" value="<?php echo $currentPageType; ?>" />
-            <div class="contact__left">
-                <div class="contact__section contact__title_section">
-                    <input maxlength="100" type="text" class="contact__input" name="title" title="<?php /* @escapeNotVerified */ echo __('Title') ?>" />
-                    <label class="contact__label" for="name"><?php /* @escapeNotVerified */ echo __('Title') ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="name_contact contact__section required">
-                    <input maxlength="100" type="text" class="contact__input" name="name" title="<?php /* @escapeNotVerified */ echo __('Name') ?>" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Name is required field') ?>" />
-                    <label class="contact__label" for="name"><?php /* @escapeNotVerified */ echo __('Name') ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__section">
-					<input name="company" id="company"  maxlength="100" title="<?php /* @escapeNotVerified */ echo __('Company') ?>" class="contact__input" type="text" />
-                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('Company') ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__section required">
-					<input name="email" autocomplete="email" maxlength="100" id="email" title="<?php /* @escapeNotVerified */ echo __('Email') ?>" class="contact__input" type="text" data-validate="{required:true, 'validate-email':true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Email is required field') ?>" data-msg-validate-email="<?php /* @escapeNotVerified */ echo __('Please enter valid email address') ?>" />
-                    <label class="contact__label" for="email"><?php /* @escapeNotVerified */ echo __('Email'); ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__section">
-					<input name="telephone" maxlength="20" id="telephone" title="<?php /* @escapeNotVerified */ echo __('Phone') ?>" class="contact__input" type="text" />
-                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('Phone'); ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__section required singleselect">
-                    <select name="no_of_people" id="no_of_people" title="<?php /* @escapeNotVerified */ echo __('Number of People') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('No of people is required field') ?>" >
-                        <?php if(count($noOfPeople) > 0) {   
-                            foreach($noOfPeople as $people) {?>
-                                <option value="<?php echo $people;?>"><?php echo $people; ?></option>
-                            <?php }
-                        } ?>
-                    </select>
-                    <label class="contact__label no_of_ppl"></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__section required multiselect">
-                    <select name="interested_in[]" id="interests" title="<?php /* @escapeNotVerified */ echo __('What are you interested in?') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Interest is required field') ?>" multiple>
-                        <?php if($categoryNames && $categoryNames->getSize() > 0) {    
-                            foreach($categoryNames as $category) {?>
-                                <option value="<?php echo $category->getName();?>"><?php echo $category->getName(); ?></option>
-                            <?php } 
-                        } ?>
-                                <option value="<?php echo __("Other");?>"><?php echo __("Other"); ?></option>
-                    </select>
-                    <label class="contact__label interest_category"></label>
-                    <span class="contact__error"></span>
-                </div>                  
-            </div>
-            <div class="contact__right">
-                <div class="contact__section required singleselect">
-                        <select name="planned_budget" id="planned_budget" title="<?php /* @escapeNotVerified */ echo __('What is your planned budget?') ?>" class="contact__input" data-validate="{required:true}" required data-msg-required="<?php /* @escapeNotVerified */ echo __('Budget is required field') ?>" >
-                            <?php if(count($plannedBudget) > 0) {    
-                                foreach($plannedBudget as $budget) {?>
-                                    <option value="<?php echo $budget;?>"><?php echo $budget; ?></option>
-                                <?php } 
-                            } ?>
-                        </select>
-                    <label class="contact__label planned_budget"></label>
-                    <span class="contact__error"></span>
-                </div> 
-                <div class="contact__section">
-					<textarea name="comment" id="comment" maxlength="1000" title="<?php /* @escapeNotVerified */ echo __('How can we help?') ?>" class="contact__input" cols="5" rows="1" <?php echo $block->escapeHtml($this->helper('Magento\Contact\Helper\Data')->getPostValue('comment')) ?>></textarea>
-                    <label class="contact__label"><?php /* @escapeNotVerified */ echo __('How can we help?'); ?></label>
-                    <span class="contact__error"></span>
-                </div>
-                <div class="contact__submit">
-                    
-                    <div class="contact__signup">
-                        <label  class="contact__signup-label">
-							<input type="checkbox" name="is_subscribed" id="is_subscribed" class="contact__check" title="<?php /* @escapeNotVerified */ echo __($generalHelper->getContactUsText()) ?>" />
-							<span class="contact__checkmark"></span>
-							<span class="contact__signup-txt"><?php /* @escapeNotVerified */ echo __($generalHelper->getContactUsText()) ?></span>
-							<span class="contact__tip"><?php /* @escapeNotVerified */ echo $generalHelper->getContactUsTermsText(); ?></span>
-                        </label>
-                    </div>
-					<div class="contact__btn-sec">
-                                            <button type="submit" class="contact__button"><?php /* @escapeNotVerified */ echo __('Submit'); ?></button>
-                                            <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=51693&conversionId=1927892&fmt=gif" />
-					</div>
-					
-                </div>
-            </div>
-        </form>
-        <div class="fr_description"><label><?php echo $contactHelper->getContactUsDesc() ?></label></div>
-    </div>
-    <input type="hidden" id="contactGtm" data-set='<?php echo json_encode(array('event' => 'contact','form' => $gtmArr2, 'user' => $gtmUser)); ?>' >
-</aside>
-
-<div class="overlay-new-success" style='display:none;'>
-    <div class="message-container">
-        <div class="close-icon" >✖</div>
-        <p class="success-message">
-            Thank you for reaching out to Jellyfish Training.
-        </p>
-        <p class="info-text">
-            A member of our team will be in contact in the next 24 hours to discuss
-            your needs and the best solution for you.                
-        </p>
-        <p class="info-text info-text-2">In the meantime, feel free to take a look at our upcoming courses.</p>
-        <div class="cta-button">
-            Browse our courses
-        </div>
-        <div class="contact-info">
-            <p>If you'd prefer to speak with someone directly, please call <span class="phone-number">020 79934556</span></p>
-        </div>
-    </div>
-</div>
-
-<div class="overlay-new-error" style='display:none;'>
-    <div class="error-message-container">
-        <div class="close-icon" >✖</div>
-        <p class="error-message"></p>
-    </div>
-</div>
-
-<script type="text/javascript">
-    require([
-        "jquery"
-    ], function ($) {
-        var myForm = $('#contact-form');
-        var formAlreadySubmitted = false;
-        myForm.submit(function (e) {
-            if ($(".contact__input").hasClass("mage-error")) {
-                            // Iterate over each select element with mage-error class
-                            $(".contact__input.mage-error").each(function () {
-                                // Add contact__section--error to the parent container
-                                $(this).closest(".contact__section").addClass("contact__section--error");
-                            });
-                        }
-            if (myForm.validation("isValid")) {
-                if (formAlreadySubmitted) {
-                    e.preventDefault();
-                    return false;
-                }
-                var submitChildren = $(this).find('button[type=submit]');
-                submitChildren.attr('disabled', 'disabled');
-                submitChildren.addClass('disabled');
-                formAlreadySubmitted = true;
-            }
+    // Check for any validation errors
+    if ($(".contact__input").hasClass("mage-error")) {
+        $(".contact__input.mage-error").each(function() {
+            $(this).closest(".contact__section").addClass("contact__section--error");
         });
-    });
-</script>
+    }
 
-<script type="text/javascript">
-    require([
-        "jquery"
-    ], function ($) {
-        // Function to update the top position based on window width
-        function updateTopPosition() {
-            var windowWidth = $(window).width();
-            if (windowWidth <= 767) {
-                var contact_top = document.querySelector('.en-au .contact__top');
-                if (contact_top) {
-                    contact_top.style.marginBottom = '0';
-                }
-                var formHeight = $('#contact-form').outerHeight() - 20;
-                $('.contact__no').css('top', formHeight + 'px');
-            } else {
-                // Reset top position if window width is greater than 767 pixels
-                $('.contact__no').css('top', '');
-            }
+    // If the form is valid, proceed with AJAX submission
+    if ($("#contact-form").valid()) {
+        // Disable submit button to prevent multiple submissions
+        var submitButton = $(this).find('button[type=submit]');
+        submitButton.attr('disabled', 'disabled').addClass('disabled');
+
+        // Get GACLIENTID if available
+        if (typeof ga != 'undefined' && ga && ga.getAll() && ga.getAll().length) {
+            var tracker = ga.getAll()[0];
+            var clientId = tracker.get('clientId');
+            $('#GACLIENTID').val(clientId);
         }
-        // Initial update
-        updateTopPosition();
 
-        setInterval(function () {
-            if ($(window).width() <= 767) {
-                updateTopPosition();
-            }
-        }, 1000);
+        // Hash the email using SHA-256
+        function sha256(message) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(message);
+            return crypto.subtle.digest('SHA-256', data).then(hash => {
+                return Array.from(new Uint8Array(hash))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+            });
+        }
 
-        // Update on window resize
-        $(window).resize(function () {
-            updateTopPosition();
+        var emailValue = $("#email").val();
+        sha256(emailValue).then(hash => {
+            // Push data to Google Tag Manager
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'user_provided_data',
+                'sha256_email_address': hash
+            });
+            window.dataLayer.push({
+                'event': 'contactusFormSubmission'
+            });
+
+            // Serialize form data and send it via AJAX
+            var formData = $("#contact-form").serialize();
+            $.ajax({
+                url: '<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Show success or error overlay based on response
+                    if (response.status === "success") {
+                        // Reset form fields without triggering a submit
+                        $("#contact-form")[0].reset();
+                        $(".overlay-new-success").css("display", "block");
+                    } else {
+                        $(".overlay-new-error").css("display", "block");
+                    }
+                    // Re-enable submit button
+                    submitButton.removeClass('disabled').removeAttr('disabled');
+                },
+                error: function(xhr, status, error) {
+                    // Show error overlay and re-enable submit button on failure
+                    $(".overlay-new-error").css("display", "block");
+                    submitButton.removeClass('disabled').removeAttr('disabled');
+                }
+            });
         });
-    });
-</script>
-<script type="text/javascript">
-    (function($) {
-  var Defaults = $.fn.select2.amd.require('select2/defaults');
-  $.extend(Defaults.defaults, {
-    dropdownPosition: 'auto'
-  });
-  var AttachBody = $.fn.select2.amd.require('select2/dropdown/attachBody');
-  var _positionDropdown = AttachBody.prototype._positionDropdown;
-  AttachBody.prototype._positionDropdown = function() {
-    var $window = $(window);
-    var isCurrentlyAbove = this.$dropdown.hasClass('select2-dropdown--above');
-    var isCurrentlyBelow = this.$dropdown.hasClass('select2-dropdown--below');
-    var newDirection = null;
-    var offset = this.$container.offset();
-    offset.bottom = offset.top + this.$container.outerHeight(false);
-    var container = {
-        height: this.$container.outerHeight(false)
-    };
-    container.top = offset.top;
-    container.bottom = offset.top + container.height;
-    var dropdown = {
-      height: this.$dropdown.outerHeight(false)
-    };
-    var viewport = {
-      top: $window.scrollTop(),
-      bottom: $window.scrollTop() + $window.height()
-    };
-    var enoughRoomAbove = viewport.top < (offset.top - dropdown.height);
-    var enoughRoomBelow = viewport.bottom > (offset.bottom + dropdown.height);
-    var css = {
-      left: offset.left,
-      top: container.bottom
-    };
-    // Determine what the parent element is to use for calciulating the offset
-    var $offsetParent = this.$dropdownParent;
-    // For statically positoned elements, we need to get the element
-    // that is determining the offset
-    if ($offsetParent.css('position') === 'static') {
-      $offsetParent = $offsetParent.offsetParent();
-    }
-    var parentOffset = $offsetParent.offset();
-    css.top -= parentOffset.top;
-    css.left -= parentOffset.left;
-    var dropdownPositionOption = this.options.get('dropdownPosition');
-    if (dropdownPositionOption === 'above' || dropdownPositionOption === 'below') {
-      newDirection = dropdownPositionOption;
     } else {
-      if (!isCurrentlyAbove && !isCurrentlyBelow) {
-        newDirection = 'below';
-      }
-      if (!enoughRoomBelow && enoughRoomAbove && !isCurrentlyAbove) {
-        newDirection = 'above';
-      } else if (!enoughRoomAbove && enoughRoomBelow && isCurrentlyAbove) {
-        newDirection = 'below';
-      }
+        // Re-enable submit button if validation fails
+        $(this).find('button[type=submit]').removeClass('disabled').removeAttr('disabled');
     }
-    if (newDirection == 'above' ||
-    (isCurrentlyAbove && newDirection !== 'below')) {
-        css.top = container.top - parentOffset.top - dropdown.height;
-    }
-    if (newDirection != null) {
-      this.$dropdown
-        .removeClass('select2-dropdown--below select2-dropdown--above')
-        .addClass('select2-dropdown--' + newDirection);
-      this.$container
-        .removeClass('select2-container--below select2-container--above')
-        .addClass('select2-container--' + newDirection);
-    }
-    this.$dropdownContainer.css(css);
-  };
-})(window.jQuery);
-
-    </script>
-
-<script type="text/javascript">
-               
-    // Initialize the Select2 dropdown
-    require(["jquery", "selectoptionjs"], function ($) {
-        var $j = jQuery.noConflict();
-            $j(document).ready(function() {
-                var labelContainer = $('.no_of_ppl');
-                if ($(".contact__input").hasClass("mage-error")) {
-                            // Iterate over each select element with mage-error class
-                            $(".contact__input.mage-error").each(function () {
-                                // Add contact__section--error to the parent container
-                                $(this).closest(".contact__section").addClass("contact__section--error");
-                            });
-                        }
-                
-                $("#no_of_people").select2({
-                            // placeholder: $.mage.__('How many people is the training for?'),
-                            allowClear: true,
-                            width: '100%', 
-                            minimumResultsForSearch: Infinity,
-                            dropdownPosition: 'below'
-                });
-                $('#no_of_people').val('').trigger('change');
-                $('.no_of_ppl').text("<?php echo __('How many people is the training for?'); ?>");
-
-                // Add event listener for the change event
-                $("#no_of_people").on('change', function() {
-                    var selectedOption = $(this).find(':selected');
-                    var label = selectedOption.text();
-                    
-
-                    // If an option is selected, show the selected label
-                    if (selectedOption.val()) {
-                        labelContainer.addClass('no_of_ppl--focused contact__label--focused');
-                    } else {
-                        labelContainer.removeClass('no_of_ppl--focused contact__label--focused');
-                    }
-                    
-                    // Set the label text to either the selected label or the default placeholder
-                    labelContainer.text(label || "<?php echo __('How many people is the training for?'); ?>");
-
-                    
-                    if ($('#no_of_people-error')[0]) {
-                        $('.contact__section.required.singleselect').addClass('contact__section--error');
-                    }
-
-                $('.no_of_ppl').text("<?php echo __('How many people is the training for?'); ?>");
-                    
-                });
-            });
-       
-    });
-
-    require(["jquery", "selectoptionjs"], function ($) {
-    $(document).ready(function () {
-        var $j = jQuery.noConflict();
-        $("#interests").select2({
-            // placeholder: $.mage.__('What are you interested in?'),
-            allowClear: true,
-            closeOnSelect: false,
-            width: '100%',
-            minimumResultsForSearch: Infinity, // Disable searching
-            dropdownPosition: 'below'
-            // Add more options as needed
-        });
-        setTimeout(function () {
-                var select2Container = $("#interests").data('select2').$container;
-                select2Container.addClass('multi-selection');
-            }, 100);
-
-        $('#interests').on('select2:open', function (e) {
-            $('.select2-container--open').addClass('multi-selection');
-        });
-       
-        var interestsSelect = $("#interests");
-        var labelContainer = $(".interest_category");
-        var searchBox = $(".select2-search.select2-search--inline");
-        searchBox.hide();
-        // Initial check for selected options
-        updateLabel();
-
-                // Add event listener for the change event
-                interestsSelect.on('change', function () {
-                    // Update label on change
-                    updateLabel();
-                });
-
-                function updateLabel() {
-                    var selectedItems = $(".select2-selection__rendered .select2-selection__choice");
-                    if (selectedItems.length > 0) {
-                        // If items are selected, hide the placeholder label
-                        labelContainer.text("<?php echo __('What are you interested in?'); ?>");
-                        labelContainer.focus();
-                        labelContainer.addClass('interest_category--focused contact__label--focused');
-                    } else {
-                        // If no items are selected, show the placeholder label
-                        labelContainer.text("<?php echo __('What are you interested in?'); ?>");
-                        labelContainer.removeClass('interest_category--focused contact__label--focused');
-                    }
-                }
-    });
 });
-
-require(["jquery", "selectoptionjs"], function ($) {
-        var $j = jQuery.noConflict();
-            $j(document).ready(function() {
-                var $j = jQuery.noConflict();
-                var plannedBudgetSelect = $("#planned_budget");
-                var labelContainer = $('.planned_budget');
-                $("#planned_budget").select2({
-                            // placeholder: $.mage.__('How many people is the training for?'),
-                            allowClear: true,
-                            width: '100%', 
-                            minimumResultsForSearch: Infinity,
-                            dropdownPosition: 'below'
-                });
-                $('.planned_budget').text("<?php echo __('What is your planned budget?'); ?>");
-                $('#planned_budget').val('').trigger('change');
-                
-                // Add event listener for the change event
-                $("#planned_budget").on('change', function() {
-                    var selectedOption = $(this).find(':selected');
-                    var label = selectedOption.text();
-                    
-
-                    // If an option is selected, show the selected label
-                    if (selectedOption.val()) {
-                        labelContainer.addClass('planned_budget--focused contact__label--focused');
-                    } else {
-                        labelContainer.removeClass('planned_budget--focused contact__label--focused');
-                    }
-                    
-                    // Set the label text to either the selected label or the default placeholder
-                    $('.planned_budget').text("<?php echo __('What is your planned budget?'); ?>");
-
-                });
-            });
-       
-    });
-    
-</script>
-
-
-<script>
-    (function () {
-        require(["jquery", "slick"], function ($) {
-            function customCheckbox(checkboxName) {
-                var checkBox = $('input[name="' + checkboxName + '"]');
-                $(checkBox).each(function () {
-                     // $(this).wrap("<span class='custom-checkbox'></span>");
-                    if ($(this).is(':checked')) {
-                        $(this).parent().addClass("selected");
-                    }
-                });
-                $(checkBox).click(function () {
-                    $(this).parent().toggleClass("selected");
-                });
-            }
-            $(document).ready(function () {
-                customCheckbox("is_subscribed");
-                /* if(typeof ga === "function" && ga && ga.getAll() && ga.getAll().length) {
-		    var tracker = ga.getAll()[ 0 ];
-		    var clientId = tracker.get('clientId');
-		    document.getElementById('GACLIENTID').value = clientId;
-		  } */
-            });
-            $( "#contact-form" ).submit(function (event) {
-                event.preventDefault();
-	    	    // Get GACLIENTID on form submit
-                if(typeof ga != 'undefined' && ga && ga.getAll() && ga.getAll().length) {
-                    var tracker = ga.getAll()[0];
-                    var clientId = tracker.get('clientId');
-                    document.getElementById('GACLIENTID').value = clientId;
-                } 
-                if($("#contact-form").valid()){
-
-                    function sha256(message) {
-                        const encoder = new TextEncoder();
-                        const data = encoder.encode(message);
-                        return crypto.subtle.digest('SHA-256', data).then(hash => {
-                            return Array.from(new Uint8Array(hash))
-                                .map(b => b.toString(16).padStart(2, '0'))
-                                .join('');
-                        });
-                    }
-
-                    var emailValue = $("#email").val();
-                    var emailhash = '';
-                    
-                    sha256(emailValue).then(hash => {
-                        emailhash = hash;
-                        window.dataLayer = window.dataLayer || [];
-                        window.dataLayer.push({
-                            'event': 'user_provided_data',
-                            'sha256_email_address': emailhash
-                        });
-                        window.dataLayer.push({
-                            'event': 'contactusFormSubmission'
-                        });
-                        $("#contact-form .contact-submit").addClass('disabled');
-                        var formData = $("#contact-form").serialize();
-                        $.ajax({
-                            url: '<?php /* @escapeNotVerified */ echo $block->getFormAction(); ?>',
-                            type: 'POST',
-                            data: formData,
-                            success: function(response) {
-                                console.log("Response:"+response["status"]);
-                                if (response["status"] == "success") {
-                                    console.log("Form submitted successfully1");
-                                    $(".overlay-new-success").css("display","block");
-                                } else {
-                                    $(".overlay-new-error").css("display","block");
-                                }
-                                $("#contact-form .contact-submit").removeClass('disabled');
-                            },
-                            error: function(xhr, status, error) {
-                                console.log("Form submitted successfully2");
-                                $(".overlay-new-error").css("display","block");
-                                $("#contact-form .contact-submit").removeClass('disabled');
-                            }
-                        });
-                    });
-                } else {
-                    $("#contact-form .contact-submit").removeClass('disabled');
-                }
-            });
-        });
-    })();
-
-
-	//Calling Blur Input
-    (function () {
-        require(["jquery"], function ($) {
-            $(document).ready(function () {
-				jQuery(".footer-contact .first input").on('focus', function() {
-					jQuery(this).nextAll('label').addClass("focussed");
-				});
-				jQuery(".footer-contact .first input").on('blur', function() {
-					if (jQuery(this).val().length === 0 || jQuery(this).val().length == null) {
-						jQuery(this).nextAll("label").removeClass("focussed");
-					} else {
-						jQuery(this).nextAll("label").addClass("focussed");
-					}
-				});
-                jQuery("#contact").on('focus', '.contact__input', function() {
-                    if(jQuery(this).attr('name') != 'is_subscribe') {
-                        jQuery(this).nextAll('label').addClass("contact__label--focused");
-                    }
-                    });
-                    jQuery("#contact").on('blur', '.contact__input', function() {
-                    if (jQuery(this).val().length === 0 || jQuery(this).val().length == null) {
-                        jQuery(this).nextAll("label").removeClass("contact__label--focused");
-                    } else {
-                        if(jQuery(this).attr('name') != 'is_subscribe') {
-                        jQuery(this).nextAll("label").addClass("contact__label--focused");
-                        }
-                    }
-                    });
-			});
-        });
-    })();
-
-    
-</script>
