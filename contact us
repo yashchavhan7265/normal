@@ -2,3 +2,22 @@
                     <label><![CDATA[Contact Us Success Response]]></label>
                     <frontend_model>Jellyfish\ContactBoost\Block\Adminhtml\System\Config\Editor</frontend_model>
                 </field>
+
+
+<div class="message-container">
+        <div class="close-icon" ><img src="<?php echo $this->getViewFileUrl('images/close-ico.svg'); ?>" /></div>
+        <p class="success-message">
+            Thank you for reaching out to Jellyfish Training.
+        </p>
+        <p class="info-text">
+            A member of our team will be in contact in the next 24 hours to discuss
+            your needs and the best solution for you.                
+        </p>
+        <p class="info-text info-text-2">In the meantime, feel free to take a look at our upcoming courses.</p>
+        <div class="cta-button">
+            Browse our courses
+        </div>
+        <div class="contact-info">
+            <p>If you'd prefer to speak with someone directly, please call <span class="phone-number">020 79934556</span></p>
+        </div>
+    </div>
