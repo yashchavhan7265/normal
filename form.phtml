@@ -1,4 +1,4 @@
-<aside class="contact" id="contact" name ="contact">
+hi<aside class="contact" id="contact" name ="contact">
     <div class="container">
         <div class="contact__top">
             <h2 class="contact__title"><?php /* @escapeNotVerified */ echo __('Contact us') ?></h2>
@@ -297,3 +297,28 @@ $(document).ready(function() {
     });
 });
 
+
+
+
+
+$(document).ready(function() {
+    // Close the overlay on close button click
+    $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
+        $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
+    });
+
+    // Prevent click event propagation inside the overlay
+    $(".overlay-new-success, .overlay-new-error").on("click", function(event) {
+        event.stopPropagation();
+    });
+
+    // Close the overlay if clicking outside of it
+    $(document).on("click", function(event) {
+        if ($(".overlay-new-success").css("display") === "block") {
+            $(".overlay-new-success").css("display", "none");
+        }
+        if ($(".overlay-new-error").css("display") === "block") {
+            $(".overlay-new-error").css("display", "none");
+        }
+    });
+});
