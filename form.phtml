@@ -74,3 +74,36 @@ $("#contact-form").submit(function(event) {
         $(this).find('button[type=submit]').removeClass('disabled').removeAttr('disabled');
     }
 });
+
+
+
+
+function submitForm() {
+    $.ajax({
+        url: '/path/to/your/controller', // Replace with actual controller URL
+        type: 'POST',
+        data: $("#contact-form").serialize(), // Collects form data
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                console.log("Form submitted successfully");
+
+                // Manually clear each form field without using form.reset()
+                $("#contact-form").find("input[type=text], input[type=email], textarea").val("");
+                $("#contact-form").find("select").prop("selectedIndex", 0);
+                $("#contact-form").find("input[type=checkbox]").prop("checked", false);
+
+                // Re-enable the submit button
+                $(".contact__button").removeClass('disabled').removeAttr('disabled');
+            } else {
+                console.log("Unexpected response status: " + response.status);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Form submission failed: " + error);
+
+            // Re-enable the submit button in case of error
+            $(".contact__button").removeClass('disabled').removeAttr('disabled');
+        }
+    });
+}
