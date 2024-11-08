@@ -278,3 +278,22 @@
 
 
 
+
+
+$(document).ready(function() {
+    // Close the overlay on close button click
+    $(".overlay-new-success .close-icon, .overlay-new-error .close-icon").on("click", function() {
+        $(this).closest(".overlay-new-success, .overlay-new-error").css("display", "none");
+    });
+
+    // Close the overlay if clicking outside of it
+    $(document).on("click", function(event) {
+        if ($(".overlay-new-success").css("display") === "block" && !$(event.target).closest(".overlay-new-success").length) {
+            $(".overlay-new-success").css("display", "none");
+        }
+        if ($(".overlay-new-error").css("display") === "block" && !$(event.target).closest(".overlay-new-error").length) {
+            $(".overlay-new-error").css("display", "none");
+        }
+    });
+});
+
