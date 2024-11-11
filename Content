@@ -44,6 +44,11 @@ Tra1n1g123!!
 6LeJzTspAAAAACz2ePO0MUxrIwANh3qVEVKICq7v
 
 
-0:3:+mU2+L1T9j5mey/Y6+rNGQOTYCgibn9M/x1DQ7ukonlc1RJXf/5Vz6k9PCujjkqOnp+H56UZXY/Gw2/DyyJHGFGC1qs=
 
-0:3:dUGp5FWYnWWECF1fdF9MrkMEdCP2LZ4hD7XsspYIaLmMHOuKb6RtZzNowRFoHcCK2jAxrNxLF1I1hf2MHktlTooJsKY=
+Details for order :
+
+22046 - Item Id Product id
+insert into sales_order_attendees values (10766,7301,28738,5,22046,"Claire","Frankling","claire.frankling@greenpark.digital","",NULL,NULL,1,0,NOW());
+insert into quote_assign_courses values (19377,28738,22046,10766,NOW());
+
+Before insert query validate the current records
