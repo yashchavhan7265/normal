@@ -1,0 +1,9 @@
+Important Docker Commands
+
+1. To export DB
+
+docker exec -it jellyfish-training-magento-db-1 mysqldump -uroot -pmagento jf_train > /home/jaimeenb/Downloads/yashtestycd.sql
+
+
+2. TO import DB:
+
