@@ -7,3 +7,4 @@ docker exec -it jellyfish-training-magento-db-1 mysqldump -uroot -pmagento jf_tr
 
 2. TO import DB:
 
+docker exec -i mysql-container mysql -u your_username -pyour_password your_database < /path/to/your/database.sql
