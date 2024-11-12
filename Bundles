@@ -1,2 +1,29 @@
-4ff35a7954f69309342cac4f7ee5e247
-d32ff6118b63f4fc8023b1278ef53958
+<?php
+
+namespace YourVendor\YourModule\Model\Config\Source;
+
+use Magento\Framework\Data\OptionSourceInterface;
+use Magento\Cms\Model\ResourceModel\Page\CollectionFactory;
+
+class CmsPages implements OptionSourceInterface
+{
+    protected $pageCollectionFactory;
+
+    public function __construct(CollectionFactory $pageCollectionFactory)
+    {
+        $this->pageCollectionFactory = $pageCollectionFactory;
+    }
+
+    public function toOptionArray()
+    {
+        $options = [];
+        $pageCollection = $this->pageCollectionFactory->create();
+        foreach ($pageCollection as $page) {
+            $options[] = [
+                'value' => $page->getIdentifier(),
+                'label' => $page->getTitle(),
+            ];
+        }
+        return $options;
+    }
+}
