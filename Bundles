@@ -1,29 +1,99 @@
+public function execute(Observer $observer)
+{
+    if (!$this->_helper->getConfigModule('general/enabled')) return;
+
+    /** @var LayoutInterface $layout */
+    $layout = $observer->getEvent()->getLayout();
+    $actionName = $this->request->getFullActionName();
+
+    // Retrieve CMS Page ID if on a CMS page
+    $pageId = null;
+    if ($actionName == 'cms_page_view') {
+        $pageId = $this->_page->getId(); // Assuming $this->_page is an instance of \Magento\Cms\Model\Page
+    }
+
+    $promotionbarCollection = $this->_promotionbar->getPromotionbarCollection();
+    foreach ($promotionbarCollection as $value) {
+        $position = $value->getPosition();
+        $displayPage = $value->getDisplayOnpage();
+        $arrayPage = [$displayPage];
+        $targetPageIds = [1, 2]; // List of CMS page IDs to target
+
+        if (
+            ($actionName == 'catalog_category_view' 
+                || $actionName == 'catalog_product_view'
+                || $actionName == 'cms_index_index' && in_array($actionName, $arrayPage)
+                || $actionName == 'checkout_index_index' && in_array($actionName, $arrayPage)
+                || $actionName == 'checkout_cart_index' && in_array($actionName, $arrayPage))
+            || ($actionName == 'cms_page_view' && in_array($pageId, $targetPageIds))
+        ) {
+            switch ($position) {
+                case 1:
+                    $xml = '<referenceContainer name="content.top">
+                                <block class="' . self::BLOCK . '" template="' . self::TEMPLATE_TOPCONTENT . '"/>
+                            </referenceContainer>';
+                    break;
+                case 2:
+                    $xml = '<referenceContainer name="header.container">
+                                <block class="' . self::BLOCK . '" template="' . self::TEMPLATE_TOPMENU . '"/>
+                            </referenceContainer>';
+                    break;
+                case 3:
+                    $xml = '<referenceContainer name="page.bottom.container">
+                                <block class="' . self::BLOCK . '" template="' . self::TEMPLATE_BOTTOMPAGE . '"/>
+                            </referenceContainer>';
+                    break;
+            }
+
+            $layout->getUpdate()->addUpdate($xml);
+            $layout->generateXml();
+        }
+    }
+}
+
+
+
+
+
 <?php
 
 namespace YourVendor\YourModule\Model\Config\Source;
 
 use Magento\Framework\Data\OptionSourceInterface;
 use Magento\Cms\Model\ResourceModel\Page\CollectionFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 class CmsPages implements OptionSourceInterface
 {
     protected $pageCollectionFactory;
+    protected $storeManager;
 
-    public function __construct(CollectionFactory $pageCollectionFactory)
-    {
+    public function __construct(
+        CollectionFactory $pageCollectionFactory,
+        StoreManagerInterface $storeManager
+    ) {
         $this->pageCollectionFactory = $pageCollectionFactory;
+        $this->storeManager = $storeManager;
     }
 
     public function toOptionArray()
     {
         $options = [];
+
+        // Get current store ID
+        $storeId = $this->storeManager->getStore()->getId();
+
+        // Retrieve CMS pages for the current store
         $pageCollection = $this->pageCollectionFactory->create();
+        $pageCollection->addStoreFilter($storeId);
+
         foreach ($pageCollection as $page) {
             $options[] = [
-                'value' => $page->getIdentifier(),
+                'value' => $page->getId(),  // Use page ID here
                 'label' => $page->getTitle(),
             ];
         }
+
         return $options;
     }
 }
