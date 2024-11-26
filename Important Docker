@@ -13,3 +13,15 @@ docker exec -i jellyfish-training-magento-db-1 mysql -uroot -pmagento jf_train <
 
 
 
+
+
+function cleanString($string) {
+    // Replace non-breaking spaces (&nbsp; or \u00A0) with normal spaces
+    $string = str_replace(["\u{00A0}", "\xA0"], ' ', $string);
+
+    // Normalize and remove line breaks (\r\n or \r or \n)
+    $string = str_replace(["\r\n", "\r", "\n"], '', $string);
+
+    return $string;
+}
+
