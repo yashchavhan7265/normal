@@ -7,10 +7,9 @@ docker exec -it jellyfish-training-magento-db-1 mysqldump -uroot -pmagento jf_tr
 
 2. TO import DB:
 
-docker exec -i mysql-container mysql -u your_username -pyour_password your_database < /path/to/your/database.sql
-
-
+sed -i '/^mysqldump: /d' /home/jaimeenb/Downloads/yashtestycd.sql
 
 docker exec -i jellyfish-training-magento-db-1 mysql -uroot -pmagento jf_train < /home/jaimeenb/Downloads/yashtestycd.sql
-mysql: [Warning] Using a password on the command line interface can be insecure.
-ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'mysqldump: [Warning] Using a password on the command line interface can be insec' at line 1
+
+
+
