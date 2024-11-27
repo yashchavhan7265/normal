@@ -1,0 +1,107 @@
+Promotionbar.php
+
+ public function getPromotionbarCollection($position='')
+    {
+		$date = $this->_timezone->date()->format('Y-m-d H:i:s');
+        $store = $this->_storeManager->getStore()->getStoreId();
+        $customerGroup = $this->getCustomerGroup();
+       
+        $collection = $this->_promotionbarFactory->create()->getCollection()
+                            ->addFieldToSelect('*')
+                            ->addFieldToFilter('is_active', 1)
+                            ->addFieldToFilter('stores', array(array('finset' => 0), array('finset' => $store)))
+                            ->addFieldToFilter('start_at', array('lteq' => $date))
+                            ->addFieldToFilter('end_at', array('gteq' => $date))
+                            ->addFieldToFilter('customer_group',array(array('finset'=>0), array('finset'=>$customerGroup)));
+                                        
+        if($position != '') {
+            $collection->addFieldToFilter('position', array('eq' => $position));
+
+        }
+        $collection->setOrder('sort_order','ASC');   
+        return $collection;
+    }
+    
+    
+     public function getPromotionbarProduct($position=1)
+    {
+        if(!$this->hasData('promotionbar')) {
+            $collection = $this->getPromotionbarCollection($position);
+            $product    = $this->getProduct();       
+            $promotionbar  = '';
+            foreach ($collection as $key => $item) {
+                $config = $item->getConditionsSerialized();
+
+                $data = $this->_json->unserialize($config);
+                $getIsShownOnProductpage = $item->getIsShownOnProductpage();
+
+                if($getIsShownOnProductpage == 1){
+                    $parameters =  $data['parameters'];
+                    $rule = $this->getRule($parameters);
+                    $validate = $rule->getConditions()->validate($product);
+
+                    if($validate ){
+                        $promotionbar =  $parameters;
+                        break;
+                    }
+                }
+            }
+
+            $this->setData('promotionbar', $promotionbar);
+        }
+
+        return $this->getData('promotionbar');
+    }
+    
+    
+    
+    
+    
+    topbanner
+    
+    <?php 
+	$helper = $this->helper('Magepow\promotionbar\Helper\Data');
+	$productPromotion = $block->getPromotionbarCollection(1);
+    $productPromotionbar = $block->getPromotionbarProduct(1);
+?>
+
+<?php 
+    foreach ($productPromotion as $value) {
+        $position = $value->getPosition();
+        if($position == 1) {
+            $config = $block->PromotionbarInfo($value->getEntityId());
+            $parameters = array($config['parameters']);
+            if(in_array($productPromotionbar,$parameters)) {
+                echo $block->getContentFromStaticBlock($value->getPromotionbarInfo());
+            }
+        }
+    }
+?>
+
+	
+    
+    
+    
+    desc banner
+    
+    
+    <?php 
+	$helper = $this->helper('Magepow\promotionbar\Helper\Data');
+	$productPromotion = $block->getPromotionbarCollection(2);
+    $productPromotionbar = $block->getPromotionbarProduct(2);
+?>
+
+<?php 
+    foreach ($productPromotion as $value) {
+        $position = $value->getPosition();
+        if($position == 2) {
+            $config = $block->PromotionbarInfo($value->getEntityId());
+            $parameters = array($config['parameters']);
+            if(in_array($productPromotionbar,$parameters)) {
+                echo $block->getContentFromStaticBlock($value->getPromotionbarInfo());
+            }
+        }
+    }
+?>
+
+	
