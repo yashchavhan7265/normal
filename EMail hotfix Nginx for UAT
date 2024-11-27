@@ -6,7 +6,7 @@ kubectl exec -it <pod name> sh -c nginx
 
 vi /etc/nginx/conf.d/default.conf
 
-3. Copy below code in it
+3. Copy below code in line 55 after rest api condition
 
 if ($uri ~ "/pub/media/"){
   set $auth_type "off";
