@@ -7,3 +7,45 @@ http://localhost/jfcms/admin/auth/reset-password?code=47691f7ad6677d14aaa1cd9784
 
 
 https://forum.strapi.io/t/using-same-slug-on-different-locales/9165/5
+
+
+
+
+
+const slugify = require('slugify');
+
+module.exports = {
+  lifecycles: {
+    async beforeCreate(data) {
+      if (data.title) {
+        data.slug = slugify(data.title, { lower: true, strict: true });
+        await ensureLocaleUniqueSlug(data);
+      }
+    },
+    async beforeUpdate(params, data) {
+      if (data.title) {
+        data.slug = slugify(data.title, { lower: true, strict: true });
+        await ensureLocaleUniqueSlug(data, params.id);
+      }
+    },
+  },
+};
+
+async function ensureLocaleUniqueSlug(data, id = null) {
+  const query = {
+    where: {
+      slug: data.slug,
+      locale: data.locale,
+    },
+  };
+
+  if (id) {
+    query.where.id = { $ne: id }; // Exclude the current record
+  }
+
+  const existingEntry = await strapi.db.query('api::your-collection-name.your-collection-name').findOne(query);
+
+  if (existingEntry) {
+    throw new Error(`Slug "${data.slug}" already exists for locale "${data.locale}".`);
+  }
+}
