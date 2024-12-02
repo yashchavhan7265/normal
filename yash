@@ -1,5 +1,5 @@
 4/0AeanS0aLoq5JH3qWz1gow5oQI9SmCrT3ZvLj2Izb5xb73TtqSzdweeO7uDXhSOdSH4w5mA4/0AeanS0apu_t8Tq_s2hvOgz18xQKZ7X-gT9ERsHhTnmtgIEclDiFK1X1J9aWg823OaBel9A
-
+https://uat.jellyfish.com/jfcms/api/blogs?locale=en-gb&filters[BlogCategory][Title][$eq]=Insights&filters[Tag][$contains]=Analytics&sort[0]=Date:desc&populate=deep&pagination[page]=1&pagination[withCount]=true&pagination[pageSize]=20
 VIBwQE5QjsyXwf7
 
 http://localhost/jfcms/admin/auth/reset-password?code=47691f7ad6677d14aaa1cd978407067f4206b581
