@@ -12,9 +12,9 @@ https://forum.strapi.io/t/using-same-slug-on-different-locales/9165/5
 
 
 
-> [jellyfish-training-magento_php:dev magento  2/35] RUN printf 'session.save_handler = redis\nsession.save_path = "tcp://$REDIS_HOST:6379"' > /usr/local/etc/php/conf.d/redis.ini:
-#54 0.820 /bin/sh: can't create /usr/local/etc/php/conf.d/redis.ini: nonexistent directory
-#54 0.820 /bin/sh: can't create /usr/local/etc/php/conf.d/redis.ini: nonexistent directory
+------                                                                                                                                                                                                        
+ > [jellyfish-training-magento_nginx:dev magento 12/35] RUN  apt-get autoremove -y:                                                                                                                           
+#19 1.078 /bin/sh: apt-get: not found
+#19 1.078 /bin/sh: apt-get: not found
 ------
-failed to solve: process "/bin/sh -c printf 'session.save_handler = redis\\nsession.save_path = \"tcp://$REDIS_HOST:6379\"' > /usr/local/etc/php/conf.d/redis.ini" did not complete successfully: exit code: 1
-jaimeenb@jaimeen-training-m244-vbox:~/projects/jf-training/jellyfish-training-magento$ 
+failed to solve: process "/bin/sh -c apt-get autoremove -y" did not complete successfully: exit code: 127
