@@ -314,7 +314,11 @@ COPY --from=magento --chown=root:nginx /var/www/html/pub /var/www/html/pub
 ## Create symlink for sitemap dir in Nginx
 #RUN ln -sf /media/data/sitemap /var/www/html/pub/media/sitemap
 
-[jellyfish-training-magento_nginx:dev cbuild 2/5] RUN composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&  chmod u+x bin/magento &&   mkdir -p /media/data/pub/media &&  rm -rf /var/www/html/pub/media &&  ln -sf /media/data/pub/media /var/www/html/pub/media:
+
+
+ ERROR [jellyfish-training-magento_nginx:dev cbuild 2/5] RUN composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find  1.7s 
+------                                                                                                                                                                                                             
+ > [jellyfish-training-magento_nginx:dev cbuild 2/5] RUN composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&  chmod u+x bin/magento &&   mkdir -p /media/data/pub/media &&  rm -rf /var/www/html/pub/media &&  ln -sf /media/data/pub/media /var/www/html/pub/media:
 #54 0.866 /bin/sh: composer: not found
 ------
 failed to solve: process "/bin/sh -c composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&  chmod u+x bin/magento &&   mkdir -p /media/data/pub/media &&  rm -rf /var/www/html/pub/media &&  ln -sf /media/data/pub/media /var/www/html/pub/media" did not complete successfully: exit code: 127
