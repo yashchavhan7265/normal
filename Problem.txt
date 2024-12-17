@@ -1,0 +1,20 @@
+https://console.cloud.google.com/storage/browser/cybage_shared;tab=objects?prefix=&forceOnObjectsSortingFiltering=false
+
+
+chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
+
+https://jellyfish-training-magento.k8s.stage.jellyfish.net/jfcms/api/cms-pages?filters[slug][$eq]=awards-en-gb&locale=en-gb&populate=deep
+
+cybagejellyfishteam@gmail.com/Jellyf1sh@2021
+
+JF_STRAPI_HOST=http://localhost/jfcms/
+
+mastering-the-world-of-ctv
+
+<object type="image/svg+xml" data=""></object>
+
+172.20.0.8
+
+9200
+
+jf_train
