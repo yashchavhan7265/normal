@@ -12,313 +12,87 @@ https://forum.strapi.io/t/using-same-slug-on-different-locales/9165/5
 
 
 
-# Magento multistage build
+{
+    "name": "magento/project-community-edition",
+    "description": "eCommerce Platform for Growth (Community Edition)",
+    "type": "project",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "laminas/laminas-dependency-plugin": true,
+            "magento/*": true,
+            "php-http/discovery": true
+        },
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "version": "2.4.7-p3",
+    "require": {
+        "magento/product-community-edition": "2.4.7-p3",
+        "magento/composer-root-update-plugin": "^2.0.4",
+        "magento/composer-dependency-version-audit-plugin": "~0.1"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "**/dev/**",
+            "**/update/**",
+            "**/Test/**"
+        ],
+        "files": [
+            "app/etc/NonComposerComponentRegistration.php"
+        ],
+        "psr-0": {
+            "": [
+                "app/code/",
+                "generated/code/"
+            ]
+        },
+        "psr-4": {
+            "Magento\\Setup\\": "setup/src/Magento/Setup/"
+        }
+    },
+    "require-dev": {
+        "allure-framework/allure-phpunit": "^2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7 || ^1.0",
+        "dg/bypass-finals": "^1.4",
+        "friendsofphp/php-cs-fixer": "^3.22",
+        "lusitanian/oauth": "^0.8",
+        "magento/magento-coding-standard": "*",
+        "magento/magento2-functional-testing-framework": "^4.7",
+        "pdepend/pdepend": "^2.10",
+        "phpmd/phpmd": "^2.12",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "sebastian/phpcpd": "^6.0",
+        "symfony/finder": "^6.4"
+    },
+    "conflict": {
+        "gene/bluefoot": "*"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Magento\\PhpStan\\": "dev/tests/static/framework/Magento/PhpStan/",
+            "Magento\\Sniffs\\": "dev/tests/static/framework/Magento/Sniffs/",
+            "Magento\\TestFramework\\Inspection\\": "dev/tests/static/framework/Magento/TestFramework/Inspection/",
+            "Magento\\TestFramework\\Utility\\": "dev/tests/static/framework/Magento/TestFramework/Utility/",
+            "Magento\\Tools\\": "dev/tools/Magento/Tools/",
+            "Magento\\Tools\\Sanity\\": "dev/build/publication/sanity/Magento/Tools/Sanity/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
+    "extra": {
+        "magento-force": "override"
+    }
+}
 
-## Jellyfish Magento Release
-ARG JELLYFISH_MAGENTO_RELEASE='2.4.7.0'
-ARG PROJECT_NAME=jellyfish-training-magento
-
-## create php container
-FROM jellyfish-docker.jfrog.io/magento-composer:${JELLYFISH_MAGENTO_RELEASE} as composer
-# COPY php/auth.json /root/.composer/
-
-FROM composer as cbuild
-ARG PROJECT_NAME
-ENV PROJECT_NAME=${PROJECT_NAME}
-COPY php/ /var/www/html/
-# COPY php/auth.json /root/.composer/
-### run install twice to add patcher and patch
-RUN composer install && \
-  ##composer install &&\
-  composer self-update &&\
-  ### set magento file permissions
-  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + && \
-  find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&\
-  chmod u+x bin/magento && \
-  # link shared media
-  mkdir -p /media/data/pub/media &&\
-  rm -rf /var/www/html/pub/media &&\
-  ln -sf /media/data/pub/media /var/www/html/pub/media
-  
-RUN rm /var/www/html/var
-RUN mkdir /var/www/html/var
-COPY php/.user.ini /var/www/html/
-
-## magento container
-FROM jellyfish-docker.jfrog.io/magento-magento:${JELLYFISH_MAGENTO_RELEASE} as magento
-## Below ARG is used in 'RUN if' further down
-ARG MAGE_MODE=developer
-#Use Redis 
-RUN mkdir -p /usr/local/etc/php/conf.d/ && \
- printf 'session.save_handler = redis\nsession.save_path = "tcp://$REDIS_HOST:6379"' > /usr/local/etc/php/conf.d/redis.ini
-#RUN \
-#RUN  alias apt-get='apt-get'
-#  -o Acquire::BrokenProxy="true" \
- # -o Acquire::http::No-Cache="true" \
-#  -o Acquire::http::Pipeline-Depth="0" \
- # -o Acquire::CompressionTypes::Order::="gz" \''
- # ' #&&\
-
- 
-RUN alias apt-get='apt-get -o Acquire::BrokenProxy="true"'
-RUN alias apt-get='apt-get -o Acquire::http::No-Cache="true"'
-RUN alias apt-get='apt-get -o Acquire::http::Pipeline-Depth="0"'
-RUN alias apt-get='apt-get -o Acquire::Check-Valid-Until=false'
-RUN alias apt-get='apt-get -o Acquire::Check-Date=false update'
-#RUN apt-get -y update
-#RUN apt-get upgrade -y
- #&&\
-RUN alias apt-get='apt-get install -y --no-install-recommends'
-RUN alias apt-get='apt-get install procps'
-RUN alias apt-get='apt-get install mysql-client'
-RUN alias apt-get='apt-get install vim'
- # mysql-client \
- # vim 
-#RUN  apt-get install -y --no-install-recommends \
-#  procps \
- # mysql-client \
- # vim 
-  #&&\
-
-#RUN cd /tmp \
-#	&& curl -o ioncube.tar.gz http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz \
-#    && tar -xvvzf ioncube.tar.gz \
-#    && mv ioncube/ioncube_loader_lin_7.4.so /usr/local/lib/php/extensions/* \
-#    && rm -Rf ioncube.tar.gz ioncube \
-#    && echo "zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20190902/ioncube_loader_lin_7.4.so" > /usr/local/etc/php/conf.d/00_docker-php-ext-ioncube_loader_lin_7.4.ini
-
-
-  #### cleanup
-RUN  apt-get autoremove -y 
-#&&\
- RUN apt-get clean 
-  #&&\
- RUN rm -rf \
-  /tmp/* \
-  /var/lib/apt/lists/* \
-  /var/tmp/*
-
-#bit from php upstream
-RUN set -ex && \
-  cd /usr/local/etc &&\
-  if [ -d php-fpm.d ]; then \
-  # for some reason, upstream's php-fpm.conf.default has "include=NONE/etc/php-fpm.d/*.conf"
-  sed 's!=NONE/!=!g' php-fpm.conf.default | tee php-fpm.conf > /dev/null; \
-  cp php-fpm.d/www.conf.default php-fpm.d/www.conf; \
-  else \
-  # PHP5.x doesn't use "include=" by default, so we'll create our own simple config that mimics PHP 7+ for consistency
-  mkdir php-fpm.d; \
-  cp php-fpm.conf.default php-fpm.d/www.conf; \
-  { \
-  echo '[global]'; \
-  echo 'include=etc/php-fpm.d/*.conf'; \
-  } | tee php-fpm.conf; \
-  fi &&\
-  { \
-  echo '[global]'; \
-  echo 'error_log = /proc/self/fd/2'; \
-  echo; \
-  echo '[www]'; \
-  echo '; if we send this to /proc/self/fd/1, it never appears'; \
-  echo 'access.log = /proc/self/fd/2'; \
-  echo; \
-  echo 'clear_env = no'; \
-  echo; \
-  echo '; Ensure worker stdout and stderr are sent to the main error log.'; \
-  echo 'catch_workers_output = yes'; \
-  } | tee php-fpm.d/docker.conf &&\
-  { \
-  echo '[global]'; \
-  echo 'daemonize = no'; \
-  echo; \
-  echo '[www]'; \
-  echo 'listen = 9000'; \
-  } | tee php-fpm.d/zz-docker.conf
-
-### add magento application
-RUN rm -Rf /var/www/html/var && mkdir -p /var/www/html/var
-COPY --from=cbuild --chown=root:www-data /var/www/html/ /var/www/html
-
-RUN \
-    ### generate static assets
-    touch 'pub/static/.htaccess' \
-    && chmod 660 'pub/static/.htaccess'
-### Apply the patch for the Magento 2.4.4 specific admin JS issue
-RUN patch -f -p1 < patch-admin-js-fix.patch
-## cloudbuild.yaml sets --build-arg of production to run the below 'RUN if' in build
-RUN if [ "$MAGE_MODE" = "production" ] ; then \
-    # compile doesn't run with env config
-    mv app/etc/env.php app/etc/env.php.bak \
-    && printf '<?php\nreturn[];' > app/etc/env.php \
-    &&  php -d display_errors=1 \
-    -d memory_limit=-1 \
-    bin/magento setup:di:compile -v \
-    && php -d display_errors=1 \
-    -d memory_limit=-1 \
-    bin/magento setup:static-content:deploy -f \
-    -s standard \
-    # languages we want built
-    en_US en_GB es_ES fr_FR \
-    # restore env and config
-    && rm -f app/etc/env.php \
-    && mv app/etc/env.php.bak app/etc/env.php \
-#   mv app/etc/config.php.bak app/etc/config.php &&\
-    && chown -R :www-data pub/static pub/opt/ pub/errors/ generated/ ; \
-#   #save this for deploying
-#   && mv pub/static /home/
-  else \
-    echo "Running in developer mode" ; \
-  fi
-
-# Fix permissions for log directory
-RUN chmod -R 775 /var/www/html/var
-RUN mkdir -p /var/www/html/var/log/jellyfish
-RUN echo " " >> /var/www/html/var/log/jellyfish/log_cleaner_cron.log
-RUN echo " " >> /var/www/html/var/log/jellyfish/orderplace.log
-RUN echo " " >> /var/www/html/var/log/system.log
-RUN echo " " >> /var/www/html/var/log/exception.log
-RUN echo " " >> /var/www/html/var/log/debug.log
-RUN chmod 777 -R /var/www/html/var/log/
-RUN chown -R root:www-data /var/www/html/var/*
-
-
-RUN \
-  #creating symlink for Spain English
-  ln -s /var/www/html/app en-es/training/app && \
-  ln -s /var/www/html/var en-es/training/var && \
-  ln -s /var/www/html/pub en-es/training/pub && \
-  ln -s /var/www/html/lib en-es/training/lib && \
-  #creating symlink for US English
-  ln -s /var/www/html/app en-us/training/app && \
-  ln -s /var/www/html/var en-us/training/var && \
-  ln -s /var/www/html/pub en-us/training/pub && \
-  ln -s /var/www/html/lib en-us/training/lib && \
-  #creating symlink for UK English
-  ln -s /var/www/html/app en-gb/training/app && \
-  ln -s /var/www/html/var en-gb/training/var && \
-  ln -s /var/www/html/pub en-gb/training/pub && \
-  ln -s /var/www/html/lib en-gb/training/lib && \
-  #creating symlink for SA English
-  ln -s /var/www/html/app en-za/training/app && \
-  ln -s /var/www/html/var en-za/training/var && \
-  ln -s /var/www/html/pub en-za/training/pub && \
-  ln -s /var/www/html/lib en-za/training/lib && \
-  #creating symlink for Spain Spanish
-  ln -s /var/www/html/app es-es/formaciones/app && \
-  ln -s /var/www/html/var es-es/formaciones/var && \
-  ln -s /var/www/html/pub es-es/formaciones/pub && \
-  ln -s /var/www/html/lib es-es/formaciones/lib && \
-  #creating symlink for Dubai English
-  ln -s /var/www/html/app en-ae/training/app && \
-  ln -s /var/www/html/var en-ae/training/var && \
-  ln -s /var/www/html/pub en-ae/training/pub && \
-  ln -s /var/www/html/lib en-ae/training/lib && \
-  #creating symlink for Denmark English
-  ln -s /var/www/html/app en-dk/training/app && \
-  ln -s /var/www/html/var en-dk/training/var && \
-  ln -s /var/www/html/pub en-dk/training/pub && \
-  ln -s /var/www/html/lib en-dk/training/lib && \
-  #creating symlink for Japan English
-  ln -s /var/www/html/app en-jp/training/app && \
-  ln -s /var/www/html/var en-jp/training/var && \
-  ln -s /var/www/html/pub en-jp/training/pub && \
-  ln -s /var/www/html/lib en-jp/training/lib && \
-  #creating symlink for Australia English
-  ln -s /var/www/html/app en-au/training/app && \
-  ln -s /var/www/html/var en-au/training/var && \
-  ln -s /var/www/html/pub en-au/training/pub && \
-  ln -s /var/www/html/lib en-au/training/lib && \
-  #creating symlink for India English
-  ln -s /var/www/html/app en-in/training/app && \
-  ln -s /var/www/html/var en-in/training/var && \
-  ln -s /var/www/html/pub en-in/training/pub && \
-  ln -s /var/www/html/lib en-in/training/lib && \
-  #creating symlink for Israel English
-  ln -s /var/www/html/app en-il/training/app && \
-  ln -s /var/www/html/var en-il/training/var && \
-  ln -s /var/www/html/pub en-il/training/pub && \
-  ln -s /var/www/html/lib en-il/training/lib && \
-  #creating symlink for South Korea English
-  ln -s /var/www/html/app en-kr/training/app && \
-  ln -s /var/www/html/var en-kr/training/var && \
-  ln -s /var/www/html/pub en-kr/training/pub && \
-  ln -s /var/www/html/lib en-kr/training/lib && \
-  #creating symlink for Singapore English
-  ln -s /var/www/html/app en-sg/training/app && \
-  ln -s /var/www/html/var en-sg/training/var && \
-  ln -s /var/www/html/pub en-sg/training/pub && \
-  ln -s /var/www/html/lib en-sg/training/lib && \
-  #creating symlink for France French
-  ln -s /var/www/html/app fr-fr/formation/app && \
-  ln -s /var/www/html/var fr-fr/formation/var && \
-  ln -s /var/www/html/pub fr-fr/formation/pub && \
-  ln -s /var/www/html/lib fr-fr/formation/lib && \
-  #creating symlink for Germany English
-  ln -s /var/www/html/app en-de/training/app && \
-  ln -s /var/www/html/var en-de/training/var && \
-  ln -s /var/www/html/pub en-de/training/pub && \
-  ln -s /var/www/html/lib en-de/training/lib
-
-## Log to STDOUT
-#RUN ln -sf /dev/stdout /var/www/html/var/log/debug.log &&\
-#    ln -sf /dev/stdout /var/www/html/var/log/system.log
-#   ln -sf /dev/stdout /var/www/html/var/log/exception.log &&\
-#   ln -sf /dev/stdout /var/www/html/var/log/cron.log &&\
-#   mkdir -p /var/www/html/var/log/debug/ &&\
-#   ln -sf /dev/stdout /var/www/html/var/log/debug/db.log
-
-## Add mysqli
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli \
-  && apt-get update && apt-get install -y libicu-dev libjpeg62-turbo-dev libpng-dev libxml2-dev libxslt-dev libfreetype6-dev \
-  && docker-php-ext-install intl \
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install gd
-
-## Make deploy.sh executable so it Jenkinsfile can run it
-#RUN \ 
-  #chmod +x /var/www/html/deploy.sh && \
-RUN  chmod +x /var/www/html/deploy.sh
-
-## Create symlink for _cache and sitemap dir's
-RUN  ln -sf /media/data/pub/static/_cache /var/www/html/pub/static/_cache
-# RUN  ln -sf /media/data/sitemap /var/www/html/pub/media/sitemap
-
-## Create symlink for en_gb.xml sitemap file
-RUN  ln -sf /var/www/html/sitemap/en_gb.xml /var/www/html/en-gb/training/en_gb.xml
-
-## Remove write permissions on certain directories
-#  && find app/code var/view_preprocessed vendor pub/static app/etc generated/code generated/metadata \( -type f -or -type d \) -exec chmod u-w {} + \ 
-#  && chmod o-rwx app/etc/env.php
-
-# New Relic
-RUN export NEWRELIC_VERSION=$(curl -sS https://download.newrelic.com/php_agent/release/ | sed -n 's/.*>\(.*linux\).tar.gz<.*/\1/p') \
-  && curl -L https://download.newrelic.com/php_agent/release/$NEWRELIC_VERSION.tar.gz | tar -C /tmp -zx \
-  && cd /tmp/$NEWRELIC_VERSION \
-  && NR_INSTALL_SILENT=false NR_INSTALL_USE_CP_NOT_LN=false ./newrelic-install install \
-  && cd /tmp && rm -rf /tmp/newrelic* \
-  && sed -i -e 's/newrelic.appname = "PHP Application"/newrelic.appname = "${CLIENT_NAME}"/' \
-     -e 's/;newrelic.enabled = true/newrelic.enabled = "${NEW_RELIC_AGENT_ENABLED}"/' \
-     -e 's/newrelic.license = "REPLACE_WITH_REAL_KEY"/newrelic.license = "${NEW_RELIC_LICENSE_KEY}"/' \
-     /usr/local/etc/php/conf.d/newrelic.ini
-
-
-## Nginx container
-FROM jellyfish-docker.jfrog.io/magento-nginx:${JELLYFISH_MAGENTO_RELEASE} as nginx
-### nginx config
-COPY nginx/ /etc/nginx/
-### add magento application
-COPY --from=magento --chown=root:nginx /var/www/html/pub /var/www/html/pub
-# COPY --from=cbuild --chown=root:nginx /var/www/html/setup /var/www/html/setup
-# COPY --from=cbuild --chown=root:nginx /var/www/html/update /var/www/html/update
-
-## Create symlink for sitemap dir in Nginx
-#RUN ln -sf /media/data/sitemap /var/www/html/pub/media/sitemap
-
-
-
- ERROR [jellyfish-training-magento_nginx:dev cbuild 2/5] RUN composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find  1.7s 
-------                                                                                                                                                                                                             
- > [jellyfish-training-magento_nginx:dev cbuild 2/5] RUN composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&  chmod u+x bin/magento &&   mkdir -p /media/data/pub/media &&  rm -rf /var/www/html/pub/media &&  ln -sf /media/data/pub/media /var/www/html/pub/media:
-#54 0.866 /bin/sh: composer: not found
-------
-failed to solve: process "/bin/sh -c composer install &&   composer self-update &&  find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &&   find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &&  chmod u+x bin/magento &&   mkdir -p /media/data/pub/media &&  rm -rf /var/www/html/pub/media &&  ln -sf /media/data/pub/media /var/www/html/pub/media" did not complete successfully: exit code: 127
