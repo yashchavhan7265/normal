@@ -1,0 +1,138 @@
+Jellyfish Doc
+
+=============================================================================================================================================
+
+Deployment Command :
+ 	
+chmod -R 777 pub/* var/* && php bin/magento setup:upgrade && php bin/magento setup:di:compile && php bin/magento setup:static-content:deploy en_US en_GB -f && php bin/magento cache:flush && chmod -R 777 pub/* generated/* var/*
+
+=============================================================================================================================================
+
+UAT Details :
+
+Frontend URL: https://uat.jellyfish.com/en-gb/training/
+
+Admin URL : https://uat.jellyfish.com/admin_jf/
+
+Basic Creds: jfadmin/jellyfish
+
+Admin Creds : admin/w@McyVUYPpf5&!%B
+yash.chavan/Gastimacrus5l2i
+
+
+SF Endpoints : 
+	Contact US : https://jellyfish--uat2.sandbox.my.salesforce-sites.com/trainingrequests/services/apexrest/Leadsync/
+	order : https://jellyfish--uat2.sandbox.my.salesforce-sites.com/trainingrequests/services/apexrest/trainingsync/
+=================================================================================================================================================================
+Strapi Details : 
+
+UAT Strapi details:
+
+Admin URL : https://uat.jellyfish.com/jfcms/admin
+Creds : yash.gajananrao-chavhan@jellyfish.com/GFZq6nFDiU4fI4L
+
+Production Strapi admin details:
+
+Admin URL : https://www.jellyfish.com/jfcms/admin/
+Creds : yash.gajananrao-chavhan@jellyfish.com/VIBwQE5QjsyXwf7
+
+Stage Strapi admin details:
+
+Admin URL : https://jellyfish-training-magento.k8s.stage.jellyfish.net/jfcms/admin/
+Creds : yash.chavan@jellyfish.com / Cybage$321
+
+=================================================================================================================================================================
+
+Stage Details :
+
+Frontend URL: https://jellyfish-training-magento.k8s.stage.jellyfish.net/en-gb/training/
+
+Admin URL : https://jellyfish-training-magento.k8s.stage.jellyfish.net/admin_jf/
+
+Basic Creds: jfadmin/jellyfish
+
+Admin Creds : yash.chavan/Gastimacrus5l2i
+
+DB Connect : Connect to pod & path it /var/www/html then fire : mysql -h$MYSQL_HOST -u$MYSQL_USER -p$MYSQL_PASSWORD
+
+=============================================================================================================================================
+
+Prod Details:
+
+Frontend URL: https://www.jellyfish.com/en-gb/training/
+
+Admin URL : https://www.jellyfish.com/admin_jf/
+
+Admin Creds : admin/NtbEIC7r!Z7#3zi
+
+My Creds : yash.chavan/oiYZKERck3zyvz3  
+
+===============================================================================================================================================================
+
+Jellyfish Gmail Password: Yash@7265 ....New: 8ballpool@7265
+
+cybagejellyfishteam@gmail.com/Jellyf1sh@2021
+
+3rd Party  Extensin Creds
+
+Mirasvit (https://www.mirasvit.com): adam.barnard@jellyfish.com / UuCFtyh6P!V5WtV
+
+Mageplaza : adam.barnard@jellyfish.com / J3llTra1n1ng123!
+
+Firebar : Username : training@jellyfish.com
+		  Password : Tra1n1ng
+		  
+Cminds : adam.barnard@jellyfish.com/wqHCiK6pvlbP
+
+Amasty : training@jellyfish.co.uk / y@YeAXTYx2agEr6 & adam.barnard@jellyfish.com / Tra1n1g123!!
+
+Stripe : yash.gajananrao-chavhan@jellyfish.com / fcbarcelona@6881
+=============================================================================================================================================
+
+Docs URL :
+
+Third Party Extensions: https://docs.google.com/spreadsheets/d/1g3Pp8jqu3VmTBR9kbdB0IbKhCruc7HS1jzkH6MFFL4A/edit#gid=0
+
+Training Document : https://docs.google.com/document/d/1b4465s1Uzz5kX4d2T732cZjSSKPf-Yz1z0A6t2Qu2bE/edit#heading=h.iz9o4f4bf7b4
+
+===============================================================================================================================================
+
+Test Email Details:
+
+1. Local : 
+			Email id: jfdev@evolvingsols.com
+			Password: Cybage$123
+			User name: jfdev
+			Server IP :172.27.172.202
+			Port:25 
+			
+2. GMAIL SMTP :
+				SMTP Host: email-smtp.eu-west-1.amazonaws.com
+				SMTP Port: 2587
+				SMTP Username: AKIAJLOYRS7KZAZSOU6A
+				SMTP Password: AvrEOuSNFJYtioofCrDi7wXg+SdsfDbeyT7QOtUKZwlX
+				
+===============================================================================================================================================
+
+Notes:
+
+*** Mageplaza Layered Navigation : Cannot Upgrade as this would require magento 2.4.5
+
+For Elastic Search :
+
+	1. We need to make feefo_code attribute's "is_filterable" & "is_filterable_in_search" value to 0.
+	2. Set the value of "used in layered navigation" of order_attachment value to No.
+		(Value of Use In Layered Navigation is saved into "is_filterable" column in database).
+		
+** Installation via composer on docker: docker-compose run --rm composer composer remove mageworx/module-seosuiteultimate
+		
+		
+Doha Backup Branch with only Doha code: jjtp-doha-implementation-backup
+
+
+Command to copy dir from magento coontainer to base machine : docker cp b590bd5a2284:/var/www/html/var /home/jaimeenb/projects/jf-training/jellyfish-training-magento/
+Command to copy dir from base machine to magento coontainer  :docker cp /home/jaimeenb/Documents/magento/framework/View/Template/Html/Minifier.php 59fea55a201e:/var/www/html/vendor/magento/framework/View/Template/Html/
+
+docker exec -i mysql-container mysql -u your_username -pyour_password your_database < /path/to/your/database.sql
+
+https://mcstaging.getprintsandgifts.com/wgfs/
