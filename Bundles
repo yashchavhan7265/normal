@@ -1,82 +1,74 @@
-protected function _validateDetails($post)
-{
-    $errors = [];
+protected function _validateAttendees($post)
+    {
+        $errors = [];
 
-    // Define fields
-    $notEmpty     = [
-        "firstname",
-        "lastname",
-        "email",
-        "telephone",
-    ];
+        $notEmpty     = [
+                         "firstname",
+                         "lastname",
+                         "email",
+                        ];
 
-    if ($this->generalHelper->isEsSpainStore()) {
-        $alpha = [];
-    } else {
-        $alpha = [
-            "firstname",
-            "lastname",
-        ];
-    }
+        if ($this->generalHelper->isEsSpainStore()) {
+            $alpha        = [];
+        } else {
+            $alpha        = [
+                         "firstname",
+                         "lastname",
+                        ];
 
-    $length30 = [
-        "firstname",
-        "lastname",
-    ];
-    $length40 = [
-        "company",
-        "job_title",
-    ];
-    $alphaNumeric = [
-        "company",
-        "job_title",
-    ];
-    $email = ["email"];
-
-    // Laminas Validators
-    $notEmptyValidator = new \Laminas\Validator\NotEmpty();
-    $stringLength30Validator = new \Laminas\Validator\StringLength(['max' => 30]);
-    $stringLength40Validator = new \Laminas\Validator\StringLength(['max' => 40]);
-    $emailValidator = new \Laminas\Validator\EmailAddress();
-    $alphaValidator = new \Laminas\Validator\Regex(['pattern' => '/^[a-z\s-]+$/i']);
-
-    // Loop through the input fields
-    foreach ($post as $key => $value) {
-        // Check if the field is required and validate
-        if (in_array($key, $notEmpty)) {
-            if (!$notEmptyValidator->isValid(trim($value))) {
-                $errors[$key] = ucfirst($key) . " field is required";
-            }
         }
 
-        // Validate alphabetic characters (for first name, last name)
-        if (in_array($key, $alpha)) {
-            if (!$alphaValidator->isValid($value)) {
-                $errors[$key] = ucfirst($key) . ": Invalid characters found";
-            }
+        $length30     = [
+                         "firstname",
+                         "lastname",
+                        ];
+        $length40     = [
+                         "company",
+                         "job_title",
+                        ];
+        $alphaNumeric = [
+                         "company",
+                         "job_title",
+                        ];
+        $email        = ["email"];
+
+        if (isset($post['participant']) && !empty($post['participant'])) {
+            foreach ($post['participant'] as $participant) {
+                foreach ($participant as $key => $value) {
+                    if (in_array($key, $notEmpty)) {
+                        if (!\Zend_Validate::is(trim($value), 'NotEmpty')) {
+                            $errors[$key] = ucfirst($key)." field is required";
+                        }
+                    }
+
+                    if (in_array($key, $alpha)) {
+                        if (preg_match('/[^a-z\s-]/i', $value)) {
+                            $errors[$key] = ucfirst($key).": Invalid characters found";
+                        }
+                    }
+
+                    if (in_array($key, $length30)) {
+                        if (!\Zend_Validate::is($value, 'StringLength', ['max' => 30])) {
+                            $errors[$key] = ucfirst($key)." field has to have maximum 30 values";
+                        }
+                    }
+
+                    if (in_array($key, $length40)) {
+                        if (!\Zend_Validate::is($value, 'StringLength', ['max' => 40])) {
+                            $errors[$key] = ucfirst($key)." field has to have maximum 40 values";
+                        }
+                    }
+
+                    if (in_array($key, $email)) {
+                        if (!\Zend_Validate::is(trim($value), 'EmailAddress')) {
+                            $errors[$key] = "Invalid Email Address";
+                        }
+                    }
+                }//end foreach
+            }//end foreach
+        } else {
+            $errors[] = "Invalid form data";
         }
 
-        // Validate string length (max 30)
-        if (in_array($key, $length30)) {
-            if (!$stringLength30Validator->isValid($value)) {
-                $errors[$key] = ucfirst($key) . " field has to have a maximum of 30 characters";
-            }
-        }
-
-        // Validate string length (max 40)
-        if (in_array($key, $length40)) {
-            if (!$stringLength40Validator->isValid($value)) {
-                $errors[$key] = ucfirst(str_replace("_", " ", $key)) . " field has to have a maximum of 40 characters";
-            }
-        }
-
-        // Validate email address
-        if (in_array($key, $email)) {
-            if (!$emailValidator->isValid(trim($value))) {
-                $errors[$key] = "Invalid Email Address";
-            }
-        }
-    }
-
-    return $errors;
-}
+        return $errors;
+    }//end _validateAttendees()
