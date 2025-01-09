@@ -1,5 +1,82 @@
-SELECT `e`.*, IF(at_is_active.value_id > 0, at_is_active.value, at_is_active_default.value) AS `is_active` FROM `catalog_category_entity` AS `e`
- LEFT JOIN `catalog_category_entity_int` AS `at_is_active_default` ON (`at_is_active_default`.`entity_id` = `e`.`entity_id`) AND (`at_is_active_default`.`attribute_id` = '46') AND `at_is_active_default`.`store_id` = 0
- LEFT JOIN `catalog_category_entity_int` AS `at_is_active` ON (`at_is_active`.`entity_id` = `e`.`entity_id`) AND (`at_is_active`.`attribute_id` = '46') AND (`at_is_active`.`store_id` = 5) WHERE (IF(at_is_active.value_id > 0, at_is_active.value, at_is_active_default.value) = '1') AND (`e`.`level` > 1) AND (e.entity_id IN (0,383,385,389,398,399,405,428,432,819,821,823,824,825,1058,1063)) ORDER BY FIELD(e.entity_id, 0,383,385,389,398,399,405,428,432,819,821,823,824,825,1058,1063)
- LIMIT 2
- 
+protected function _validateDetails($post)
+{
+    $errors = [];
+
+    // Define fields
+    $notEmpty     = [
+        "firstname",
+        "lastname",
+        "email",
+        "telephone",
+    ];
+
+    if ($this->generalHelper->isEsSpainStore()) {
+        $alpha = [];
+    } else {
+        $alpha = [
+            "firstname",
+            "lastname",
+        ];
+    }
+
+    $length30 = [
+        "firstname",
+        "lastname",
+    ];
+    $length40 = [
+        "company",
+        "job_title",
+    ];
+    $alphaNumeric = [
+        "company",
+        "job_title",
+    ];
+    $email = ["email"];
+
+    // Laminas Validators
+    $notEmptyValidator = new \Laminas\Validator\NotEmpty();
+    $stringLength30Validator = new \Laminas\Validator\StringLength(['max' => 30]);
+    $stringLength40Validator = new \Laminas\Validator\StringLength(['max' => 40]);
+    $emailValidator = new \Laminas\Validator\EmailAddress();
+    $alphaValidator = new \Laminas\Validator\Regex(['pattern' => '/^[a-z\s-]+$/i']);
+
+    // Loop through the input fields
+    foreach ($post as $key => $value) {
+        // Check if the field is required and validate
+        if (in_array($key, $notEmpty)) {
+            if (!$notEmptyValidator->isValid(trim($value))) {
+                $errors[$key] = ucfirst($key) . " field is required";
+            }
+        }
+
+        // Validate alphabetic characters (for first name, last name)
+        if (in_array($key, $alpha)) {
+            if (!$alphaValidator->isValid($value)) {
+                $errors[$key] = ucfirst($key) . ": Invalid characters found";
+            }
+        }
+
+        // Validate string length (max 30)
+        if (in_array($key, $length30)) {
+            if (!$stringLength30Validator->isValid($value)) {
+                $errors[$key] = ucfirst($key) . " field has to have a maximum of 30 characters";
+            }
+        }
+
+        // Validate string length (max 40)
+        if (in_array($key, $length40)) {
+            if (!$stringLength40Validator->isValid($value)) {
+                $errors[$key] = ucfirst(str_replace("_", " ", $key)) . " field has to have a maximum of 40 characters";
+            }
+        }
+
+        // Validate email address
+        if (in_array($key, $email)) {
+            if (!$emailValidator->isValid(trim($value))) {
+                $errors[$key] = "Invalid Email Address";
+            }
+        }
+    }
+
+    return $errors;
+}
