@@ -1,88 +1,16 @@
-protected function _validateAttendees($post)
-{
-    $errors = [];
+<?xml version="1.0"?>
 
-    // Define fields
-    $notEmpty = [
-        "firstname",
-        "lastname",
-        "email",
-    ];
-
-    if ($this->generalHelper->isEsSpainStore()) {
-        $alpha = [];
-    } else {
-        $alpha = [
-            "firstname",
-            "lastname",
-        ];
-    }
-
-    $length30 = [
-        "firstname",
-        "lastname",
-    ];
-    $length40 = [
-        "company",
-        "job_title",
-    ];
-    $alphaNumeric = [
-        "company",
-        "job_title",
-    ];
-    $email = ["email"];
-
-    // Laminas Validators
-    $notEmptyValidator = new \Laminas\Validator\NotEmpty();
-    $stringLength30Validator = new \Laminas\Validator\StringLength(['max' => 30]);
-    $stringLength40Validator = new \Laminas\Validator\StringLength(['max' => 40]);
-    $emailValidator = new \Laminas\Validator\EmailAddress();
-    $alphaValidator = new \Laminas\Validator\Regex(['pattern' => '/^[a-z\s-]+$/i']);
-
-    // Check if 'participant' exists in the post data
-    if (isset($post['participant']) && !empty($post['participant'])) {
-        // Loop through each participant
-        foreach ($post['participant'] as $participant) {
-            foreach ($participant as $key => $value) {
-                // Validate required fields
-                if (in_array($key, $notEmpty)) {
-                    if (!$notEmptyValidator->isValid(trim($value))) {
-                        $errors[$key] = ucfirst($key) . " field is required";
-                    }
-                }
-
-                // Validate alphabetic characters for certain fields (firstname, lastname)
-                if (in_array($key, $alpha)) {
-                    if (!$alphaValidator->isValid($value)) {
-                        $errors[$key] = ucfirst($key) . ": Invalid characters found";
-                    }
-                }
-
-                // Validate string length (max 30 characters)
-                if (in_array($key, $length30)) {
-                    if (!$stringLength30Validator->isValid($value)) {
-                        $errors[$key] = ucfirst($key) . " field has to have a maximum of 30 characters";
-                    }
-                }
-
-                // Validate string length (max 40 characters)
-                if (in_array($key, $length40)) {
-                    if (!$stringLength40Validator->isValid($value)) {
-                        $errors[$key] = ucfirst($key) . " field has to have a maximum of 40 characters";
-                    }
-                }
-
-                // Validate email address
-                if (in_array($key, $email)) {
-                    if (!$emailValidator->isValid(trim($value))) {
-                        $errors[$key] = "Invalid Email Address";
-                    }
-                }
-            } // end foreach participant fields
-        } // end foreach participants
-    } else {
-        $errors[] = "Invalid form data";
-    }
-
-    return $errors;
-}
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <csp>
+            <policies>
+                <storefront_checkout_index_index>
+                    <scripts>
+                        <inline>1</inline>
+                    </scripts>
+                </storefront_checkout_index_index>
+            </policies>
+        </csp>
+    </default>
+</config>
