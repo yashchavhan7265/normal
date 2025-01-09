@@ -1,0 +1,103 @@
+Stripe Keys
+
+====================
+
+UK:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_AY88NdxajB36St1nt0DTE3s700dNm4se2b
+
+Test Secret key: sk_test_eUxthUvGhq9a9yQKOKx4hAjZ00807oIWNO
+
+ 
+
+US:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_QO71Dwrk9oYvFJl13RNtQwaS001tVwcNXa
+
+Test Secret key: sk_test_AKOtkGIWtjK9Fr5behjtLwRD00WBSLmCBq
+
+ 
+
+Spain:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_UJCFlF7AcwwdZPwHjdWwzXV7
+
+Test Secret key: sk_test_lpZEk654oocKZSTTtOEWrixy
+
+ 
+
+India:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_YCDoTFZ9bIm4CyDhOWE0PcsQ000whmZPxI
+
+Test Secret key: sk_test_WQ5rBITLHtQrpdi2cYGN47Lz00lWIniYHu
+
+ 
+
+Denmark:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_41iEJbxHc06tAHyXvyEDd0gl00AK1D4L2U
+
+Test Secret key: sk_test_Giomgtwul3mtH8H2eyYCJ5nt00sLlqfePf
+
+ 
+
+Germany:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_51HHrluJpPGt4klUKDrLQ2WLrpktf1ptYtx6ohfDKy1umtvIoKFTxishRYXZbEw7HiZL9F5s0xPTjOEFq5gxMIiL900KsFxdItE
+
+Test Secret key: sk_test_51HHrluJpPGt4klUK5Y2pMPlObZKuFFqF3kZ6EfFjDw0lBr8E3CwnuX3KYcBPTGVvYRBfUXyoIdkE8E0TJzXJbjb000e95bUOL6
+
+ 
+
+Japan:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_21Al9Ma9atFQPnrIb171KZFf008aSVGpZx
+
+Test Secret key: sk_test_rzDZ6ygULuiI4gMHehvR3aVN00QZtybg5j
+
+ 
+
+Singapore:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_igxYLsocv7lAZCvUowy7mYmv00ZrbQ32yU
+
+Test Secret key: sk_test_MXgToaEPucIfEMa74S5vzQxk006yj46S5u
+
+ 
+
+ 
+
+Australia:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_51KiKWoLZhT4U6vZCd5ohPFGFiV5uRQ1u7fggOtqiThF0O7TV5366AZASzhIeOaczhdYoDslshR1t7g6nohhUxNbZ00Gv7PsEyF
+
+Test Secret key: sk_test_51KiKWoLZhT4U6vZCbjrpx9kXN06hWktS9wrOWDKHUvgURFxOsAl7d8FSHdPy42WNv0BacObcvuajfEB27pxnzTLd00Z2EaccKN
+
+ 
+
+France:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_51GqJFOEqDw2FAiRZLENbqq7TMASzNN84ArITtFVLOdTFDR2Rk4zopxP3wWP88ajzllRZU0dbN2WbpMeSwxxa9aLC00GYS7FjNT
+
+Test Secret key: sk_test_51GqJFOEqDw2FAiRZensUHyfpJAddqtX88qJpozQns4i6vq9sVx7H9hEvxlH0kJSlBT6jkh6ODorRdBVboxeyFfDI00TkukDhaM
