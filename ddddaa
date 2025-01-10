@@ -7,3 +7,18 @@ cp Proxy-Certificate-Public.crt /usr/share/ca-certificates/extra/
 sudo dpkg-reconfigure ca-certificates
 
 http://172.27.172.203:81/Certs/Proxy-Certificate-Public.crt
+
+
+
+
+chunk_size=10
+start=1
+end=$chunk_size
+
+while true; do
+    grep "search_term" file_name | sed -n "${start},${end}p"
+    echo "Press Enter for the next $chunk_size lines or Ctrl+C to exit."
+    read
+    start=$((start + chunk_size))
+    end=$((end + chunk_size))
+done
