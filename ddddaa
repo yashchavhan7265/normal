@@ -11,22 +11,19 @@ http://172.27.172.203:81/Certs/Proxy-Certificate-Public.crt
 
 
 
-Product(update)
-
-UPDATE catalog_product_entity_varchar AS cpev INNER JOIN eav_attribute AS ea ON cpev.attribute_id = ea.attribute_id SET cpev.value = 'Opengraph_1.webp' WHERE ea.attribute_code = 'twitter_image';
  
-CMS PAGE
 
-UPDATE cms_page SET twitter_image='Opengraph_2.webp' WHERE is_active=1;
+
+UPDATE cms_page SET twitter_image='Social-Thumbnail-Pink.png.webp' WHERE is_active=1 AND store_id=1;
  
-blog
-
-update jellyfish_blog set twitter_image='jellyfish/blog/category/blog/o/p/opengraph_4.webp' WHERE twitter_image IS NOT NULL;
- 
-blog category
-
-update jellyfish_blog_category set twitter_image='jellyfish/blog/category/blog/o/p/opengraph_4.webp' WHERE category_title='Blog';
+UPDATE catalog_product_entity_varchar AS cpev INNER JOIN eav_attribute AS ea ON cpev.attribute_id = ea.attribute_id SET cpev.value = 'Social-Thumbnail-Blue.png' WHERE ea.attribute_code = 'twitter_image' AND cpev.store_id=5;
 
  
-UPDATE catalog_category_entity_varchar AS ccev INNER JOIN eav_attribute AS ea ON ccev.attribute_id = ea.attribute_id SET ccev.value = 'Opengraph_3.webp' WHERE ea.attribute_code = 'twitter_image';
+UPDATE catalog_category_entity_varchar AS ccev INNER JOIN eav_attribute AS ea ON ccev.attribute_id = ea.attribute_id SET ccev.value = 'Social-Thumbnail-Red.png' WHERE ea.attribute_code = 'twitter_image' AND ccev.strore_id=1;
+
+UPDATE cms_page cp
+JOIN cms_page_store cps ON cp.page_id = cps.page_id
+SET cp.twitter_image = 'Social-Thumbnail-Pink.png.webp'
+WHERE cp.is_active = 1 AND cps.store_id = 5;
+
  
