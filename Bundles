@@ -17,4 +17,6 @@
 
 
 
-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
+
+2. php bin/magento xtemplate:product:apply $(php bin/magento xtemplate:product:apply  | awk 'NR>1 {print $1}')
+3.  php bin/magento xtemplate:category:apply $(php bin/magento xtemplate:category:apply  | awk 'NR>1 {print $1}')
