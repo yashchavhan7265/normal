@@ -20,3 +20,4 @@
 
 2. php bin/magento xtemplate:product:apply $(php bin/magento xtemplate:product:apply  | awk 'NR>1 {print $1}')
 3.  php bin/magento xtemplate:category:apply $(php bin/magento xtemplate:category:apply  | awk 'NR>1 {print $1}')
+php bin/magento xmlsitemap:generate $(php bin/magento xmlsitemap:generate | awk 'NR>1 {print $1}')
