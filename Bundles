@@ -15,7 +15,7 @@
     </default>
 </config>
 
-
+https://docs.google.com/spreadsheets/d/1tseoqYIMv3tQSg1bKVw0iSyXAA4wdtULtUGTK3L7hx4/edit?gid=0#gid=0
 
 
 2. php bin/magento xtemplate:product:apply $(php bin/magento xtemplate:product:apply  | awk 'NR>1 {print $1}')
