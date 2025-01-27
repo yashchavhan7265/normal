@@ -1,5 +1,8 @@
 https://console.cloud.google.com/storage/browser/cybage_shared;tab=objects?prefix=&forceOnObjectsSortingFiltering=false
 
+https://jellyfish--uat2.sandbox.my.salesforce-sites.com/trainingrequests/services/apexrest/trainingsync/
+https://jellyfish--uat2.sandbox.my.salesforce-sites.com/trainingrequests/services/apexrest/Leadsync
+
 cybagejellyfishteam@gmail.com/Jellyf1sh@2021
 
 UPDATE core_config_data SET VALUE = REPLACE(VALUE, 'https://www.jellyfish.com', 'http://localhost') WHERE VALUE LIKE '%https://www.jellyfish.com%';
