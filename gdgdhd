@@ -1,26 +1,4 @@
-I want to create a cms confirguration in magento 2 which should be select type with dropdown values as v4 and v5 wwhereas v4 is default value how to do it
-<?xml version="1.0"?>
-<!--
-/**
-* Webkul Software.
-*
-* @category  Webkul
-* @package   Webkul_Wkmodule
-* @author    Webkul
-* @copyright Copyright (c) 2010-2017 Webkul Software Private Limited (https://webkul.com)
-* @license   https://store.webkul.com/license.html
-*/
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-        <payment>
-            <wkmodule>
-                <active>0</active>
-                <------>x</---->
-            </wkmodule>
-        </payment>
-    </default>
-</config>
+
 
 $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
 $index = 1;  // Start with the first course
