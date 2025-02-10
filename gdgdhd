@@ -1,3 +1,6 @@
+I want to create a cms confirguration in magento 2 which should be select type with dropdown values as v4 and v5 wwhereas v4 is default value how to do it
+
+
 $rowSet = $this->getCoursesAndParticipant($items, $order, $order->getStoreId());
 $index = 1;  // Start with the first course
 
