@@ -16,7 +16,7 @@
 </config>
 
     const STRAPI_PAGINATE = "&pagination[page]=1&pagination[pageSize]=3";
-
+{{block class="Jellyfish\General\Block\NewsandInsights\Index"" name="why.jellyfish.trainings" template="Jellyfish_General::news/index.phtml" }}
 yash.gajananrao-chavhan@jellyfish.com/VIBwQE5QjsyXwf7
 https://docs.google.com/spreadsheets/d/1tseoqYIMv3tQSg1bKVw0iSyXAA4wdtULtUGTK3L7hx4/edit?gid=0#gid=0
 
