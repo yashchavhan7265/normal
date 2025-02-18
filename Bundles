@@ -1,19 +1,20 @@
-<?xml version="1.0"?>
+-----------------------------------------
 
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
-    <default>
-        <csp>
-            <policies>
-                <storefront_checkout_index_index>
-                    <scripts>
-                        <inline>1</inline>
-                    </scripts>
-                </storefront_checkout_index_index>
-            </policies>
-        </csp>
-    </default>
-</config>
+Test Publishable key: pk_test_AY88NdxajB36St1nt0DTE3s700dNm4se2b
+
+Test Secret key: sk_test_eUxthUvGhq9a9yQKOKx4hAjZ00807oIWNO
+
+ 
+
+US:
+
+-----------------------------------------
+
+Test Publishable key: pk_test_QO71Dwrk9oYvFJl13RNtQwaS001tVwcNXa
+
+Test Secret key: sk_test_AKOtkGIWtjK9Fr5behjtLwRD00WBSLmCBq
+
+ 
 
     const STRAPI_PAGINATE = "&pagination[page]=1&pagination[pageSize]=3";
 {{block class="Jellyfish\General\Block\NewsandInsights\Index"" name="why.jellyfish.trainings" template="Jellyfish_General::news/index.phtml" }}
